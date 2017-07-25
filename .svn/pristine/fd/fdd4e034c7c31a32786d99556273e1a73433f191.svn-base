@@ -1,0 +1,58 @@
+<!--封装在index.html-->
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+    <!--<meta charset="UTF-8">-->
+    <!--<title>质量控制，检验批管理（上传文件）</title>-->
+<!--<link rel="stylesheet" type="text/css" href="../style/css.css">-->
+<!--<link rel="stylesheet" type="text/css" href="../style/reset.css">-->
+<!--<link rel="stylesheet" type="text/css" href="../style/index.css">-->
+<!--<script src="../js/jquery-1.7.2.js"></script>-->
+<!--<script src="../js/index.js"></script>-->
+<!--<script src="../js/enter1.js"></script>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="cSixThreeOne">-->
+    <!--<div class="cSixThreeOneHeader">上传文件</div>-->
+    <!--<div class="cSixThreeOneBack">X</div>-->
+    <!--<div class="cSixThreeOneContent">-->
+        <!--<form>-->
+            <!--<div>-->
+                <!--<div class="cSixThreeOneName">构建名称</div>-->
+                <!--<div class="cSixThreeOneName">（可多选批量）</div>-->
+            <!--</div>-->
+            <!--<div style="position: relative">-->
+                <!--<input  class="cSixThreeOneInput" type="text">-->
+                <!--<div class="cSixThreeOnePlus">+</div>-->
+            <!--</div>-->
+            <!--<div class="cSixThreeOneList">-->
+                <!--<ul>景观设计-->
+                    <!--<li><input type="checkbox">名称二</li>-->
+                    <!--<li><input type="checkbox">名称四</li>-->
+                <!--</ul>-->
+                <!--<ul>景观设计-->
+                    <!--<li><input type="checkbox">名称二</li>-->
+                    <!--<li><input type="checkbox">名称四</li>-->
+                <!--</ul>-->
+            <!--</div>-->
+        <!--</form>-->
+        <!--<div class="cSixThreeOneFile">-->
+            <!--<input type="file"/>-->
+        <!--</div>-->
+        <!--<div class="cSixThreeOneFooter">-->
+            <!--<div>-->
+                <!--<span>项目工程策划文档</span>-->
+                <!--<span>(234KB)</span>-->
+                <!--<span style="color: blue;cursor: pointer">删除</span>-->
+            <!--</div>-->
+            <!--<div>-->
+                <!--<span>项目工程策划文档</span>-->
+                <!--<span>(234KB)</span>-->
+                <!--<span style="color: blue;cursor: pointer">删除</span>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="cSixThreeOneSubmit">提交</div>-->
+    <!--</div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->

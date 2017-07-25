@@ -1,0 +1,35 @@
+<!--封装在index-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据管理-图纸上传</title>
+    <link rel="stylesheet" type="text/css" href="../style/css.css">
+    <link rel="stylesheet" type="text/css" href="../style/reset.css">
+    <link rel="stylesheet" type="text/css" href="../style/index.css">
+    <script src="../js/jquery-1.7.2.js"></script>
+    <script src="../js/index.js"></script>
+    <script src="../js/enter1.js"></script>
+</head>
+<body>
+<div class="cTwo">
+    <div class="cTwoHeader">上传图纸</div>
+    <div class="cTwoBack">X</div>
+    <div class="cTwoContent">
+        <span>图纸标题</span>
+        <span class="cTwoInputF"><input type="text" /></span>
+        <span>描述</span>
+        <span class="cTwoInputT"><input type="text" /></span>
+    </div>
+    <div class="cTwoSrc">
+        <div class="cTwoImg">图片</div>
+        <div class="cTwoPlus">+</div>
+        <div class="cTwoSty">PDF/JPG/PNG格式</div>
+        <div style="clear: both"></div>
+    </div>
+    <div class="cTwoFooter">
+        <div class="cTwoSubmit">开始上传</div>
+    </div>
+</div>
+</body>
+</html>

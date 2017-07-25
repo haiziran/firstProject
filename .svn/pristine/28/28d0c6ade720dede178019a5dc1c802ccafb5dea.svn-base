@@ -1,0 +1,29 @@
+<!--封装在index.html-->
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+    <!--<meta charset="UTF-8">-->
+    <!--<title>Title</title>-->
+<!--<link rel="stylesheet" type="text/css" href="../style/css.css">-->
+<!--<link rel="stylesheet" type="text/css" href="../style/reset.css">-->
+<!--<link rel="stylesheet" type="text/css" href="../style/index.css">-->
+<!--<script src="../js/jquery-1.7.2.js"></script>-->
+<!--<script src="../js/index.js"></script>-->
+<!--<script src="../js/enter1.js"></script>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="cSevenFive">-->
+    <!--<div class="cSevenFiveHeader">-->
+        <!--添加进度-->
+        <!--<div class="cSevenFiveBack">X</div>-->
+    <!--</div>-->
+    <!--<div class="cSevenFiveContent">-->
+        <!--<div class="">任务名称</div>-->
+        <!--<div class=""><input type="text"></div>-->
+    <!--</div>-->
+    <!--<div class="cSevenFiveFooter">-->
+        <!--<div class="cSevenFiveSubmit">提交</div>-->
+    <!--</div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->

@@ -1,0 +1,105 @@
+     // 获取token并进行渲染
+     window.onload = getToken();
+     var viewer;
+     // var token = 'eyJhbGciOiJIUzI1NiIsImtpZCI6Imp3dF9zeW1tZXRyaWNfa2V5In0.eyJjbGllbnRfaWQiOiJmNlBPMmVpaGRBZXdxWTBwZXZHU0lMU2twcDgyYWtoNCIsImV4cCI6MTUwMDAwNjExMCwic2NvcGUiOlsiZGF0YTpyZWFkIiwiZGF0YTp3cml0ZSIsImJ1Y2tldDpjcmVhdGUiLCJidWNrZXQ6cmVhZCIsInZpZXdhYmxlczpyZWFkIl0sImF1ZCI6Imh0dHBzOi8vYXV0b2Rlc2suY29tL2F1ZC9qd3RleHA2MCIsImp0aSI6IlBQcUpkalVLNTlqcWZCWFU4NEZnUUpJYld0REhJc1hwcURxWWNGUkx6OEhROVRXckFjRlllSWN0M0NDSllPQncifQ.yz_Qv8OUq7GYf7hpLc_rNOyo1GjcTgbQB7EwGRW9Sho';
+     var token;
+
+     function getToken() {
+         $.ajax({
+
+             url: myUrl+"/forge/getToken?token="+eIdToken+"&loginId="+eId, //这边需要改成自己服务器地址
+             type: "get",
+             contentType: "application/json;charset=utf-8",
+             async: false,
+             dataType: "json",
+             //data: jsonText,
+             success: function (data) {
+                 if (data) {
+                     token = data.token
+                     // alert(token);
+                 } else {
+                     console.log("token获取失败1");
+                 }
+             },
+             error: function () {
+
+                 console.log("token获取失败2");
+             }
+         })
+     }
+
+
+     var urn = 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bXlidWNrZXR4eHh4L3J1aXl1YW4ucnZ0';
+     var options = {
+         env: 'AutodeskProduction',
+         accessToken: token
+     };
+     var documentId = 'urn:' + urn;
+     Autodesk.Viewing.Initializer(options, function onInitialized() {
+         Autodesk.Viewing.Document.load(documentId, onDocumentLoadSuccess, onDocumentLoadFailure);
+     });
+
+     /**
+      * Autodesk.Viewing.Document.load() success callback.
+      * Proceeds with model initialization.
+      */
+     function onDocumentLoadSuccess(doc) {
+
+         // A document contains references to 3D and 2D viewables.
+         var viewables = Autodesk.Viewing.Document.getSubItemsWithProperties(doc.getRootItem(), {
+             'type': 'geometry'
+         }, true);
+         if (viewables.length === 0) {
+             console.error('Document contains no viewables.');
+             return;
+         }
+
+         // Choose any of the avialble viewables
+         var initialViewable = viewables[0];
+         var svfUrl = doc.getViewablePath(initialViewable);
+         var modelOptions = {
+             sharedPropertyDbPath: doc.getPropertyDbPath()
+         };
+
+         var viewerDiv = document.getElementById('forgeViewer');
+         viewer = new Autodesk.Viewing.Private.GuiViewer3D(viewerDiv);
+         viewer.start(svfUrl, modelOptions, onLoadModelSuccess, onLoadModelError);
+     }
+
+     /**
+      * Autodesk.Viewing.Document.load() failuire callback.
+      */
+     function onDocumentLoadFailure(viewerErrorCode) {
+         console.error('onDocumentLoadFailure() - errorCode:' + viewerErrorCode);
+     }
+
+     /**
+      * viewer.loadModel() success callback.
+      * Invoked after the model's SVF has been initially loaded.
+      * It may trigger before any geometry has been downloaded and displayed on-screen.
+      */
+     function onLoadModelSuccess(model) {
+         console.log('onLoadModelSuccess()!');
+         console.log('Validate model loaded:' + (viewer.model === model));
+         console.log(model);
+     }
+
+     /**
+      * viewer.loadModel() failure callback.
+      * Invoked when there's an error fetching the SVF file.
+      */
+     function onLoadModelError(viewerErrorCode) {
+         console.error('onLoadModelError() - errorCode:' + viewerErrorCode);
+     }
+
+     // this will prepare and download the XLS file
+     function downloadExcel() {
+         alert("开始下载属性！！");
+         $('#downloadExcel').prop("disabled", true);
+         ForgeXLS.downloadXLSX(urn, token, statusCallback /*Optional*/ );
+     }
+
+     function statusCallback(completed, message) {
+         $.notify(message, 'info');
+         $('#downloadExcel').prop("disabled", !completed);
+     }

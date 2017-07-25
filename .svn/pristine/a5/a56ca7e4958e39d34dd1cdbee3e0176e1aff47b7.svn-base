@@ -1,0 +1,62 @@
+.project-manage{
+	background-color: rgb(249, 249, 249);
+	min-height: 700px;
+	height: auto;
+}
+.project{
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	text-align: center;
+	padding: 10px;
+	background-color: #fff;
+}
+.null-div{
+	width: 100%;
+	height: 25px;
+}
+.title-name{
+	font-size: 18px;
+	color: #333;
+}
+.project-name{
+	text-align: left;
+	align-items:center;
+	display:-webkit-flex;
+	height: 50px;
+}
+.detail{
+	text-align: left;
+}
+/*.pl-0{
+	padding-left:0px;
+}*/
+.mt-20{
+	margin-top: 20px;
+}
+.getNewPro{
+	justify-content: center;
+    align-items: center;
+    display: -webkit-flex;
+	height: 50px;	
+}
+.get-project{
+	padding: 80px 20px 50px 20px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	background-color: #fff;
+	text-align: center;	
+	height: 243px;
+}
+.edit{
+	padding:0px;
+	cursor: pointer;
+}
+.pr-0{
+	padding-right: 0px;
+}
+.remove{
+	cursor: pointer;
+}
+.mb-20{
+	margin-bottom: 20px;
+}

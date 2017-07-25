@@ -1,0 +1,154 @@
+<!--封装在index.html-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>质量控制，检验批管理</title>
+    <link rel="stylesheet" type="text/css" href="../style/css.css" />
+     <link rel="stylesheet" type="text/css" href="../style/reset.css" />
+    <script src="../js/jquery-1.7.2.js"></script>
+    <script src="../js/index.js"></script>
+</head>
+<body>
+<div class="cSixThree">
+    <div class="cSixThreeHeader">
+        <span class="cSixThreeHeaderFirst">检验批管理</span>
+        <span class="cSixThreeHeaderSecond">上传文件</span>
+        <span class="cSixThreeHeaderThird">
+            <select>
+                <option>景观设计</option>
+                <option>名称二</option>
+                <option>名称四</option>
+                <option>景观设计一</option>
+            </select>
+        </span>
+        <span class="cSixThreeHeaderFour"><input type="search" placeholder="搜索"/></span>
+    </div>
+    <div class="cSixThreeContentList">
+        <ul>
+        <div class="cSixThreeContent cSixThreeContentColor">
+                <span class="cSixThreeListFirst"><input type="checkbox"/></span>
+                <span class="cSixThreeListSecond">已选中项</span>
+                <span class="cSixThreeListThird"></span>
+                <span class="cSixThreeListFourth"></span>
+                <span class="cSixThreeListFive"></span>
+                <span class="cSixThreeListSix">大小</span>
+                <span class="cSixThreeListSeven">时间</span>
+                <div style="clear: both"></div>
+        </div>
+        <div style="clear: both"></div>
+            <li class="cSixThreeContent">
+                    <span class="cSixThreeListFirst"><input type="checkbox"/></span>
+                    <span class="cSixThreeListSecond">图片</span>
+                    <span class="cSixThreeListThird">项目工程策划文档.doc</span>
+                    <span class="cSixThreeListFourth">阳台门槛</span>
+                    <span class="cSixThreeListFive">进门台阶</span>
+                    <span class="cSixThreeListSix">大小</span>
+                    <span class="cSixThreeListSeven">2017-03-21 20:34</span>
+                    <div style="clear: both"></div>
+            </li>
+            <div style="clear: both"></div>
+            <li class="cSixThreeContent">
+                    <span class="cSixThreeListFirst"><input type="checkbox"/></span>
+                    <span class="cSixThreeListSecond">图片</span>
+                    <span class="cSixThreeListThird">项目工程策划文档.doc</span>
+                    <span class="cSixThreeListFourth">阳台门槛</span>
+                    <span class="cSixThreeListFive">进门台阶</span>
+                    <span class="cSixThreeListSix">8.58M</span>
+                    <span class="cSixThreeListSeven">2017-03-21 20:34</span>
+                    <div style="clear: both"></div>
+            </li>
+            <div style="clear: both"></div>
+            <li class="cSixThreeContent">
+                <span class="cSixThreeListFirst"><input type="checkbox"/></span>
+                <span class="cSixThreeListSecond">图片</span>
+                <span class="cSixThreeListThird">项目工程策划文档.doc</span>
+                <span class="cSixThreeListFourth">阳台门槛</span>
+                <span class="cSixThreeListFive">进门台阶</span>
+                <span class="cSixThreeListSix">大小</span>
+                <span class="cSixThreeListSeven">2017-03-21 20:34</span>
+                <div style="clear: both"></div>
+            </li>
+            <div style="clear: both"></div>
+            <li class="cSixThreeContent">
+                <span class="cSixThreeListFirst"><input type="checkbox"/></span>
+                <span class="cSixThreeListSecond">图片</span>
+                <span class="cSixThreeListThird">项目工程策划文档.doc</span>
+                <span class="cSixThreeListFourth">阳台门槛</span>
+                <span class="cSixThreeListFive">进门台阶</span>
+                <span class="cSixThreeListSix">8.58M</span>
+                <span class="cSixThreeListSeven">2017-03-21 20:34</span>
+                <div style="clear: both"></div>
+            </li>
+            <div style="clear: both"></div>
+            <li class="cSixThreeContent">
+                <span class="cSixThreeListFirst"><input type="checkbox"/></span>
+                <span class="cSixThreeListSecond">图片</span>
+                <span class="cSixThreeListThird">项目工程策划文档.doc</span>
+                <span class="cSixThreeListFourth">阳台门槛</span>
+                <span class="cSixThreeListFive">进门台阶</span>
+                <span class="cSixThreeListSix">大小</span>
+                <span class="cSixThreeListSeven">2017-03-21 20:34</span>
+                <div style="clear: both"></div>
+            </li>
+            <div style="clear: both"></div>
+            <li class="cSixThreeContent">
+                <span class="cSixThreeListFirst"><input type="checkbox"/></span>
+                <span class="cSixThreeListSecond">图片</span>
+                <span class="cSixThreeListThird">项目工程策划文档.doc</span>
+                <span class="cSixThreeListFourth">阳台门槛</span>
+                <span class="cSixThreeListFive">进门台阶</span>
+                <span class="cSixThreeListSix">8.58M</span>
+                <span class="cSixThreeListSeven">2017-03-21 20:34</span>
+                <div style="clear: both"></div>
+            </li>
+            <div style="clear: both"></div>
+            <li class="cSixThreeContent">
+                <span class="cSixThreeListFirst"><input type="checkbox"/></span>
+                <span class="cSixThreeListSecond">图片</span>
+                <span class="cSixThreeListThird">项目工程策划文档.doc</span>
+                <span class="cSixThreeListFourth">阳台门槛</span>
+                <span class="cSixThreeListFive">进门台阶</span>
+                <span class="cSixThreeListSix">大小</span>
+                <span class="cSixThreeListSeven">2017-03-21 20:34</span>
+                <div style="clear: both"></div>
+            </li>
+            <div style="clear: both"></div>
+            <li class="cSixThreeContent">
+                <span class="cSixThreeListFirst"><input type="checkbox"/></span>
+                <span class="cSixThreeListSecond">图片</span>
+                <span class="cSixThreeListThird">项目工程策划文档.doc</span>
+                <span class="cSixThreeListFourth">阳台门槛</span>
+                <span class="cSixThreeListFive">进门台阶</span>
+                <span class="cSixThreeListSix">8.58M</span>
+                <span class="cSixThreeListSeven">2017-03-21 20:34</span>
+                <div style="clear: both"></div>
+            </li>
+            <div style="clear: both"></div>
+            <li class="cSixThreeContent">
+                <span class="cSixThreeListFirst"><input type="checkbox"/></span>
+                <span class="cSixThreeListSecond">图片</span>
+                <span class="cSixThreeListThird">项目工程策划文档.doc</span>
+                <span class="cSixThreeListFourth">阳台门槛</span>
+                <span class="cSixThreeListFive">进门台阶</span>
+                <span class="cSixThreeListSix">大小</span>
+                <span class="cSixThreeListSeven">2017-03-21 20:34</span>
+                <div style="clear: both"></div>
+            </li>
+            <div style="clear: both"></div>
+            <li class="cSixThreeContent">
+                <span class="cSixThreeListFirst"><input type="checkbox"/></span>
+                <span class="cSixThreeListSecond">图片</span>
+                <span class="cSixThreeListThird">项目工程策划文档.doc</span>
+                <span class="cSixThreeListFourth">阳台门槛</span>
+                <span class="cSixThreeListFive">进门台阶</span>
+                <span class="cSixThreeListSix">8.58M</span>
+                <span class="cSixThreeListSeven">2017-03-21 20:34</span>
+                <div style="clear: both"></div>
+            </li>
+            <div style="clear: both"></div>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

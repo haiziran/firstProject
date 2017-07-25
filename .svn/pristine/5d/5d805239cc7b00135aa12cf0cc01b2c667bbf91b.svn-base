@@ -1,0 +1,35 @@
+<!--封装在index.html-->
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+    <!--<meta charset="UTF-8">-->
+    <!--<title>创建进度</title>-->
+<!--<link rel="stylesheet" type="text/css" href="../style/css.css">-->
+<!--<link rel="stylesheet" type="text/css" href="../style/reset.css">-->
+<!--<link rel="stylesheet" type="text/css" href="../style/index.css">-->
+<!--<script src="../js/jquery-1.7.2.js"></script>-->
+<!--<script src="../js/index.js"></script>-->
+<!--<script src="../js/enter1.js"></script>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="bThreeTwo">-->
+    <!--<div class="bThreeTwoHeader">-->
+        <!--创建进度-->
+    <!--</div>-->
+    <!--<div class="bThreeTwoTitle">-->
+        <!--<div class="bThreeTwoTip">归属模块</div>-->
+        <!--<div class="select">-->
+            <!--<label><input type="radio" value="rank" name="rank">同级</label>-->
+            <!--<label><input style="margin-left: 4.2%" type="radio" value="rank" name="rank">父级</label>-->
+        <!--</div>-->
+        <!--<div class="bThreeTwoTaskName">-->
+            <!--任务名称-->
+        <!--</div>-->
+        <!--<input  class="bThreeTwoTaskWrite" type="text">-->
+    <!--</div>-->
+    <!--<div class="bThreeTwoSubmit">-->
+        <!--<div class="bThreeTwoSend">提交</div>-->
+    <!--</div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->

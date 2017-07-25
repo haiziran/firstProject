@@ -1,0 +1,15 @@
+.re-header{
+	background-color: #1A1926;
+    color: #FFFFFF;
+    font-size: 1.25rem;
+    height: 45px;
+    justify-content: center;
+    align-items: center;
+    display: -webkit-flex;
+}
+.re-header >.container{
+	width: 100%;
+}
+.cp{
+	cursor: pointer;
+}

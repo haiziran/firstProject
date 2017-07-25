@@ -1,0 +1,2369 @@
+//page-1-a2
+//找回验证码
+$(function(){
+	$("#yzm").click(function(){
+		if($(".input1").val()==""){
+			alert("用户名不能为空");
+		}else{
+			$.ajax({
+				url:myUrl+"account/base/resetPwd/sendCode",
+                type:"POST",
+                data:"loginName=" + escape($('.input1').val()),
+                success:function(data){
+                	// console.log(data);
+                	if(data.code == 20002){
+                        alert("请输入正确的用户名");
+                    }else if(data.code == 0){
+                        alert("已发送验证码");
+                    }
+                },
+                error:function(data){
+                	// console.log(data);
+                }
+			})
+		}
+	})
+});
+//重置新密码
+$(function(){
+	$(".aThreeSubmit .submit3").click(function(){
+		if($('#a3User').val() =="" || $('#a3Pwd').val() ==""){
+			alert("用户名或新密码不能为空");
+		}else{
+			$.ajax({
+				type:"POST",
+                url:myUrl+"account/base/resetPwd/setPwd",
+                data:"loginName=" + escape($('#a3User').val()) +"&loginPwd=" + escape($('#a3Pwd').val()),
+                success:function(data){
+                	// console.log(data);
+                	if(data.code == 20002){
+                        alert("登录失败")
+                    }
+                    if(data.code == 0){
+                        alert("重置成功");
+                    }
+                },
+                error:function(data){
+
+                }
+			})
+		}
+	})
+});
+//page-1-b5
+function mangerWin() {
+	$.ajax({
+		type:"POST",
+		url:myUrl+"user/select",
+		data:{loginId:eId,pageNum:1,token:eIdToken},
+		cache:false,
+		success:function(data){
+			// var data1=JSON.parse(data);//字符串转为对象
+			console.log(data);
+			// toastr.success(11)
+			if(data.code == 0){
+				// var tr="";
+				// data.result.forEach(function(item,index){
+				// 	// console.log(item);
+				// 	tr=$("ul.b5-tbody li:hidden").clone();
+				// 	tr.removeAttr("hidden");
+				// 	tr.attr("id",item.uId);
+				// 	tr.children("span").eq(0).attr("loginId");
+				// 	tr.children("span").eq(1).html(item.loginName.loginName);
+				// 	tr.children("span").eq(2).html(item.uName);
+				// 	tr.children("span").eq(3).html(item.uPhone);
+				// 	tr.children("span").eq(4).html(item.companyName.name);
+				// 	tr.children("span").eq(5).html(item.uCreateTime);
+				// 	$("ul.b5-tbody").append(tr);
+				// });
+				var pageNumberList="";
+				data.result.forEach(function (item,index) {
+					// console.log(item);
+					pageNumberList=
+						'<li id='+item.uId+'>' +
+						'<span class="selected-delete"><input type="checkbox" name="userName"></span>'+
+						'<span id="beforeId">'+item.loginName.loginName+'</span>'+
+						'<span id="beforeName">'+item.uName+'</span>'+
+						'<span id="beforePhone">'+item.uPhone+'</span>'+
+						'<span id="beforeAddress">'+item.companyName.name+'</span>'+
+						'<span id="beforeTime">'+item.uCreateTime+'</span>'+
+						'<span class="b5-tbodyEidit"><span class="exit">编辑</span><span class="b5delete">删除</span></span>'+
+						'</li>';
+					$('ul.b5-tbody').append(pageNumberList);
+				});
+				//移除重复的
+				var lis=$("ul.b5-tbody li");
+				lis.each(function(index,item,input){
+					if(index>data.result.length-1){
+						lis[index].remove();
+					}
+				});
+			}
+			else if(data.code == 10001|| data.code == 10002 || data.code == 10003){
+				toastr.error('身份过期，请重新登录')
+			}
+		},
+		error:function(data){
+
+		}
+	})
+}
+$(function(){
+	//用户列表
+	$(".Manger").click(function(){
+		//先清空
+		mangerWin();
+	});
+	$('.mangerWin').click(function(){
+		mangerWin();
+	});
+	//编辑
+	$(document).on('click','.b5-tbody span .exit',function(){
+		$(".b5Exit").css("display","block");
+		$('#popLayer').css('display','block');
+		var val1=$(this).parents("li").children("span").eq(1);
+		var val2=$(this).parents("li").children("span").eq(2);
+		var val3=$(this).parents("li").children("span").eq(3);
+		var val4=$(this).parents("li").children("span").eq(4);
+		$("#userId").attr("value",val1.html());
+		$("#userName").attr("value",val2.html());
+		$("#userPhone").attr("value",val3.html());
+		$("#userAddress").attr("value",val4.html());
+		//保存
+		$("#b51Save").on("click",function(){
+			$.ajax({
+				type:"POST",
+				url:myUrl+"user/select",
+				success:function(data){
+					var afterVal1=$("#userId").val();
+					var afterVal2=$("#userName").val();
+					var afterVal3=$("#userPhone").val();
+					var afterVal4=$("#userAddress").val();
+					val1.html(afterVal1);
+					val2.html(afterVal2);
+					val3.html(afterVal3);
+					val4.html(afterVal4);
+					$(".b5Exit").css("display","none");
+					$('#popLayer').css('display','none');
+					toastr.success("修改成功");
+					//reload()
+				},
+				error:function(data){
+					alert("修改失败");
+				}
+			})
+		})
+		//close
+		$(".b51Close").on("click",function(){
+			$(".b5Exit").css("display","none");
+			$('#popLayer').css('display','none');
+		});
+	});
+	//删除
+	$(document).on('click','.b5-tbody span .b5delete',function(){
+		$(this).parents("li").remove();
+		var userId=JSON.stringify(new Array($(this).parents("li").attr("id")));
+		// alert(userId)
+		//alert("确定要删除此用户吗？");
+		$.ajax({
+			type:"POST",
+			// data:$.param({userId:userId}),
+			data:{userIdJson:userId,loginId:eId,token:eIdToken},
+			url:myUrl+"user/updateUserDeleteInfo", //后台提供的删除接口
+			dataType:'json',
+			success:function(data){
+				// console.log(data);
+				if(data.code == 0){
+					alert('删除成功');
+				} else {
+					alert('删除失败，请稍后重试');
+					return false;
+				}
+			},
+			error:function(data){
+
+			}
+		})
+	});
+	//搜索
+	$(".b5Find").click(function(){
+		//$("ul.b5-tbody li:hidden").remove();
+		$.ajax({
+			type:"GET",
+	        url:myUrl+"user/select",
+	        success:function(data){
+	        	// console.log($("#b5Input").val());
+	        	var val1=$("#b5Input").val();
+	        	//if(str1.indexOf(str2)!=-1){
+	        	//匹配到展现
+	        	//}
+	        	var data1=JSON.parse(data);//字符串转为对象
+				data1.result.forEach(function(item,index){
+					// console.log(item);
+					// if(val1){
+						
+					// }
+				})
+	        },
+	        error:function(data){
+
+	        }
+		})
+	})
+});
+//page-1-b7
+function UnitWin(){
+	var pageSelectNUM=$('.b7-tbody').attr('selectId');
+	$.ajax({
+		type:"POST",
+		url:myUrl+"company/select",
+		data:{pageNum:1,loginId:eId,token:eIdToken},
+		success:function (str) {
+			//var data =JSON.parse(str);
+			if(str.code == 0){
+				var data=str;
+				// console.log(data);
+				var tr="";
+				// data.result.forEach(function (item,index) {
+				// 	tr=$("ul.b7-tbody li:hidden").clone();
+				// 	tr.removeAttr('hidden');
+				// 	tr.attr('id',item.id);
+				// 	tr.children('span').eq(1).html(item.name);
+				// 	tr.children('span').eq(2).html(item.companyPhone);
+				// 	tr.children('span').eq(3).html(item.companyAddress);
+				// 	tr.children('span').eq(4).html(item.createTime);
+				// 	$('ul.b7-tbody').append(tr);
+				// });
+				str.result.forEach(function (item,index) {
+					// console.log(item);
+					// console.log(item.companyPhone)
+					pageNumberList=
+						'<li id='+item.id+'>' +
+						'<span class="b7TbodyInput"><input type="checkbox" name="userName"></span>'+
+						'<span>'+item.name+'</span>'+
+						'<span>'+item.companyPhone+'</span>'+
+						'<span>'+item.companyAddress+'</span>'+
+						'<span>'+item.createTime+'</span>'+
+						'<span class="b7-tbodyEidit"><span class="exitb7">编辑</span><span class="deleteb7">删除</span></span>'+
+						'</li>';
+					$('ul.b7-tbody').append(pageNumberList);
+				});
+				//移除重复的
+				var lis=$("ul.b7-tbody li");
+				lis.each(function(index,item,input){
+					if(index>data.result.length-1){
+						lis[index].remove();
+					}
+				});
+			}
+			else if(str.code == 10001|| data.code == 10002 || data.code == 10003){
+				toastr.error('身份过期，请重新登录')
+			}
+		},
+		error:function () {
+
+		}
+	})
+}
+$(function(){
+	$('.Unit').click(function(){
+		UnitWin();
+    });
+	$(".UnitWin").click(function () {
+		UnitWin();
+	});
+	//编辑
+	$(document).on('click',".b7-tbody span .exitb7",function(){
+			$(".b7Exit").css("display","block");
+			$('#popLayer').css('display','block');
+			var val1=$(this).parents("li").children("span").eq(1);
+			var val2=$(this).parents("li").children("span").eq(2);
+			var val3=$(this).parents("li").children("span").eq(3);
+			var val4=$(this).parents("li").children("span").eq(4);
+			$("#cmpName").attr("value",val1.html());
+			$("#cmpPhone").attr("value",val2.html());
+			$("#cmpAddress").attr("value",val3.html());
+			$("#cmpTime").attr("value",val4.html());
+			//保存
+			$("#b71Save").on("click",function(){
+				$.ajax({
+					type:"POST",
+					// data:{
+					// },
+					url:myUrl+"f",
+					success:function(data){
+						console.log(data)
+						var afterVal1=$("#cmpName").val();
+						var afterVal2=$("#cmpPhone").val();
+						var afterVal3=$("#cmpAddress").val();
+						var afterVal4=$("#cmpTime").val();
+						val1.html(afterVal1);
+						val2.html(afterVal2);
+						val3.html(afterVal3);
+						val4.html(afterVal4);
+						$(".b7Exit").css("display","none");
+						$('#popLayer').css('display','none');
+						alert("修改成功");
+						//reload()
+					},
+					error:function(data){
+						alert("修改失败");
+					}
+				})
+			});
+			//close
+			$(".b71Close").on("click",function(){
+				$(".b7Exit").css("display","none");
+				$('#popLayer').css('display','none');
+			})
+	})
+	//删除
+	$(document).on('click',".b7-tbody span .deleteb7",function(){
+		$(this).parents("li").remove();
+		// console.log($(this).parents("li").attr("id"));
+		var userId=JSON.stringify(new Array($(this).parents("li").attr("id")));
+		// console.log(userId)
+		// alert("确定要删除此用户吗？");
+		$.ajax({
+			type:"POST",
+			// data:$.param({userId:userId}),
+			data:{companyIdjson:userId,loginId:eId,token:eIdToken},
+			url:myUrl+"company/updateIsDelete", //后台提供的删除接口
+			dataType:'json',
+			success:function(data){
+				console.log(data);
+				if(data.code == 0){
+					alert('删除成功');
+				} else {
+					alert('删除失败，请稍后重试');
+					return false;
+				}
+			},
+			error:function(data){
+			}
+		})
+	})
+});
+	
+/*人员管理*/
+$(function(){
+	var userId;
+	$(".cFiveShow").on("click",function(){
+		//获取类型
+	    $.ajax({
+	        type:"POST",
+	        url:myUrl+"personClass/selectPersonClassByparentClassId",
+	        data:{
+	        	parentClassId:0,loginId:eId,token:eIdToken
+	        },
+	        success:function (data) {
+	        	// console.log(data.result);
+				if(data.code == 0){
+					var a="";
+					data.result.forEach(function(item,index){
+						//if(item.parentClassId==0){
+						if(index==0){
+							a=$("<a href='#' class='active3' id='"+item.cid+"'>"+item.cname+"</a>");
+						}else{
+							a= $("<a href='#' id='"+item.cid+"'>"+item.cname+"</a>");
+						}
+						$(".c5type").append(a);
+						//}
+					});
+					//模拟展示一个
+					$(document).ready(function () {
+						//模拟第一个
+						$(".c5type>a").eq(0).trigger("click");
+					});
+					//移除重复的
+					var types=$(".c5type a");
+					types.each(function(index,item,input){
+						if(index>data.result.length-1){
+							types[index].remove();
+						}
+					});
+				}else{
+
+				}
+	        },
+	        error:function(data){
+
+	        }
+	    });
+		//添加弹框
+		//类型选择框
+			$.ajax({
+		        type:"POST",
+		        url:myUrl+"personClass/selectPersonClassByparentClassId",
+		        data:{
+		        	parentClassId:0,loginId:eId,token:eIdToken
+		        },
+		        success:function (data) {
+	        		// console.log(data.result);
+					if(data.code == 0){
+						//添加
+						data.result.forEach(function(item,index){
+							var opt=$("<option id="+item.cid+">"+item.cname+"</option>");
+							$(".c5type1").append(opt);
+							// console.log(opt);
+							//移除重复的
+							var types=$(".c5type1 option");
+							types.each(function(index,item,input){
+								if(index>data.result.length-1){
+									types[index].remove();
+								}
+							});
+
+						})
+						//编辑
+						data.result.forEach(function(item,index){
+							var opt=$("<option id="+item.cid+">"+item.cname+"</option>");
+							$(".mc5type1").append(opt);
+							// console.log(opt);
+							//移除重复的
+							var types=$(".mc5type1 option");
+							types.each(function(index,item,input){
+								if(index>data.result.length-1){
+									types[index].remove();
+								}
+							});
+						})
+					}else{
+
+					}
+	        	},
+	        	error:function(data){
+
+	        	}
+	        })
+		//添加工种选择框
+		$(".c5type1").on("change",function(){
+			$(".c5gz").find("option").remove(); 
+			var typeId=$(".c5type1").children('option:selected').attr("id");
+			// console.log(typeId);
+		        $.ajax({
+			        type:"POST",
+			        url:myUrl+"personClass/selectPersonClassByparentClassId",
+			        data:{
+			        	parentClassId:typeId,loginId:eId,token:eIdToken
+			        },
+			        success:function (data) {
+			        	// console.log(data.result);
+			        	//添加
+		        		data.result.forEach(function(item,index){
+		        			// console.log(typeId);
+			        		if(typeId==item.parentClassId){
+			        			// console.log(item.cname);
+					        	var opt=$("<option id="+item.cid+">"+item.cname+"</option>");
+				    			$(".c5gz").append(opt);
+				    			//移除重复的
+					        	var types=$(".c5gz option");
+					        	types.each(function(index,item,input){
+					        		if(index>data.result.length-1){
+					        			types[index].remove();
+					        		}
+					        	});
+			        		}
+
+		        		})
+			        },
+			        error:function(data){
+
+			        }
+			    })
+		})
+		//编辑工种选择框
+		$(".mc5type1").on("change",function(){
+			$(".mc5gz").find("option").remove(); 
+			var typeId=$(".mc5type1").children('option:selected').attr("id");
+			// console.log(typeId);
+		        $.ajax({
+			        type:"POST",
+			        url:myUrl+"personClass/selectPersonClassByparentClassId",
+			        data:{
+			        	parentClassId:typeId,loginId:eId,token:eIdToken
+			        },
+			        success:function (data) {
+			        	// console.log(data.result);
+			        	//添加
+		        		data.result.forEach(function(item,index){
+		        			// console.log(typeId);
+			        		if(typeId==item.parentClassId){
+			        			// console.log(item.cname);
+					        	var opt=$("<option id="+item.cid+">"+item.cname+"</option>");
+				    			$(".mc5gz").append(opt);
+				    			//移除重复的
+					        	var types=$(".mc5gz option");
+					        	types.each(function(index,item,input){
+					        		if(index>data.result.length-1){
+					        			types[index].remove();
+					        		}
+					        	});
+			        		}
+
+		        		})
+			        },
+			        error:function(data){
+
+			        }
+			    })
+		})
+		//添加
+		$(".c5Add").on("click",function(){
+			$(".c5AddBox").css("display","block");
+			$("#popLayer").css("display","block");
+			$(".c5AddBox input").val("");
+			$("#c5thelist").html("");
+			//模拟选择
+		    $(".c5type1>option").eq(0).trigger("change");
+		})
+		//关框
+		$(".closeC5").on("click",function(){
+			$(".c5AddBox").css("display","none");
+			$(".c5Exit").css("display","none");
+			$("#popLayer").css("display","none");
+		})
+		//类型转换,及展示
+	    $(".c5type").on("click","a",function(){
+	    	$(".c5list").remove();
+	    	 $(".c5type a").removeClass("active3");
+	    	$(this).addClass("active3");
+	    	var id=$(this).attr("id");
+	    	var thisVal=$(this).html();
+	    	//根据类型展示列表
+			$.ajax({
+		        url:myUrl+"person/PageData",
+				data:{pageNum:1,personType:id,loginId:eId,token:eIdToken},
+				type:'POST',
+				dataType:'json',
+		        success:function (data) {
+		        	console.log(data);
+		        	var len=data.result.length;
+		        	if(len==0){
+		        		alert("没有数据！");
+		        	}else{
+		        		//追加信息
+		        		data.result.forEach(function(item,index){
+							var length=index+1;
+		        			//多个文件
+		        			var filelist=item.filelist;
+		        			//文件是否为空和写名字
+		        			var files=[];
+		        			var filesId=[];
+		        			var thisId;
+		        			var pFile=$('<div></div>');
+						    if(filelist==""){
+						    	files="-";
+						    	pFile.html("-");
+						    }else{
+						    	//追加文件
+						    	console.log(filelist);
+								filelist.forEach(function(item,index,input){
+									files.push(item.fname);
+			        				//给每个文件绑ID
+			        				//oneFile=$('<span class="onefile" id='+item.fid+'><img class="c5fPhone">'+item.fname+'</span>');
+			        				oneFile=$('<span class="onefile" id='+item.fid+'>'+item.fname+'</span>');
+			        				//图片展示
+			      //   				var thisId=item.fid;
+									// $.ajax({
+								 //        url:myUrl+"getPic",
+									// 	data:{
+									// 		fileId:thisId,
+									// 		loginId:eId,
+									// 		token:eIdToken
+									// 	},
+									// 	type:'POST',
+								 //        success:function (data) {
+								 //        	//fimg=$('<img class="c5fPhone" src='+myUrl+"getPic?token=" +eIdToken +"&loginId=" +eId+"&fileId="+item.fid+'>');
+								 //        	$("img.c5fPhone").attr("src",myUrl+"getPic?token=" +eIdToken +"&loginId=" +eId+"&fileId="+thisId);
+									// 	},
+								 //        error:function(data){
+
+								 //        }
+								 //    })
+								    pFile.append(oneFile);
+
+			        			})
+							}
+							var typeId=item.personClassList[0].cid;
+							var c5list=$('<ul class="c5list" id='+item.pid+'>' +
+								'<li style="width:5%;" class="idx">'+length+'</li>' +
+								'<li style="width:10%;">'+item.pname+'</li>' +
+								'<li style="width:12%;">'+item.phone+'</li>' +
+								'<li style="width:12%;">'+item.identity+'</li>' +
+								'<li style="width:7%;">'+thisVal+'</li>' +
+								'<li style="width:7%;" id='+typeId+'>'+item.personClassList[0].cname+'</li>' +
+								'<li style="width:10%;">'+item.personEnterTime+'</li>' +
+								'<li style="width:10%;">'+item.personOuterTime+'</li>' +
+								'<li style="width:15%;" class="addFile" title='+files+'>'+pFile.html()+'</li>' +
+								'<li><span class="exitc5">编辑</span>' +
+									'<span class="deletec5">删除</span>'+
+								'</li>' +
+								'<div style="clear: both"></div>' +
+								'</ul>');
+							$(".cFiveList").append(c5list);
+							//移除重复的
+				        	var lists=$(".c5list");
+				        	lists.each(function(index,item,input){
+				        		if(index>data.result.length-1){
+				        			lists[index].remove();
+				        		}
+				        	});
+		        		})
+		        	}
+					//图片预览
+					$(".c5list>li").on("click",".onefile",function(){
+						console.log($(this).attr("id"));
+						var thisId=$(this).attr("id");
+						$.ajax({
+					        url:myUrl+"getPic",
+							data:{
+								fileId:thisId,
+								loginId:eId,
+								token:eIdToken
+							},
+							type:'POST',
+					        success:function (data) {
+					        	$(".c5photo").css("display","block");
+					        	$("#popLayer").css("display","block");
+					        	$(".c5photo>img").attr("src",myUrl+"getPic?token=" +eIdToken +"&loginId=" +eId+"&fileId="+thisId);
+							},
+					        error:function(data){
+
+					        }
+					    })
+					})
+					//关闭照片框
+					$("#photoClose").on("click",function(){
+						$(".c5photo").css("display","none");
+					    $("#popLayer").css("display","none");
+					})
+		        	//编辑
+					$(".c5list>li").on("click",".exitc5",function(){
+						//模拟选择
+		    			$(".mc5type1>option").eq(0).trigger("change");
+						userId=$(this).parents(".c5list").attr("id");
+						// console.log(userId);
+						$(".c5Exit").css("display","block");
+						$("#popLayer").css("display","block");
+						$(".c5Exit input").val("");
+						//取列表值
+						var aType=$(".c5type a.active3").html();
+						var name=$(this).parents(".c5list").children("li").eq(1).html();
+						var phone=$(this).parents(".c5list").children("li").eq(2).html();
+						var sfz=$(this).parents(".c5list").children("li").eq(3).html();
+						var gz=$(this).parents(".c5list").children("li").eq(5).html();
+						var start=$(this).parents(".c5list").children("li").eq(6).html();
+						var end=$(this).parents(".c5list").children("li").eq(7).html();
+						var file=$(this).parents(".c5list").children("li").eq(8).html();
+						//传值给编辑框
+						var box_name=$(".mc5name").val(name);
+					    var box_phone=$(".mc5phone").val(phone);
+					    var box_sfz=$(".mc5sfz").val(sfz);
+					    var box_typeId=$(".mc5type1").val(aType);
+					    var box_gz=$(".mc5gz").val(gz);
+					    var box_start=$(".mc5start").val(start);
+					    var box_end=$(".mc5end").val(end);
+					     var box_file=$(".mc5fileBox").html(file);
+					    //文件是否为空和写名字
+					    if(file==""){
+					    	file="无文件";
+					    }else{
+					    	file=getFileName(file);
+						    function getFileName(o){
+							    var pos=o.lastIndexOf("\\");
+							    return o.substring(pos+1);  
+							}
+					    }
+					    //点击file选删除
+					    var selected=$("<button class='selected'>删除</button>");
+						$(".mc5fileBox .onefile").append(selected);
+					})	
+						
+					//删除
+					$(".c5list>li").on("click",".deletec5",function(){
+						userId=$(this).parents(".c5list").attr("id");
+						console.log(userId);
+						$.ajax({
+					        url:myUrl+"person/deletePerson",
+							data:{personId:userId,loginId:eId,token:eIdToken},
+							type:'POST',
+							dataType:'json',
+					        success:function (data) {
+					        	// console.log(data);
+					        	if(data.code==0){
+									//alert("确定要删除此用户吗？");
+									$(this).parents().parents(".c5list").remove();
+									//模拟重新加载
+							    	$(document).ready(function () {
+								    	$(".c5type a.active3").trigger("click");
+								    });
+					        		//console.log("删除成功！");
+					        	}
+					        },
+					        error:function(data){
+
+					        }
+					    })
+					})
+		        },
+		        error:function(data){
+
+		        }
+		    })
+
+		});
+		//编辑框删除上传文件
+		var delArr=[];
+		$(".mc5fileBox").on("click",".selected",function(){
+			$(this).addClass("delete");
+			if($(this).hasClass(".delete")){
+				$(this).removeClass("delete");
+			}else{
+				$(this).addClass("delete");
+				$(this).parents(".onefile").remove();
+				var delId=$(this).parents(".onefile").attr("id");
+				delArr.push(delId);
+			}
+		});
+		//编辑的保存
+	    $("#exitSave").on("click",function(){
+	    	$(".c5Exit").css("display","none");
+			$("#popLayer").css("display","none");
+			//删除的数组
+			//点击file选删除
+			var delArr=[];
+		    $(".mc5fileBox").on("click",".selected",function(){
+				// console.log(1);
+				$(this).addClass("delete");
+				if($(this).hasClass(".delete")){
+					$(this).removeClass("delete");
+				}else{
+					$(this).parents(".onefile").remove();
+					$(this).addClass("delete");
+					var delId=$(this).parents(".onefile").attr("id");
+					// console.log(delId);
+					delArr.push(delId);
+				}
+				// console.log(delArr);
+		    });
+		    var box_name2=$(".mc5name").val();
+		    var box_phone2=$(".mc5phone").val();
+		    var box_sfz2=$(".mc5sfz").val();
+		    var box_typeId2=$(".mc5type1").children('option:selected').attr("id");
+		    var box_gz2=$(".mc5gz").children('option:selected').attr("id");
+		    var box_start2=$(".mc5start").val();
+		    var box_end2=$(".mc5end").val();
+		    var box_file2=$(".mfileBox").val();
+		    //添加的文件
+			var formData = new FormData();
+			var c5file=$(".mc5file")[0].files;
+			for(var i in c5file){
+				formData.append("myfiles",c5file[i]);
+			}
+			formData.append("personId",userId);
+			formData.append("pId",pId);
+			var dd=JSON.stringify(delArr);
+			// console.log(dd);
+		    var personObj={
+		    	"pname":box_name2,
+		    	"phone":box_phone2,
+		    	"identityId":box_sfz2,
+		    	"classId":box_typeId2,
+		    	"personType":box_gz2,
+		    	"enteringTime":box_start2,
+		    	"dellist":dd
+		    }
+		    var person=JSON.stringify(personObj);
+		    formData.append("personJson",person);
+			formData.append("loginId",eId);
+			formData.append("token",eIdToken);
+		    $.ajax({
+		        url:myUrl+"person/updatePerson",
+				data:formData,
+				type:'POST',
+				dataType:'json',
+				processData: false,
+		        contentType: false,
+		        success:function (data) {
+		        	// console.log(data);
+		        	//模拟重新加载
+			    	$(".c5type a.active3").trigger("click");
+				},
+		        error:function(data){
+
+		        }
+		    })
+	    });
+		/*人员管理文件上传*/
+		//$(function(){
+		   var uploader = WebUploader.create({
+		    auto: true,
+		    formData:{
+		        uid: 123
+		    },
+		    chunked : true,
+		    chunkSize: 1024 * 1024,
+		    threads:1,
+		    // swf文件路径
+		    swf:'Uploader.swf',
+		    fileVal:'test',
+		    // 文件接收服务端。
+		    server: 'http://192.168.3.31:8080/bim/upload?token=' +eIdToken +"&loginId=" +eId,
+		    // 选择文件的按钮。可选。
+		    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+		    pick: '#c5picker',
+		    accept: {
+		        title: 'Images',
+		        extensions: 'gif,jpg,jpeg,bmp,png',
+		        mimeTypes: 'image/jpg,image/jpeg,image/png'
+		    },
+		    // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+		    resize: false
+		    });
+		   // 当有文件被添加进队列的时候
+		   var $list = $('#c5thelist');
+		   //var $btn = $('#ctlBtn');//这个留着，以便随时切换是否要手动上传
+		    var ratio = window.devicePixelRatio || 1; 
+		    var thumbnailWidth = 16 * ratio;
+		    var thumbnailHeight = 16 * ratio;
+		    var $li;   
+		    uploader.on( 'fileQueued', function( file ) {
+		        $li = $(
+		            '<div id="' + file.id + '" class="file-item thumbnail">' +
+		                '<img>' +
+		                '<div class="info" style="display: inline;">' + file.name + '</div>' +
+		                //'<a id="ctlBtn" class="btn btn-default">开始</a>' +
+		             '</div>'
+		            ),
+		        $img = $li.find('img');
+		        $list.append( $li );
+		        // 创建缩略图
+		        // 如果为非图片文件，可以不用调用此方法。
+		        uploader.makeThumb( file, function( error, src ) {
+		            if ( error ) {
+		                $img.replaceWith('<span>不能预览</span>');
+		                return;
+		            }
+		            $img.attr( 'src', src );
+		        }, thumbnailWidth, thumbnailHeight );
+		    });
+		    // 文件上传过程中创建进度条实时显示。
+		   uploader.on('uploadProgress', function (file, percentage) {//进度条事件
+		        var $li = $('#' + file.id),
+		            $percent = $li.find('.progress .bar');
+		        // 避免重复创建
+		        if (!$percent.length) {
+		            $percent = $('<span class="progress">' +
+		                '<span  class="percentage"><span class="text"></span>' +
+		              '<span class="bar" role="progressbar" style="width: 0%">' +
+		              '</span></span>' +
+		            '</span>').appendTo($li).find('.bar');
+		        };
+		        $li.find(".text").text(Math.round(percentage * 100) + '%');
+		        $percent.css('width', percentage * 100 + '%');
+		    });
+		   //保存从后台返回的图片url
+		    var PhotoUrlArray = new Array();
+		    function PhotoUrl(id, filePath,name) {
+		        this.id = id;
+		        this.filePath = filePath;
+		        this.fileName=name;
+		    }
+		    // 文件上传成功，给item添加成功class, 用样式标记上传成功。 
+		    uploader.on( 'uploadSuccess', function( file, data) { 
+		     console.log(data);//这里可以得到上传后的文件
+		     console.log(data.result) ;
+		     $( '#'+file.id ).addClass('upload-state-done');
+		     //将上传的url保存到数组
+		    PhotoUrlArray.push(new PhotoUrl(data.result.fileId, data.result.tempFileDir,file.name));
+			console.log(PhotoUrlArray);
+		    $handle2=$('<span class="handles handle2">删除</span>').appendTo( $li );
+		    // $handle3=$('<span class="handles handle3">预览</span>').appendTo( $li );
+		    }); 
+		    // 文件上传失败，显示上传出错。 
+		    uploader.on( 'uploadError', function( file ) { 
+		     var $li = $( '#'+file.id ), 
+		     $error = $li.find('span.error'); 
+		     // 避免重复创建 
+		     if ( !$error.length ) { 
+		     $error = $('<span class="error"></span>').appendTo( $li ); 
+		     } 
+		     $error.text('上传失败'); 
+		    }); 
+		    // 完成上传完了，成功或者失败，先删除进度条。 
+		    uploader.on( 'uploadComplete', function( file ) { 
+		        $li.find('span.handle1').remove();
+		        $( '#'+file.id ).find('.progress').remove(); 
+		    });
+		     //删除
+		    $list.on("click", ".handle2", function () {
+		        var $ele = $(this);
+		        var Id = $ele.parent().attr("id");
+		        console.log(Id);
+		        //删除该图片
+		        uploader.removeFile(uploader.getFile(Id, true));
+		        for (var i = 0; i < PhotoUrlArray.length; i++) {
+		            if (PhotoUrlArray[i].id == Id) {
+		                PhotoUrlArray.remove(i);
+		            }
+		        }
+		        $(this).parent().remove();
+		    });
+
+		    //添加
+		    $(".c5Add").on("click",function(){
+		        PhotoUrlArray=[];
+		    })
+		//});
+		//添加的保存
+	    $("#c5AddSave").click(function(){
+	    	//模拟重新加载
+	    	var name=$(".c5name").val();
+		    var phone=$(".c5phone").val();
+		    var sfz=$(".c5sfz").val();
+		    var type1=$(".c5type1").val();
+		    var gz=$(".c5gz").val();
+		    var gzId=$(".c5gz").children('option:selected').attr("id");
+		    var start=$(".c5start").val();
+		    var end=$(".c5end").val();
+		    var file;
+		    //文件是否为空和写名字
+		    if(file==""){
+		    	file="-";
+		    }else{
+		    	file=$("#c5thelist").html();
+		    }
+			if(name.length==""||phone.length==""||sfz.length==""||type1.length==""||start.length==""||end.length==""){
+				alert("请完善信息，再提交");
+			}else{
+		    	$(".c5AddBox").css("display","none");
+				$("#popLayer").css("display","none");
+			    var len=$(".c5list").length+1;
+			    //追加
+			    var aType=$(".c5type a.active3").html();
+				//工种选择框
+				var typeId=$(".c5type1").children('option:selected').attr("id");
+				//后台传值
+				var formData = new FormData();
+				var fileIds=[];
+				for(var i in PhotoUrlArray){
+					fileIds.push(PhotoUrlArray[i].id);
+					formData.append("myfiles",PhotoUrlArray[i].fileName);
+				}
+				console.log(fileIds);
+				fileIds=JSON.stringify(fileIds);
+				formData.append("pId",pId);
+				formData.append("loginId",eId);
+			    formData.append("classId",typeId);
+			    formData.append("token",eIdToken);
+			    formData.append("personName",name);
+			    formData.append("personPhone",phone);
+			    formData.append("identityId",sfz);
+			    formData.append("personType",gzId);
+			    formData.append("personEnterTime",start);
+			    formData.append("personOuterTime",end);
+			    formData.append("fileIdList",fileIds);
+				$.ajax({
+			        url:myUrl+"person/personManger",
+			        type:'POST',
+					dataType:'json',
+					data:formData,
+					cache:false,
+					processData:false,
+					contentType:false,
+				        success:function (data) {
+				        	console.log(data);
+				        	if(data.code=="0"){
+				        		$(".c5type a.active3").trigger("click");
+				        	}else{
+				        		// console.log(data.msg);
+				        	}
+				        },
+				        error:function(data){
+				        	// console.log(data);
+				        }
+			    })
+			}
+	    })
+		//人员管理编辑文件上传
+		var uploader = WebUploader.create({
+		    auto: true,
+		    formData:{
+		        uid: 123
+		    },
+		    chunked : true,
+		    chunkSize: 1024 * 1024,
+		    threads:1,
+		    // swf文件路径
+		    swf:'Uploader.swf',
+		    fileVal:'test',
+		    // 文件接收服务端。
+		    server: 'http://192.168.3.31:8080/bim/upload?token=' +eIdToken +"&loginId=" +eId,
+		    // 选择文件的按钮。可选。
+		    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+		    pick: '#c51picker',
+		    accept: {
+		        title: 'Images',
+		        extensions: 'gif,jpg,jpeg,bmp,png',
+		        mimeTypes: 'image/jpg,image/jpeg,image/png'
+		    },
+		    // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+		    resize: false
+		    });
+		   // 当有文件被添加进队列的时候
+		   var $list = $('#c51thelist');
+		   //var $btn = $('#ctlBtn');//这个留着，以便随时切换是否要手动上传
+		    var ratio = window.devicePixelRatio || 1; 
+		    var thumbnailWidth = 16 * ratio;
+		    var thumbnailHeight = 16 * ratio;
+		    var $li;   
+		    uploader.on( 'fileQueued', function( file ) {
+		        $li = $(
+		            '<div id="' + file.id + '" class="file-item thumbnail">' +
+		                '<img>' +
+		                '<div class="info" style="display: inline;">' + file.name + '</div>' +
+		                //'<a id="ctlBtn" class="btn btn-default">开始</a>' +
+		             '</div>'
+		            ),
+		        $img = $li.find('img');
+		        $list.append( $li );
+		        // 创建缩略图
+		        // 如果为非图片文件，可以不用调用此方法。
+		        uploader.makeThumb( file, function( error, src ) {
+		            if ( error ) {
+		                $img.replaceWith('<span>不能预览</span>');
+		                return;
+		            }
+		            $img.attr( 'src', src );
+		        }, thumbnailWidth, thumbnailHeight );
+		    });
+		    // 文件上传过程中创建进度条实时显示。
+		   uploader.on('uploadProgress', function (file, percentage) {//进度条事件
+		        var $li = $('#' + file.id),
+		            $percent = $li.find('.progress .bar');
+		        // 避免重复创建
+		        if (!$percent.length) {
+		            $percent = $('<span class="progress">' +
+		                '<span  class="percentage"><span class="text"></span>' +
+		              '<span class="bar" role="progressbar" style="width: 0%">' +
+		              '</span></span>' +
+		            '</span>').appendTo($li).find('.bar');
+		        };
+		        $li.find(".text").text(Math.round(percentage * 100) + '%');
+		        $percent.css('width', percentage * 100 + '%');
+		    });
+		   //保存从后台返回的图片url
+		    var PhotoUrlArray = new Array();
+		    function PhotoUrl(id, filePath,name) {
+		        this.id = id;
+		        this.filePath = filePath;
+		        this.fileName=name;
+		    }
+		    // 文件上传成功，给item添加成功class, 用样式标记上传成功。 
+		    uploader.on( 'uploadSuccess', function( file, data) { 
+		     console.log(data);//这里可以得到上传后的文件
+		     console.log(data.result) ;
+		     $( '#'+file.id ).addClass('upload-state-done');
+		     //将上传的url保存到数组
+		    PhotoUrlArray.push(new PhotoUrl(data.result.fileId, data.result.tempFileDir,file.name));
+			console.log(PhotoUrlArray);
+		    $handle2=$('<span class="handles handle2">删除</span>').appendTo( $li );
+		    // $handle3=$('<span class="handles handle3">预览</span>').appendTo( $li );
+		    }); 
+		    // 文件上传失败，显示上传出错。 
+		    uploader.on( 'uploadError', function( file ) { 
+		     var $li = $( '#'+file.id ), 
+		     $error = $li.find('span.error'); 
+		     // 避免重复创建 
+		     if ( !$error.length ) { 
+		     $error = $('<span class="error"></span>').appendTo( $li ); 
+		     } 
+		     $error.text('上传失败'); 
+		    }); 
+		    // 完成上传完了，成功或者失败，先删除进度条。 
+		    uploader.on( 'uploadComplete', function( file ) { 
+		        $li.find('span.handle1').remove();
+		        $( '#'+file.id ).find('.progress').remove(); 
+		    });
+		     //删除
+		    $list.on("click", ".handle2", function () {
+		        var $ele = $(this);
+		        var Id = $ele.parent().attr("id");
+		        console.log(Id);
+		        //删除该图片
+		        uploader.removeFile(uploader.getFile(Id, true));
+		        for (var i = 0; i < PhotoUrlArray.length; i++) {
+		            if (PhotoUrlArray[i].id == Id) {
+		                PhotoUrlArray.remove(i);
+		            }
+		        }
+		        $(this).parent().remove();
+		    });    
+	})
+});
+/*c622 设备管理*/
+$(function(){
+	$(".cSixShow").on("click",function(){
+		look();
+		//根据类型展示列表
+		function look(){
+			$.ajax({
+		        url:myUrl+"equipment/selectAll",
+				data:{pageNum:1,loginId:eId,token:eIdToken},
+				type:'POST',
+				dataType:'json',
+		        success:function (data,index) {
+		        	console.log(data);
+		        	//var len=data.result.length;
+		        	var len=index+1;
+		        	if(len==0){
+		        		alert("没有数据！");
+		        	}else{
+		        		//追加信息
+		        		data.result.forEach(function(item,index){
+							var length=index+1;
+		        			//多个文件
+		        			var filelist=item.fileinfoList;
+		        			//文件是否为空和写名字
+		        			var files=[];
+		        			var filesId=[];
+		        			var thisId;
+		        			var pFile=$('<div></div>');
+						    if(filelist==""){
+						    	files="-";
+						    	pFile.html("-");
+						    }else{
+						    	//追加文件
+						    	console.log(filelist);
+								filelist.forEach(function(item,index,input){
+									files.push(item.fname);
+			        				//给每个文件绑ID
+			        				oneFile=$('<span class="onefile" id='+item.fid+'>'+item.fname+'</span>');
+			        				//图片展示
+			      //   				var thisId=item.fname;
+									// $.ajax({
+								 //        url:myUrl+"getPic",
+									// 	data:{
+									// 		fileId:thisId,
+									// 		loginId:eId,
+									// 		token:eIdToken
+									// 	},
+									// 	type:'POST',
+								 //        success:function (data) {
+								 //        	//fimg=$('<img class="c5fPhone" src='+myUrl+"getPic?token=" +eIdToken +"&loginId=" +eId+"&fileId="+item.fid+'>');
+								 //        	$("img.c5fPhone").attr("src",myUrl+"getPic?token=" +eIdToken +"&loginId=" +eId+"&fileId="+thisId);
+									// 	},
+								 //        error:function(data){
+
+								 //        }
+								 //    })
+								    pFile.append(oneFile);
+
+			        			})
+							}
+							var c622list=$('<ul class="c622list" id='+item.equId+'>' +
+								'<li style="width:5%;" class="idx"><input type="checkbox" style="margin-left:0%;margin-right:5px;">'+length+'</li>' +
+								'<li style="width:11%;">'+item.equName+'</li>' +
+								'<li style="width:6%;">'+item.equNum+'</li>' +
+								'<li style="width:11%;">'+item.equChargeUser+'</li>' +
+								'<li style="width:11%;">'+item.equEnterTime+'</li>' +
+								'<li style="width:11%;">'+item.equOuterTime+'</li>' +
+								'<li style="width:17%;" class="addFile" title='+files+'>'+pFile.html()+'</li>' +
+								'<li><span class="exitc6">编辑</span>' +
+									'<span class="deletec6">删除</span>'+
+								'</li>' +
+								'<div style="clear: both"></div>' +
+								'</ul>');
+							$(".cSixList").append(c622list);
+							//移除重复的
+				        	var lists=$(".c622list");
+				        	lists.each(function(index,item,input){
+				        		if(index>data.result.length-1){
+				        			lists[index].remove();
+				        		}
+				        	});
+		        		})
+		        	}
+					//图片预览
+					$(".c622list>li").on("click",".onefile",function(){
+						console.log($(this).attr("id"));
+						var thisId=$(this).attr("id");
+						$.ajax({
+					        url:myUrl+"getPic",
+							data:{
+								fileId:thisId,
+								loginId:eId,
+								token:eIdToken
+							},
+							type:'POST',
+					        success:function (data) {
+					        	$(".c6photo").css("display","block");
+					        	$("#popLayer").css("display","block");
+					        	$(".c6photo>img").attr("src",myUrl+"getPic?token=" +eIdToken +"&loginId=" +eId+"&fileId="+thisId);
+							},
+					        error:function(data){
+
+					        }
+					    })
+					})
+					//关闭照片框
+					$("#c6photoClose").on("click",function(){
+						$(".c6photo").css("display","none");
+					    $("#popLayer").css("display","none");
+					})
+					//c622编辑文件上传
+					var PhotoUrlArray = new Array();
+					//$(function(){
+					   var uploader = WebUploader.create({
+					    auto: true,
+					    formData:{
+					        uid: 123,
+					        pId:pId
+					    },
+					    chunked : true,
+					    chunkSize: 1024 * 1024,
+					    threads:1,
+					    // swf文件路径
+					    swf:'Uploader.swf',
+					    fileVal:'test',
+					    // 文件接收服务端。
+					    server: 'http://192.168.3.31:8080/bim/upload?token=' +eIdToken +"&loginId=" +eId,
+					    // 选择文件的按钮。可选。
+					    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+					    pick: '#c622picker',
+					    accept: {
+					        title: 'Images',
+					        extensions: 'gif,jpg,jpeg,bmp,png',
+					        mimeTypes: 'image/jpg,image/jpeg,image/png'
+					    },
+					    // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+					    resize: false
+					    });
+					   // 当有文件被添加进队列的时候
+					   var $list = $('#c622thelist');
+					   //var $btn = $('#ctlBtn');//这个留着，以便随时切换是否要手动上传
+					    var ratio = window.devicePixelRatio || 1; 
+					    var thumbnailWidth = 16 * ratio;
+					    var thumbnailHeight = 16 * ratio;
+					    var $li;   
+					    uploader.on( 'fileQueued', function( file ) {
+					        $li = $(
+					            '<div id="' + file.id + '" class="file-item thumbnail">' +
+					                '<img>' +
+					                '<div class="info" style="display: inline;">' + file.name + '</div>' +
+					            '</div>'
+					            ),
+					        $img = $li.find('img');
+					        $list.append( $li );
+					        // 创建缩略图
+					        // 如果为非图片文件，可以不用调用此方法。
+					        uploader.makeThumb( file, function( error, src ) {
+					            if ( error ) {
+					                $img.replaceWith('<span>不能预览</span>');
+					                return;
+					            }
+					            $img.attr( 'src', src );
+					        }, thumbnailWidth, thumbnailHeight );
+					    });
+					    // 文件上传过程中创建进度条实时显示。
+					   uploader.on('uploadProgress', function (file, percentage) {//进度条事件
+					        var $li = $('#' + file.id),
+					            $percent = $li.find('.progress .bar');
+					        // 避免重复创建
+					        if (!$percent.length) {
+					            $percent = $('<span class="progress">' +
+					                '<span  class="percentage"><span class="text"></span>' +
+					              '<span class="bar" role="progressbar" style="width: 0%">' +
+					              '</span></span>' +
+					            '</span>').appendTo($li).find('.bar');
+					        };
+					        $li.find(".text").text(Math.round(percentage * 100) + '%');
+					        $percent.css('width', percentage * 100 + '%');
+					    });
+					   //保存从后台返回的图片url
+					    function PhotoUrl(id, filePath,name) {
+					        this.id = id;
+					        this.filePath = filePath;
+					        this.fileName=name;
+					    }
+					    // 文件上传成功，给item添加成功class, 用样式标记上传成功。 
+					    uploader.on( 'uploadSuccess', function( file, data) { 
+					     console.log(data);//这里可以得到上传后的文件
+					     console.log(data.result) ;
+					     $( '#'+file.id ).addClass('upload-state-done');
+					     //将上传的url保存到数组
+					    PhotoUrlArray.push(new PhotoUrl(data.result.fileId, data.result.tempFileDir,file.name));
+					    console.log(PhotoUrlArray);
+					    $handle2=$('<span class="handles handle2">删除</span>').appendTo( $li );
+					    // $handle3=$('<span class="handles handle3">预览</span>').appendTo( $li );
+					    }); 
+					    // 文件上传失败，显示上传出错。 
+					    uploader.on( 'uploadError', function( file ) { 
+					     var $li = $( '#'+file.id ), 
+					     $error = $li.find('span.error'); 
+					     // 避免重复创建 
+					     if ( !$error.length ) { 
+					     $error = $('<span class="error"></span>').appendTo( $li ); 
+					     } 
+					     $error.text('上传失败'); 
+					    }); 
+					    // 完成上传完了，成功或者失败，先删除进度条。 
+					    uploader.on( 'uploadComplete', function( file ) { 
+					        $li.find('span.handle1').remove();
+					        $( '#'+file.id ).find('.progress').remove(); 
+					    });
+					     //删除
+					    $list.on("click", ".handle2", function () {
+					        var $ele = $(this);
+					        var Id = $ele.parent().attr("id");
+					        console.log(Id);
+					        //删除该图片
+					        uploader.removeFile(uploader.getFile(Id, true));
+					        for (var i = 0; i < PhotoUrlArray.length; i++) {
+					            if (PhotoUrlArray[i].id == Id) {
+					                PhotoUrlArray.remove(i);
+					            }
+					        }
+					        $(this).parent().remove();
+					    });
+					//});
+					//编辑
+					var thisId;
+					$(".c622list>li").on("click",".exitc6",function(){
+						thisId=$(this).parents(".c622list").attr("id");
+						console.log(thisId);
+						$(".c6Exit").css("display","block");
+						$("#popLayer").css("display","block");
+						$(".c6Exit input").val("");
+						//取列表值
+						var name=$(this).parents(".c622list").children("li").eq(1).html();
+						var number=$(this).parents(".c622list").children("li").eq(2).html();
+						var person=$(this).parents(".c622list").children("li").eq(3).html();
+						var start=$(this).parents(".c622list").children("li").eq(4).html();
+						var end=$(this).parents(".c622list").children("li").eq(5).html();
+						var file=$(this).parents(".c622list").children("li").eq(6).html();
+						//传值给编辑框
+						var box_name=$(".bjc6name").val(name);
+					    var box_phone=$(".bjc6number").val(number);
+					    var box_person=$(".bjc6person").val(person);
+					    var box_start=$(".bjc6start").val(start);
+					    var box_end=$(".bjc6end").val(end);
+					     var box_file=$(".bjc6fileBox").html(file);
+					    //文件是否为空和写名字
+					    if(file==""){
+					    	file="无文件";
+					    }else{
+					   	//file=getFileName(file);
+					    }
+					    //点击file选删除
+					    var selected=$("<button class='selected'>删除</button>");
+						$(".bjc6fileBox .onefile").append(selected);
+					})
+					//编辑框删除上传文件
+					var delArr=[];
+					$("#c622thelist").on("click",".selected",function(){
+						$(this).addClass("delete");
+						var delId=$(this).parents(".onefile").attr("id");
+						delArr.push(delId);
+						if($(this).hasClass(".delete")){
+							$(this).removeClass("delete");
+						}else{
+							$(this).addClass("delete");
+							$(this).parents(".onefile").remove();
+							$
+						}
+					});
+					//编辑的保存
+				    $("#c622exitSave").on("click",function(){
+				    	$(".c6Exit").css("display","none");
+						$("#popLayer").css("display","none");
+					    var name=$(".bjc6name").val();
+					    var number=$(".bjc6number").val();
+					    var person=$(".bjc6person").val();
+					    var start=$(".bjc6start").val();
+					    var end=$(".bjc6end").val();
+					    //添加的文件
+						var formData = new FormData();
+						var dd=JSON.stringify(delArr);
+						console.log(dd);
+						//添加的文件ID
+						var fileIds=[];
+						for(var i in PhotoUrlArray){
+							fileIds.push(PhotoUrlArray[i].id);
+						}
+						console.log(fileIds);
+						fileIds=JSON.stringify(fileIds);
+						console.log(fileIds);
+					    var equipObj={
+					    	"equId":thisId,
+							"equName":name,
+							"num":number,
+							"userName":person,
+							"enterTime":start,
+							"outTime":end,
+							"dellist":dd,
+							"fileIdList":fileIds
+					    }
+					    var equip=JSON.stringify(equipObj);
+						formData.append("loginId",eId);
+						formData.append("token",eIdToken);
+						formData.append("equJson",equip);
+					    $.ajax({
+					        url:myUrl+"equipment/updateEqu",
+							data:formData,
+							type:'POST',
+							dataType:'json',
+							processData: false,
+					        contentType: false,
+					        success:function (data) {
+					        	console.log(data);
+					        	//模拟重新加载
+					        	$(document).ready(function () {
+							    	$(".c622list").remove();
+							    	look();
+							    });
+							},
+					        error:function(data){
+
+					        }
+					    })
+				    });	
+					//删除
+					$(".c622list>li").on("click",".deletec6",function(){
+						var delId=[];
+						var thisId=$(this).parents(".c622list").attr("id");
+						delId.push(thisId);
+						delId=JSON.stringify(delId);
+						console.log(delId);
+						$.ajax({
+					        url:myUrl+"equipment/deleteEqu",
+							data:{deleteList:delId,loginId:eId,token:eIdToken},
+							type:'POST',
+							dataType:'json',
+					        success:function (data) {
+					        	// console.log(data);
+					        	if(data.code==0){
+									//alert("确定要删除此用户吗？");
+									//模拟重新加载
+							    	$(document).ready(function () {
+								    	$(".c622list").remove();
+								    	look();
+								    });
+					        		//console.log("删除成功！");
+					        	}
+					        },
+					        error:function(data){
+
+					        }
+					    })
+					})
+		        },
+				error:function(data){
+
+		        }
+
+		    })
+		}
+		//添加弹框
+		$(".c6Add").on("click",function(){
+			$(".c6AddBox").css("display","block");
+			$("#popLayer").css("display","block");
+			$(".c6AddBox input").val("");
+			$("#c6thelist").html(" ");
+			//模拟选择
+		    //$(".c5type1>option").eq(0).trigger("change");
+		})
+		//关框
+		$(".closeC6").on("click",function(){
+			$(".c6AddBox").css("display","none");
+			$(".c6Exit").css("display","none");
+			$("#popLayer").css("display","none");
+		})
+		
+	//c622文件上传
+	//$(function(){
+	   var uploader = WebUploader.create({
+	    auto: true,
+	    formData:{
+	        uid: 123,
+	        pId:pId
+	    },
+	    chunked : true,
+	    chunkSize: 1024 * 1024,
+	    threads:1,
+	    // swf文件路径
+	    swf:'Uploader.swf',
+	    fileVal:'test',
+	    // 文件接收服务端。
+	    server: 'http://192.168.3.31:8080/bim/upload?token=' +eIdToken +"&loginId=" +eId,
+	    // 选择文件的按钮。可选。
+	    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+	    pick: '#c6picker',
+	    accept: {
+	        title: 'Images',
+	        extensions: 'gif,jpg,jpeg,bmp,png',
+	        mimeTypes: 'image/jpg,image/jpeg,image/png'
+	    },
+	    // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+	    resize: false
+	    });
+	   // 当有文件被添加进队列的时候
+	   var $list = $('#c6thelist');
+	   //var $btn = $('#ctlBtn');//这个留着，以便随时切换是否要手动上传
+	    var ratio = window.devicePixelRatio || 1; 
+	    var thumbnailWidth = 16 * ratio;
+	    var thumbnailHeight = 16 * ratio;
+	    var $li;   
+	    uploader.on( 'fileQueued', function( file ) {
+	        $li = $(
+	            '<div id="' + file.id + '" class="file-item thumbnail">' +
+	                '<img>' +
+	                '<div class="info" style="display: inline;">' + file.name + '</div>' +
+	            '</div>'
+	            ),
+	        $img = $li.find('img');
+	        $list.append( $li );
+	        // 创建缩略图
+	        // 如果为非图片文件，可以不用调用此方法。
+	        uploader.makeThumb( file, function( error, src ) {
+	            if ( error ) {
+	                $img.replaceWith('<span>不能预览</span>');
+	                return;
+	            }
+	            $img.attr( 'src', src );
+	        }, thumbnailWidth, thumbnailHeight );
+	    });
+	    // 文件上传过程中创建进度条实时显示。
+	   uploader.on('uploadProgress', function (file, percentage) {//进度条事件
+	        var $li = $('#' + file.id),
+	            $percent = $li.find('.progress .bar');
+	        // 避免重复创建
+	        if (!$percent.length) {
+	            $percent = $('<span class="progress">' +
+	                '<span  class="percentage"><span class="text"></span>' +
+	              '<span class="bar" role="progressbar" style="width: 0%">' +
+	              '</span></span>' +
+	            '</span>').appendTo($li).find('.bar');
+	        };
+	        $li.find(".text").text(Math.round(percentage * 100) + '%');
+	        $percent.css('width', percentage * 100 + '%');
+	    });
+	   //保存从后台返回的图片url
+	    var PhotoUrlArray = new Array();
+	    function PhotoUrl(id, filePath,name) {
+	        this.id = id;
+	        this.filePath = filePath;
+	        this.fileName=name;
+	    }
+	    // 文件上传成功，给item添加成功class, 用样式标记上传成功。 
+	    uploader.on( 'uploadSuccess', function( file, data) { 
+	     console.log(data);//这里可以得到上传后的文件
+	     console.log(data.result) ;
+	     $( '#'+file.id ).addClass('upload-state-done');
+	     //将上传的url保存到数组
+	    PhotoUrlArray.push(new PhotoUrl(data.result.fileId, data.result.tempFileDir,file.name));
+	    console.log(PhotoUrlArray);
+	    $handle2=$('<span class="handles handle2">删除</span>').appendTo( $li );
+	    // $handle3=$('<span class="handles handle3">预览</span>').appendTo( $li );
+	    }); 
+	    // 文件上传失败，显示上传出错。 
+	    uploader.on( 'uploadError', function( file ) { 
+	     var $li = $( '#'+file.id ), 
+	     $error = $li.find('span.error'); 
+	     // 避免重复创建 
+	     if ( !$error.length ) { 
+	     $error = $('<span class="error"></span>').appendTo( $li ); 
+	     } 
+	     $error.text('上传失败'); 
+	    }); 
+	    // 完成上传完了，成功或者失败，先删除进度条。 
+	    uploader.on( 'uploadComplete', function( file ) { 
+	        $li.find('span.handle1').remove();
+	        $( '#'+file.id ).find('.progress').remove(); 
+	    });
+	     //删除
+	    $list.on("click", ".handle2", function () {
+	        var $ele = $(this);
+	        var Id = $ele.parent().attr("id");
+	        console.log(Id);
+	        //删除该图片
+	        uploader.removeFile(uploader.getFile(Id, true));
+	        for (var i = 0; i < PhotoUrlArray.length; i++) {
+	            if (PhotoUrlArray[i].id == Id) {
+	                PhotoUrlArray.remove(i);
+	            }
+	        }
+	        $(this).parent().remove();
+	    });
+	//});
+	//添加
+    $(".c6Add").on("click",function(){
+        PhotoUrlArray=[];
+    })
+	//c622添加的保存
+    $("#c622AddSave").click(function(){
+    	//模拟重新加载
+    	var name=$(".c6name").val();
+	    var number=$(".c6number").val();
+	    var person=$(".c6person").val();
+	    var start=$(".c6start").val();
+	    var end=$(".c6end").val();
+	    var file;
+	    //文件是否为空和写名字
+	    if(file==""){
+	    	file="-";
+	    }else{
+	    	file=$("#c6thelist").html();
+	    }
+		if(name.length==""||number.length==""||person.length==""){
+			alert("请完善信息，再提交");
+		}else{
+	    	$(".c6AddBox").css("display","none");
+			$("#popLayer").css("display","none");
+		    var len=$(".c622list").length+1; 
+			//后台传值
+			var formData = new FormData();
+			var fileIds=[];
+			for(var i in PhotoUrlArray){
+				fileIds.push(PhotoUrlArray[i].id);
+			}
+			console.log(fileIds);
+			fileIds=JSON.stringify(fileIds);
+			console.log(fileIds);
+			formData.append("loginId",eId);
+		    formData.append("token",eIdToken);
+		    var equipObj={
+				"proId":pId,
+				"equName":name,
+				"num":number,
+				"userName":person,
+				"enterTime":start,
+				"outTime":end,
+				"fileIdList":fileIds
+			}
+			var equip=JSON.stringify(equipObj);
+			formData.append("equJson",equip);
+			$.ajax({
+		        url:myUrl+"equipment/addEqu",
+		        type:'POST',
+				dataType:'json',
+				data:formData,
+				cache:false,
+				processData:false,
+				contentType:false,
+			        success:function (data) {
+			        	console.log(data);
+			        	if(data.code=="0"){
+			        		alert("添加成功！");
+			        		$(".c622list").remove();
+			        		look();
+			        		//$(".cSixShow").trigger("click");
+			        	}else{
+
+			        	}
+			        },
+			        error:function(data){
+			        	// console.log(data);
+			        }
+		    })
+		}
+    })
+	})
+})
+/*物料管理*/
+//物料入库
+$(function(){
+var materialId;
+//物料类别获取
+	$.ajax({
+        type:"POST",
+        url:myUrl+"material/lookMaterialType",
+        data:{pId:pId,loginId:eId,token:eIdToken},
+        success:function (data) {
+        	//console.log(data.result);
+			if(data.code == 0){
+				//类别选
+				data.result.forEach(function(item,index){
+					var opt=$("<option>"+item+"</option>");
+					$(".cSixOneNavSec").append(opt);
+					//移除重复的
+					var lists=$(".cSixOneNavSec option");
+					lists.each(function(index,item,input){
+						if(index>data.result.length-1){
+							lists[index].remove();
+						}
+					});
+				})
+			}else{
+			}
+        },
+        error:function(data){
+
+        }
+    });
+	//框类别获取
+	$.ajax({
+        type:"POST",
+        url:myUrl+"material/basic/queryType",
+        data:{parentId:0,pId:pId,loginId:eId,token:eIdToken},
+        success:function (data) {
+        	console.log(data);
+        	if(data.code == 0){
+				//添加框
+				data.result.forEach(function(item,index){
+					var opt=$("<option id="+item.typeId+">"+item.typeName+"</option>");
+					$(".c61type").append(opt);
+					//移除重复的
+					var lists=$(".c61type option");
+					lists.each(function(index,item,input){
+						if(index>data.result.length-1){
+							lists[index].remove();
+						}
+					});
+				})
+				//编辑框
+				data.result.forEach(function(item,index){
+					var opt=$("<option id="+item.typeId+">"+item.typeName+"</option>");
+					$(".mc61type").append(opt);
+					//移除重复的
+					var lists=$(".mc61type option");
+					lists.each(function(index,item,input){
+						if(index>data.result.length-1){
+							lists[index].remove();
+						}
+					});
+				})
+			}
+        },
+        error:function(data){
+
+        }
+    });
+    //单位获取
+	    $.ajax({
+	        type:"POST",
+	        url:myUrl+"materialUnit/queryMaterialUnit",
+	        data:{loginId:eId,token:eIdToken},
+	        success:function (data) {
+	        	console.log(data);
+				if(data.code == 0){
+					//添加框
+					data.result.forEach(function(item,index){
+						//+item.uvalue
+						var opt=$("<option id="+item.uid+">"+item.uName+"</option>");
+						$(".c61unit").append(opt);
+						//$(".mc61unit").append(opt);
+						//移除重复的
+						var lists=$(".c61unit option");
+						lists.each(function(index,item,input){
+							if(index>data.result.length-1){
+								lists[index].remove();
+							}
+						});
+						//正则判断小数点长度
+						// var length=item.ulength;
+						//    var reg = /^\d+(\.\d{length})?$/;
+						//    reg.test($(".c61number").val());
+					})
+					//添加框
+					data.result.forEach(function(item,index){
+						//+item.uvalue
+						var opt=$("<option id="+item.uid+">"+item.uName+"</option>");
+						$(".mc61unit").append(opt);
+						//移除重复的
+						var lists=$(".mc61unit option");
+						lists.each(function(index,item,input){
+							if(index>data.result.length-1){
+								lists[index].remove();
+							}
+						});
+					})
+				}else{
+
+				}
+	        },
+	        error:function(data){
+
+	        }
+	    });
+    	//物料查看
+	    $(".cSixOneNavSec").on("change",function(){
+	    	$(".c6list").remove();
+	    	var typeName=$(this).val();
+		    $.ajax({
+		        type:"POST",
+		        url:myUrl+"material/lookMaterial",
+		        data:{pId:pId,pageNum:"1",loginId:eId,token:eIdToken,materialTypeName:typeName},
+		        success:function (data) {
+		        	console.log(data);
+		        	var len=data.result.length;
+		        	if(len==0){
+		        		alert("没有数据！");
+		        	}else{
+		        			//追加信息
+			        		data.result.forEach(function(item,index){
+								var length=index+1;
+			        			//多个文件
+			        			var filelist=item.fileInfo;
+			        			//文件是否为空和写名字
+			        			var files=[];
+			        			var pFile=$('<p></p>');
+							    if(filelist==""){
+							    	files="-";
+							    	pFile.html("-");
+							    }else{
+							    	//追加文件
+									filelist.forEach(function(item,index,input){
+				        				files.push(item.fname);
+				        				//给每个文件绑ID
+				        				oneFile=$('<span class="onefile" id='+item.fid+'>'+item.fname+'</span>');
+				        				pFile.append(oneFile);
+
+				        			})
+								}
+								var c6list=$('<ul class="c6list" id='+item.mId+'><li style="width:4%;" class="idx"><input type="checkbox">'+length+'</li><li style="width:6%;">'+item.mclass+'</li><li style="width:4%;">'+item.mType+'</li><li style="width:6%;">'+item.mBrand+'</li><li style="width:7%;">'+item.mSeries+'</li><li style="width:6%;">'+item.mStorageTime+'</li><li style="width:4%;">'+item.muse+item.mUnit.uName+'</li><li style="width:6%;">'+'<span class="mtotal">'+item.mtotal+'</span><span class="munit" id='+item.mUnit.uid+'>'+item.mUnit.uName+'</span></li><li style="width:6%;">'+item.mprovicer+'</li><li style="width:10%;" class="addFile" title='+files+'>'+pFile.html()+'</li><li style="width:7%;">'+item.remake+'</li><li><span class="exitc6">编辑</span><span class="deletec6">删除</span>'+'</li></ul>');
+								$(".cSixOneContent").append(c6list);
+								//移除重复的
+					        	var lists=$(".c6list");
+					        	lists.each(function(index,item,input){
+					        		if(index>data.result.length-1){
+					        			lists[index].remove();
+					        		}
+					        	});
+							})	
+		        		//}
+		        	}
+					//一个一个删除
+					$(".c6list>li").on("click",".deletec6",function(){
+						var userArr=[];
+						var dd;
+						userId=$(this).parents(".c6list").attr("id");
+						userArr.push(userId);
+						dd=JSON.stringify(userArr);
+						$.ajax({
+					        url:myUrl+"material/deleteMaterial",
+							data:{pId:pId,loginId:eId,token:eIdToken,delJson:dd},
+							type:'POST',
+							dataType:'json',
+					        success:function (data) {
+					        	// console.log(data);
+					        	if(data.code==0){
+									//alert("确定要删除此用户吗？");
+									$(this).parents().parents(".c6list").remove();
+									//模拟重新加载
+							    	$(document).ready(function () {
+			        					$(".cSixOneNavSec").children('option:selected').trigger("change");
+								    });
+					        	}
+					        },
+					        error:function(data){
+
+					        }
+					    })
+					})
+					//全选
+					$("#allDel").change(function(){
+						if($(this).prop("checked")){
+							// console.log("all");
+							$(".idx input").prop("checked","checked");
+						}else{
+							$(".idx input").removeAttr("checked");
+						}
+					})
+					//选定删除
+					$(".c6del").on("click",function(e){
+						e.preventDefault();
+						var userArr=[];
+						$(".idx input").each(function(index,item){
+							 if($(this).get(0).checked){
+							 	userArr.push($(this).parents(".c6list").attr("id"));
+							 }
+						});
+						// console.log(userArr);
+						var dd=JSON.stringify(userArr);
+						$.ajax({
+					        url:myUrl+"material/deleteMaterial",
+							data:{pId:pId,loginId:eId,token:eIdToken,delJson:dd},
+							type:'POST',
+							dataType:'json',
+					        success:function (data) {
+					        	// console.log(data);
+					        	if(data.code==0){
+									//alert("确定要删除此用户吗？");
+									$(this).parents().parents(".c6list").remove();
+									//模拟重新加载
+							    	$(document).ready(function () {
+								    	//模拟
+			        					$(".cSixOneNavSec").children('option:selected').trigger("change");
+								    });
+					        	}
+					        },
+					        error:function(data){
+
+					        }
+					    })
+					});
+					//图片预览
+					$(".c6list>li").on("click",".onefile",function(){
+						console.log($(this).attr("id"));
+						var thisId=$(this).attr("id");
+						$.ajax({
+					        url:myUrl+"getPic",
+							data:{
+								fileId:thisId,
+								loginId:eId,
+								token:eIdToken
+							},
+							type:'POST',
+					        success:function (data) {
+					        	$(".c6photo").css("display","block");
+					        	$("#popLayer").css("display","block");
+					        	$(".c6photo>img").attr("src",myUrl+"getPic?token=" +eIdToken +"&loginId=" +eId+"&fileId="+thisId);
+							},
+					        error:function(data){
+
+					        }
+					    })
+					})
+					//关闭照片框
+					$("#c6photoClose").on("click",function(){
+						$(".c6photo").css("display","none");
+					    $("#popLayer").css("display","none");
+					})
+					//c6编辑
+					$(".c6list>li").on("click",".exitc6",function(e){
+						//e.preventDefault();
+						$(".c611exitBox").css("display","block");
+						$("#popLayer").css("display","block");
+						//物料ID
+						materialId=$(this).parents(".c6list").attr("id");
+						// console.log(materialId);
+						$(".c611exitBox input").val("");
+						//取列表值
+						var mclass=$(this).parents(".c6list").children("li").eq(1).html();
+						var mspec=$(this).parents(".c6list").children("li").eq(2).html();
+						var mbrand=$(this).parents(".c6list").children("li").eq(3).html();
+						var btype=$(this).parents(".c6list").children("li").eq(4).html();
+						//var time=$(this).parents(".c6list").children("li").eq(5).html();
+						var total=$(this).parents(".c6list").children("li").children(".mtotal").html();
+						//console.log(total);
+						var unitId=$(this).parents(".c6list").children("li").children(".munit").attr("id");
+						//console.log(unitId);
+						var unit=$(this).parents(".c6list").children("li").children(".munit").html();
+						//console.log(unit);
+						var offer=$(this).parents(".c6list").children("li").eq(8).html();
+						var file=$(this).parents(".c6list").children("li").eq(9).html();
+						var remake=$(this).parents(".c6list").children("li").eq(10).html();
+						//给编辑框里传值
+						var box_mclass=$(".mc61type").val(mclass);
+					    var box_mspec=$(".mc61model").val(mspec);
+					    var box_mbrand=$(".mbrand").val(mbrand);
+					    var box_btype=$(".mbsize").val(btype);
+					    var box_total=$(".mc61number").val(total);
+					    var box_unit=$(".mc61unit").val(unit);
+					    //var unitId==$(".mc61unit").children('option:selected').attr("id");;
+					    var box_offer=$(".mc61offer").val(offer);
+					    var box_file=$(".mfileBox").html(file);
+					    var box_remark=$(".mc61note").val(remake);
+					    //文件是否为空和写名字
+					    if(file==""){
+					    	file="无文件";
+					    }else{
+					    	file=getFileName(file);
+						    function getFileName(o){
+							    var pos=o.lastIndexOf("\\");
+							    return o.substring(pos+1);  
+							}
+					    }
+					    //点击file时删除
+					    var selected=$("<button class='selected'>删除</button>");
+						$(".fileBox .onefile").append(selected);
+						})
+						
+					//关框
+					$(".close611").on("click",function(){
+						$(".c611exitBox").css("display","none");
+						$("#popLayer").css("display","none");
+					})
+		        },
+		        error:function(data){
+
+		        }
+		    })
+	    })
+//6-20
+/*物料入库文件上传*/
+//$(function(){
+   var uploader = WebUploader.create({
+    auto: true,
+    formData:{
+        uid: 123,
+        pId:pId
+    },
+    chunked : true,
+    chunkSize: 1024 * 1024,
+    threads:1,
+    // swf文件路径
+    swf:'Uploader.swf',
+    fileVal:'test',
+    // 文件接收服务端。
+    server: 'http://192.168.3.31:8080/bim/upload?token=' +eIdToken +"&loginId=" +eId,
+    // 选择文件的按钮。可选。
+    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+    pick: '#c61picker',
+    accept: {
+        title: 'Images',
+        extensions: 'gif,jpg,jpeg,bmp,png',
+        mimeTypes: 'image/jpg,image/jpeg,image/png'
+    },
+    // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+    resize: false
+    });
+   // 当有文件被添加进队列的时候
+   var $list = $('#c61thelist');
+   //var $btn = $('#ctlBtn');//这个留着，以便随时切换是否要手动上传
+    var ratio = window.devicePixelRatio || 1; 
+    var thumbnailWidth = 16 * ratio;
+    var thumbnailHeight = 16 * ratio;
+    var $li;   
+    uploader.on( 'fileQueued', function( file ) {
+        $li = $(
+            '<div id="' + file.id + '" class="file-item thumbnail">' +
+                '<img>' +
+                '<div class="info" style="display: inline;">' + file.name + '</div>' +
+            '</div>'
+            ),
+        $img = $li.find('img');
+        $list.append( $li );
+        // 创建缩略图
+        // 如果为非图片文件，可以不用调用此方法。
+        uploader.makeThumb( file, function( error, src ) {
+            if ( error ) {
+                $img.replaceWith('<span>不能预览</span>');
+                return;
+            }
+            $img.attr( 'src', src );
+        }, thumbnailWidth, thumbnailHeight );
+    });
+    // 文件上传过程中创建进度条实时显示。
+   uploader.on('uploadProgress', function (file, percentage) {//进度条事件
+        var $li = $('#' + file.id),
+            $percent = $li.find('.progress .bar');
+        // 避免重复创建
+        if (!$percent.length) {
+            $percent = $('<span class="progress">' +
+                '<span  class="percentage"><span class="text"></span>' +
+              '<span class="bar" role="progressbar" style="width: 0%">' +
+              '</span></span>' +
+            '</span>').appendTo($li).find('.bar');
+        };
+        $li.find(".text").text(Math.round(percentage * 100) + '%');
+        $percent.css('width', percentage * 100 + '%');
+    });
+   //保存从后台返回的图片url
+    var PhotoUrlArray = new Array();
+    function PhotoUrl(id, filePath,name) {
+        this.id = id;
+        this.filePath = filePath;
+        this.fileName=name;
+    }
+    // 文件上传成功，给item添加成功class, 用样式标记上传成功。 
+    uploader.on( 'uploadSuccess', function( file, data) { 
+     console.log(data);//这里可以得到上传后的文件
+     console.log(data.result) ;
+     $( '#'+file.id ).addClass('upload-state-done');
+     //将上传的url保存到数组
+    PhotoUrlArray.push(new PhotoUrl(data.result.fileId, data.result.tempFileDir,file.name));
+    console.log(PhotoUrlArray);
+    $handle2=$('<span class="handles handle2">删除</span>').appendTo( $li );
+    // $handle3=$('<span class="handles handle3">预览</span>').appendTo( $li );
+    }); 
+    // 文件上传失败，显示上传出错。 
+    uploader.on( 'uploadError', function( file ) { 
+     var $li = $( '#'+file.id ), 
+     $error = $li.find('span.error'); 
+     // 避免重复创建 
+     if ( !$error.length ) { 
+     $error = $('<span class="error"></span>').appendTo( $li ); 
+     } 
+     $error.text('上传失败'); 
+    }); 
+    // 完成上传完了，成功或者失败，先删除进度条。 
+    uploader.on( 'uploadComplete', function( file ) { 
+        $li.find('span.handle1').remove();
+        $( '#'+file.id ).find('.progress').remove(); 
+    });
+     //删除
+    $list.on("click", ".handle2", function () {
+        var $ele = $(this);
+        var Id = $ele.parent().attr("id");
+        console.log(Id);
+        //删除该图片
+        uploader.removeFile(uploader.getFile(Id, true));
+        for (var i = 0; i < PhotoUrlArray.length; i++) {
+            if (PhotoUrlArray[i].id == Id) {
+                PhotoUrlArray.remove(i);
+            }
+        }
+        $(this).parent().remove();
+    });
+//});
+//编辑文件上传
+var uploader = WebUploader.create({
+    auto: true,
+    formData:{
+        uid: 123
+    },
+    chunked : true,
+    chunkSize: 1024 * 1024,
+    threads:1,
+    // swf文件路径
+    swf:'Uploader.swf',
+    fileVal:'test',
+    // 文件接收服务端。
+    server: 'http://192.168.3.31:8080/bim/upload?token=' +eIdToken +"&loginId=" +eId,
+    // 选择文件的按钮。可选。
+    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+    pick: '#c611picker',
+    accept: {
+        title: 'Images',
+        extensions: 'gif,jpg,jpeg,bmp,png',
+        mimeTypes: 'image/jpg,image/jpeg,image/png'
+    },
+    // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+    resize: false
+    });
+   // 当有文件被添加进队列的时候
+   var $list = $('#c611thelist');
+   //var $btn = $('#ctlBtn');//这个留着，以便随时切换是否要手动上传
+    var ratio = window.devicePixelRatio || 1; 
+    var thumbnailWidth = 16 * ratio;
+    var thumbnailHeight = 16 * ratio;
+    var $li;   
+    uploader.on( 'fileQueued', function( file ) {
+        $li = $(
+            '<div id="' + file.id + '" class="file-item thumbnail">' +
+                '<img>' +
+                '<div class="info" style="display: inline;">' + file.name + '</div>' +
+                //'<a id="ctlBtn" class="btn btn-default">开始</a>' +
+             '</div>'
+            ),
+        $img = $li.find('img');
+        $list.append( $li );
+        // 创建缩略图
+        // 如果为非图片文件，可以不用调用此方法。
+        uploader.makeThumb( file, function( error, src ) {
+            if ( error ) {
+                $img.replaceWith('<span>不能预览</span>');
+                return;
+            }
+            $img.attr( 'src', src );
+        }, thumbnailWidth, thumbnailHeight );
+    });
+    // 文件上传过程中创建进度条实时显示。
+   uploader.on('uploadProgress', function (file, percentage) {//进度条事件
+        var $li = $('#' + file.id),
+            $percent = $li.find('.progress .bar');
+        // 避免重复创建
+        if (!$percent.length) {
+            $percent = $('<span class="progress">' +
+                '<span  class="percentage"><span class="text"></span>' +
+              '<span class="bar" role="progressbar" style="width: 0%">' +
+              '</span></span>' +
+            '</span>').appendTo($li).find('.bar');
+        };
+        $li.find(".text").text(Math.round(percentage * 100) + '%');
+        $percent.css('width', percentage * 100 + '%');
+    });
+   //保存从后台返回的图片url
+    var PhotoUrlArray = new Array();
+    function PhotoUrl(id, filePath,name) {
+        this.id = id;
+        this.filePath = filePath;
+        this.fileName=name;
+    }
+    // 文件上传成功，给item添加成功class, 用样式标记上传成功。 
+    uploader.on( 'uploadSuccess', function( file, data) { 
+     console.log(data);//这里可以得到上传后的文件
+     console.log(data.result) ;
+     $( '#'+file.id ).addClass('upload-state-done');
+     //将上传的url保存到数组
+    PhotoUrlArray.push(new PhotoUrl(data.result.fileId, data.result.tempFileDir,file.name));
+	console.log(PhotoUrlArray);
+    $handle2=$('<span class="handles handle2">删除</span>').appendTo( $li );
+    // $handle3=$('<span class="handles handle3">预览</span>').appendTo( $li );
+    }); 
+    // 文件上传失败，显示上传出错。 
+    uploader.on( 'uploadError', function( file ) { 
+     var $li = $( '#'+file.id ), 
+     $error = $li.find('span.error'); 
+     // 避免重复创建 
+     if ( !$error.length ) { 
+     $error = $('<span class="error"></span>').appendTo( $li ); 
+     } 
+     $error.text('上传失败'); 
+    }); 
+    // 完成上传完了，成功或者失败，先删除进度条。 
+    uploader.on( 'uploadComplete', function( file ) { 
+        $li.find('span.handle1').remove();
+        $( '#'+file.id ).find('.progress').remove(); 
+    });
+     //删除
+    $list.on("click", ".handle2", function () {
+        var $ele = $(this);
+        var Id = $ele.parent().attr("id");
+        console.log(Id);
+        //删除该图片
+        uploader.removeFile(uploader.getFile(Id, true));
+        for (var i = 0; i < PhotoUrlArray.length; i++) {
+            if (PhotoUrlArray[i].id == Id) {
+                PhotoUrlArray.remove(i);
+            }
+        }
+        $(this).parent().remove();
+    });
+	//c6保存
+	$(function(){
+		//删除的数组	
+		var delArr=[];
+	    $(".mfileBox").on("click",".selected",function(){
+			$(this).addClass("delete");
+			if($(this).hasClass(".delete")){
+				$(this).removeClass("delete");
+			}else{
+				$(this).addClass("delete");
+				$(this).parents(".onefile").remove();
+				var delId=$(this).parents(".onefile").attr("id");
+				delArr.push(delId);
+			}
+		});
+		$("#c6exitSave").on("click",function(e){
+			e.preventDefault();
+			$(".c611exitBox").css("display","none");
+			$("#popLayer").css("display","none");
+			//向后台传值
+		    var box_mclass2=$(".mc61type").val();
+		    var box_mspec2=$(".mc61model").val();
+		    var box_mbrand2=$(".mbrand").val();
+		    var box_btype2=$(".mbsize").val();
+		    var box_total2=$(".mc61number").val();
+		    var box_unitId=$(".mc61unit").children('option:selected').attr("id");
+		    var box_offer2=$(".mc61offer").val();
+		    var box_remark2=$(".mc61note").val();
+			var formData = new FormData();
+			//文件传值
+		    var c6file=$(".mc61file")[0].files;
+			for(var i in c6file){
+				formData.append("newfiles",c6file[i]);
+			}
+			formData.append("pId",pId);
+			formData.append("loginId",eId);
+			formData.append("token",eIdToken);;
+		    formData.append("materialId",materialId);
+			var dd=JSON.stringify(delArr);;
+		    var exitObj={
+		    	"mtype":box_mclass2,
+		    	"mspec":box_mspec2,
+		    	"mbrand":box_mbrand2,
+		    	"btype":box_btype2,
+		    	"total":box_total2,
+		    	"unit":box_unitId,
+		    	"supporter":box_offer2,
+		    	"remake":box_remark2,
+		    	"dellist":dd
+		    }
+		    var exitStr=JSON.stringify(exitObj);
+		    // console.log(exitStr);
+		    formData.append("materialJson",exitStr);
+			$.ajax({
+		        type:"POST",
+		        url:myUrl+"material/modifyMaterial",
+		        data:formData,
+		        processData: false,
+		        contentType: false,
+		        success:function (data) {
+		        	console.log(data);
+		        	//模拟
+					$(".cSixOneNavSec").children('option:selected').trigger("change");
+		        },
+		        error:function(data){
+
+		        }
+			})
+		})
+	});
+	//物料入库
+	$("#c61add").on("click",function(e){
+		PhotoUrlArray=[];
+		$("#c61thelist").html("");
+		e.preventDefault();
+		$(".c611addBox input").val("");
+		$("#popLayer").css("display","block");
+	    //物料入库
+	    $("#c6AddSave").one("click",function(){
+	    	$("#popLayer").css("display","none");
+	    	$(".c611addBox").css("display","none");
+	    	var type=$(".c61type").children('option:selected').val();
+	    	var model=$(".c61model").val();
+	    	var brand=$(".brand").val();
+	    	var size=$(".size").val();
+	    	var total=$(".c61number").val();
+	    	var unit=$(".c61unit").val();
+	    	var unitId=$(".c61unit").children('option:selected').attr("id");
+	    	var offer=$(".c61offer").val();
+	    	var remake=$(".c61note").val();
+	    	var file;
+	    	//文件是否为空和写名字
+		    if(file==""){
+		    	file="-";
+		    }else{
+		    	file=$("#c61thelist").html();
+		    }
+		    if(brand.length==""||total.length==""){
+				alert("请完善信息，再提交");
+			}else{
+				var formData = new FormData();
+				var fileIds=[];
+				for(var i in PhotoUrlArray){
+					fileIds.push(PhotoUrlArray[i].id);
+					//formData.append("myfiles",PhotoUrlArray[i].fileName);
+				}
+				console.log(fileIds);
+				fileIds=JSON.stringify(fileIds);
+				formData.append("pId",pId);
+				formData.append("loginId",eId);
+				formData.append("token",eIdToken)
+				var materialObj={
+					"mtype":type,
+					"mspec":model,
+					"mbrand":brand,
+					"btype":size,
+					"total":total,
+					"unit":unitId,
+					"supporter":offer,
+					"remake":remake,
+					"fileIdlist":fileIds
+				}
+				var material=JSON.stringify(materialObj);
+				formData.append("materialjson",material);
+		    	$.ajax({
+			        type:"POST",
+			        url:myUrl+"material/basic/newInsertMateria",
+			        data:formData,
+			        processData: false,
+			        contentType: false,
+			        success:function (data) {
+			        	console.log(data);
+			        	//模拟
+			        	$(".cSixOneNavSec").children('option:selected').trigger("change");
+			        },
+			        error:function(data){
+
+			        }
+			    })
+			}
+	    })
+	})
+})
+

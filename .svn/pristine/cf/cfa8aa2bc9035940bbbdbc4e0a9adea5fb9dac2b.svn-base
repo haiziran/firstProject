@@ -1,0 +1,82 @@
+<!--封装在index-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据管理-图纸</title>
+<link rel="stylesheet" type="text/css" href="../style/css.css">
+<link rel="stylesheet" type="text/css" href="../style/reset.css">
+<link rel="stylesheet" type="text/css" href="../style/index.css">
+<script src="../js/jquery-1.7.2.js"></script>
+<script src="../js/index.js"></script>
+<script src="../js/enter1.js"></script>
+</head>
+<body>
+<div class="cOne">
+    <div class="cOneHeader">
+
+            <span class="cOneHeaderOne">图纸列表</span>
+            <span class="cOneHeaderTwo">上传图纸</span>
+            <span class="cOneHeaderThree"><input type="search" placeholder="搜索">
+                <span><img src="../images/search.png"></span>
+            </span>
+            <!--<div style="clear: both"></div>-->
+        <!--<div style="clear: both"></div>-->
+    </div>
+    <!--<div style="clear: both"></div>-->
+    <div class="cOneContent">
+        <div class="cOneContentMain">
+            <div class="cOneImg"><img src="../images/pict1.jpg" /></div>
+            <div class="cOneContentMainHeader">最新房屋设计模型</div>
+            <div class="cOneContentMainList">
+                <ul>
+                    <li>管理单位：筑业置业</li>
+                    <li>管理单位：筑业置业</li>
+                    <li>管理单位：筑业置业</li>
+                </ul>
+            </div>
+            <div class="cOneSelect"></div>
+        </div>
+        <div class="cOneContentMain">
+            <div class="cOneImg"><img src="../images/pict1.jpg" /></div>
+            <div class="cOneContentMainHeader">最新房屋设计模型</div>
+            <div class="cOneContentMainList">
+                <ul>
+                    <li>管理单位：筑业置业</li>
+                    <li>管理单位：筑业置业</li>
+                    <li>管理单位：筑业置业</li>
+                </ul>
+            </div>
+            <div class="cOneSelect"></div>
+        </div>
+        <div class="cOneContentMain">
+            <div class="cOneImg"><img src="../images/pict1.jpg" /></div>
+            <div class="cOneContentMainHeader">最新房屋设计模型</div>
+            <div class="cOneContentMainList">
+                <ul>
+                    <li>管理单位：筑业置业</li>
+                    <li>管理单位：筑业置业</li>
+                    <li>管理单位：筑业置业</li>
+                </ul>
+            </div>
+            <div class="cOneSelect"></div>
+        </div>
+        <div class="cOneContentMain">
+            <div class="cOneImg"><img src="../images/pict1.jpg" /></div>
+            <div class="cOneContentMainHeader">最新房屋设计模型</div>
+            <div class="cOneContentMainList">
+                <ul>
+                    <li>管理单位：筑业置业</li>
+                    <li>管理单位：筑业置业</li>
+                    <li>管理单位：筑业置业</li>
+                </ul>
+            </div>
+            <div class="cOneSelect"></div>
+            <div style="clear: both"></div>
+        </div>
+        <div style="clear: both"></div>
+    </div>
+    <div style="clear: both"></div>
+</div>
+</body>
+</html>

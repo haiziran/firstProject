@@ -1,0 +1,494 @@
+$(function(){
+    var eIdToken = localStorage.getItem("token"),
+        eId = localStorage.getItem("loginId");
+        console.log(eIdToken);
+        console.log(eId);
+    function getData(url, method,parm,callback){
+        $.ajax({
+            url:url,
+            type:method,
+            dataType:'json',
+            data:parm,
+            success:function(data){
+                callback(data);
+            },
+            error:function(err){
+                alert(err);
+            }
+        })
+    }
+    $("#bindEmail").blur(function(){
+        var str = $(this).val();
+        if(str==""){
+        }else{
+            regUrl = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(str); 
+            if(!regUrl){
+                layer.msg("邮箱有误，请重填");
+                $(this).focus();  
+                return false;
+            }
+        }
+    });
+    $("#bindphone").blur(function(){
+        var str = $(this).val();
+        if(str==""){
+        }else{
+            regUrl = /^1[3|4|5|7|8][0-9]{9}$/.test(str); 
+            if(!regUrl){
+                layer.msg("号码有误，请重填");
+                $(this).focus();  
+                return false;
+            }
+        }
+    });
+    $("#certificate").blur(function(){
+        var str = $(this).val();
+        if(str==""){
+        }else{
+            regUrl = /^[1-9]{1}[0-9]{14}$|^[1-9]{1}[0-9]{16}([0-9]|[xX])$/.test(str); 
+            if(!regUrl){
+                layer.msg("证件号码有误，请重填");
+                $(this).focus();  
+                return false;
+            }
+        }
+    });
+    $("#oldPwd").blur(function(){
+        if(localStorage.loginPassword != $(this).val()){
+            layer.msg("原密码和新密码输入不一致，请重新填写");
+            $(this).focus();
+            return;
+        }
+    });
+    $("#nav-submit").on("click",function(){
+        var accountName = $("#nav-name").val();
+        var birth = $("#nav-birth").val();
+        var phoneNum = $("#nav-tellphone").val();
+        var address = $("#nav-address").val();
+        var tureName = $("#nav-truename").val();
+        var age = $("#nav-age").val();
+        var certificate = $("#certificate").val();
+        var email = $("#nav-email").val();
+        var sex = $('input[name="sex"]:checked').attr("value");
+        var fileId = $(".myAccount-new-headerImg").attr("data-fileId");
+        var userIdex ={
+            "pName":accountName,
+            "rName":tureName,
+            "sex":sex,
+            "age":age,
+            "birthday":birth,
+            "idNumber":certificate,
+            "phone":phoneNum,
+            "email":email,
+            "address":address, 
+        };
+        getData(myUrl+'/user/UpdatePersonalData','post',{loginId :eId,token :eIdToken,fileId :fileId, strJson :JSON.stringify(userIdex)},
+        function(data){
+            if(data.code == 0){
+                console.log("success",data);
+                var src = $(".myAccountImgFault").attr("src");
+                $("#user_header_img").attr("src",src);
+                layer.msg("保存个人资料成功");
+            }
+        });
+    });  
+    /*修改密码模块*/
+    $("#ModifyPwdSave").on("click",function(){
+        var oldPwd = $("#oldPwd").val();
+        var newId = $("#newId").val();
+        var reNewPwd = $("#reNewPwd").val();
+        if(oldPwd =="" || newId=="" || reNewPwd==""){
+            layer.msg("请输入完整的信息");
+        }
+        if(newId ==reNewPwd){
+            getData(myUrl+'/account/modifyPwd','post',{loginId :eId,token :eIdToken,currentPwd:oldPwd,
+            newPwd:newId},
+            function(data){
+                if(data.code == 0){
+                    layer.msg("修改密码成功");
+                    localStorage.removeItem("loginPassword");
+                }               
+           })
+        }
+        else if(newId !=reNewPwd){
+            layer.msg("新密码和再次输入密码不一致，请重新填写");
+        }
+    }); 
+    /*账户绑定*/
+    $("#immediateBind").on("click",function(){
+        var thatNoBindTell = this; 
+        var str = $(this).siblings("#bindphone").val();
+        if($(this).hasClass("funReduction")){
+            layer.confirm('确定解除绑定吗？', {
+                btn: ['取消','确定'], //按钮
+                title: false,
+                closeBtn:0,
+                shadeClose:true,
+            }, function() {
+                layer.closeAll();
+            },function(){
+                getData(myUrl+'/user/accountNoBinding','post',{loginId :eId,token :eIdToken,loginName:str},
+                function(data){
+                   if(data.code == 0){
+                        layer.msg("解除绑定成功！");
+                        $(thatNoBindTell).removeClass("funReduction").text("绑定");
+                   }
+               }) 
+            });  
+        }else{
+            if(str==""){
+                layer.msg("请输电话号码");
+                return;
+            }else{
+                regUrl = /^1[3|4|5|7|8][0-9]{9}$/.test(str); 
+                if(!regUrl){
+                    layer.msg("号码有误，请重填");
+                    $(this).siblings("#bindphone").focus();  
+                    return false;
+                }
+                $("#getTelBindNum").text($("#bindphone").val());
+                $('.alertAccountBindboxcover').show();
+                $('.alertAccountBindboxcover .alertAccountBindpopupsbox').show();
+            }
+        }
+    });
+    $("#btnEmailBind").on("click",function(){
+        var thatEmail = this; 
+        var str = $(this).siblings("#bindEmail").val();
+        if($(this).hasClass("funReductionEmail")){
+            layer.confirm('确定解除绑定吗？', {
+                btn: ['取消','确定'], //按钮
+                title: false,
+                closeBtn:0,
+                shadeClose:true,
+            }, function() {
+                layer.closeAll();
+            },function(){
+                getData(myUrl+'/user/accountNoBinding','post',{loginId :eId,token :eIdToken,loginName:str},
+                function(data){
+                   if(data.code == 0){
+                        layer.msg("解除绑定成功！");
+                        $(thatEmail).removeClass("funReductionEmail").text("绑定");
+                   }
+               }) 
+            });  
+        }else{
+            if(str==""){
+                layer.msg("请输入邮箱");
+                return;
+            }else{
+                regUrl = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(str); 
+                if(!regUrl){
+                    layer.msg("邮箱有误，请重填");
+                   $(this).siblings("#bindEmail").focus();   
+                    return false;
+                }
+                $("#getEmailShow").text($("#bindEmail").val());
+                $('.emailboxcover,.emailboxcover .emailpopupsbox').show();
+            }
+        }
+    });
+    $(".alertAccountBindboxclose").on("click",function(){
+        $('.alertAccountBindboxcover').hide();
+        $('.alertAccountBindboxcover .alertAccountBindpopupsbox').hide();
+    });
+    $(".emailboxclose").on("click",function(){
+        $('.emailboxcover,.emailboxcover .emailpopupsbox').hide();
+    });
+    //发送验证码
+    $("#send_verification_phone").click(function() {
+        var phoneNumber = $("#bindphone")[0].value;
+        if(null != phoneNumber && 0 != phoneNumber.length) {
+            getData(myUrl+'/user/accountBindingSendCode','post',{loginId :eId,token :eIdToken,loginName: phoneNumber},
+            function(data){
+                console.log("手机绑定验证码",data);
+                if( 0 == data.code) {
+                    var t1 = window.setInterval(showLeftTime, 1000);
+                    var i = 59;
+                    function showLeftTime() {
+                        if(i > 1) {
+                            $("#send_verification_phone").attr("disabled", "true");
+                            $("#send_verification_phone").text(i + 's');
+                            $("#send_verification_phone").addClass("clickSendCode");
+                            i--;
+                        } else {
+                            window.clearInterval(t1);
+                            $("#send_verification_phone").text("重发验证码");
+                            $("#send_verification_phone").removeAttr("disabled");
+                            $("#send_verification_phone").removeClass("clickSendCode");
+                        }
+
+                    }
+                }
+           })
+        }
+    });
+    $("#send_verification_email").click(function() {
+        var emailNumber = $("#bindEmail")[0].value;
+        if(null != emailNumber && 0 != emailNumber.length) {
+            getData(myUrl+'/user/accountBindingSendCode','post',{loginId :eId,token :eIdToken,loginName: emailNumber},
+            function(data){
+                console.log("手机绑定验证码",data);
+                if( 0 == data.code) {
+                    var t1 = window.setInterval(showLeftTime, 1000);
+                    var i = 59;
+                    function showLeftTime() {
+                        if(i > 1) {
+                            $("#send_verification_email").attr("disabled", "true");
+                            $("#send_verification_email").text(i + 's');
+                            $("#send_verification_email").addClass("clickSendCode");
+                            i--;
+                        } else {
+                            window.clearInterval(t1);
+                            $("#send_verification_email").text("重发验证码");
+                            $("#send_verification_email").removeAttr("disabled");
+                            $("#send_verification_email").removeClass("clickSendCode");
+                        }
+
+                    }
+                }
+           })
+        }
+    });
+    //手机验证码确认
+    $("#alertAccountBindbtnok").on("click",function(){
+        var telphone = $("#bindphone").val();
+        var code = $("#alertbind").val();
+        getData(myUrl+'/user/accountBinding','post',{loginId :eId,token :eIdToken,loginName:telphone,code:code},
+        function(data){
+            if(data.code==0){
+                layer.msg("验证码发送成功！");
+                $('.alertAccountBindboxcover').hide();
+                $('.alertAccountBindboxcover .alertAccountBindpopupsbox').hide();
+                $("#immediateBind").text("解绑").addClass("funReduction");
+            }
+       })
+    });
+    $("#emailbtnok").on("click",function(){
+        var email = $("#bindEmail").val();
+        var code = $("#inputEmailVerification").val();
+        getData(myUrl+'/user/accountBinding','post',{loginId :eId,token :eIdToken,loginName:email,code:code},
+        function(data){
+            if(data.code==0){
+                layer.msg("邮箱验证码发送成功！");
+                $('.emailboxcover,.emailboxcover .emailpopupsbox').hide();
+                $("#btnEmailBind").text("解绑").addClass("funReductionEmail");
+            }
+       })
+    });
+    
+    /*账户设置重写*/
+    $(".myAccount-manage").on("click",function(){
+        myAccountChangeTabStyle(this);
+    });
+    function myAccountChangeTabStyle(obj){
+        $('.myAccount-manage').removeClass("nav-active has");
+        $(obj).addClass("has nav-active");
+        var thisMyaccountIndex= $('.myAccount-manage').index(obj);
+        console.log(thisMyaccountIndex);
+        if(thisMyaccountIndex==0){
+            $("#personal-data").show();
+            $("#account-bind").hide();
+            $("#account-password").hide();
+        }
+        else if(thisMyaccountIndex==1){
+            $("#personal-data").hide();
+            $("#account-password").hide();
+            var personDataTell = $("#nav-tellphone").val();
+            var personDataEmail = $("#nav-email").val();
+            if(personDataTell==""){
+
+                $("#immediateBind").text("绑定");
+            }else{
+                $("#immediateBind").text("解绑");
+                $("#bindphone").val(personDataTell);
+            }
+            if(personDataEmail==""){
+                $("#btnEmailBind").text("绑定");
+            }else{
+                $("#btnEmailBind").text("解绑");
+                $("#bindEmail").val(personDataEmail);
+            }
+            $("#account-bind").show();
+        }
+        else if(thisMyaccountIndex==2){
+            $("#oldPwd").val("");
+            $("#newId").val("");
+            $("#reNewPwd").val("");
+            $("#account-password").show();
+            $("#personal-data").hide();            
+            $("#account-bind").hide();
+
+        }   
+    }
+    headPortrait('indexmyAccountImgContainer','indexmyAccountImgbtn');
+    $("#myAccountnewclose").on("click",function(){
+        $(".myaccount-box-cover").hide();
+    });
+    function getUserByLoginId(wloginID,wtoken){
+        getData(myUrl+'/user/getUserByLoginId','post',{loginId :wloginID,token :wtoken},function(data){
+            console.log("根据登录编号获取用户",data.result);
+            $("#indexAccountName").text(data.result.uName);
+            if(typeof($(".myAccount-new-headerImg").val("data-fileId") == undefined)){
+
+            }else{
+            $("#user_header_img").attr("src","http://192.168.3.31:8080/bim/getPic?token=" + wtoken + "&loginId=" + wloginID + "&fileId=" +data.result.headPic)
+            }
+            if(data.result.headPic == ""){
+                //
+            }else{
+               $("#user_header_img").attr("src","http://192.168.3.31:8080/bim/getPic?token=" + wtoken + "&loginId=" + wloginID + "&fileId=" +data.result.headPic); 
+            }
+        });
+    }
+    //头像上传
+    function headPortrait(imgContain, imgBtn){
+        var $list = $('#' +imgContain);
+        var ratio = window.devicePixelRatio || 1; 
+        var thumbnailWidth = 80 * ratio;
+        var thumbnailHeight = 80 * ratio; 
+        var uploader = WebUploader.create({ 
+            auto: true,
+            formData:{
+                uid: 123
+            },
+            swf:'Uploader.swf',
+            chunked : true,
+            chunkSize: 1024 * 1024,
+            threads:1,
+            server: 'http://192.168.3.31:8080/bim/upload?token=' +eIdToken +"&loginId=" +eId,
+            fileVal:'test',
+            pick: '#'+imgBtn,
+            accept: {
+                title: 'Images',
+                extensions: 'gif,jpg,jpeg,bmp,png',
+                mimeTypes: 'image/jpg,image/jpeg,image/png'
+            },
+            compress : false        
+        });
+
+        uploader.on( 'fileQueued', function( file ) {
+            console.log("file",file);
+            var $li = $(
+                    '<div id="' + file.id + '" class="file-item thumbnail">' +
+                        '<img>' +
+                    '</div>'
+                    ),
+                $img = $li.find('img');
+     
+            //$list.append( $li );
+            //$(".webuploader-pick").css("top","-30px");
+     
+            // 创建缩略图
+            uploader.makeThumb( file, function( error, src ) {
+                if ( error ) {
+                    $img.replaceWith('<span>不能预览</span>');
+                    return;
+                }             
+                $(".myAccountImgFault").attr("src",src);
+            }, thumbnailWidth, thumbnailHeight );
+        });
+
+        uploader.on( 'uploadSuccess', function( file,data ) {
+            $( '#'+file.id ).addClass('upload-state-done');
+            console.log("data",data);
+            $(".myAccount-new-headerImg").attr("data-fileId",data.result.fileId);
+            console.log("路径",data.result.tempFileDir + data.result.fileId);
+        });
+
+        uploader.on( 'uploadError', function( file ) {
+            var $li = $( '#'+file.id ),
+                $error = $li.find('div.error');
+     
+            // 避免重复创建
+            if ( !$error.length ) {
+                $error = $('<div class="error"></div>').appendTo( $li );
+            }
+     
+            $error.text('上传失败!!!');
+        });
+     
+        uploader.on( 'uploadComplete', function( file ) {
+            $( '#'+file.id ).find('.progress').remove();
+        });
+    }
+    $(".indexUserMessage-li").on("click",function(event){
+        $(".indexUserMessage-li-setExit").show();
+        event.stopPropagation();
+
+    });
+    $('body').on("click", function() {
+        $(".indexUserMessage-li-setExit").hide();
+    });
+    $("#myAccount-newid").on("click",function(){
+        $(".container-myAccount-new").hide();
+        $(".bThreeOne").show();
+    }); 
+    getUserByLoginId(eId,eIdToken);
+    $("#indexAccountExit").on("click",function(){
+        $.ajax({
+            type:'POST',
+            url:myUrl+'account/userlogout',
+            data:{loginId:eId,token:eIdToken},
+            success:function(data){
+                console.log(data);
+                if(data.code==0){
+                    window.location.href='enter.html';
+                }else if(data.code==10001||data.code==10002||data.code==10003){
+                    toastr.warning('身份过期，请重新登录!');
+                }else{
+                    toastr.error("请求错误！");
+                }
+            },
+            error:function () {
+
+            }
+        })
+    });
+    $(".getNewItemName").text(localStorage.getItem("titleText"));
+    $(".shrinkRight").on("click",function(){
+        $(this).toggleClass("rotate-180");
+        $(".bThreeOneLeft").toggleClass("cjitems");
+        $(".bThreeOneContent").toggleClass("cjRightitems");
+        $(".bThreeOneLeft ul").toggleClass("dsn");
+    });    
+    function navAcountSetShow(){
+        $(".bThreeOne").hide();
+        $('.project-manage').css('display','none');
+        $('.b5').css('display','none');
+        $('.container-myAccount-new').css('display','block');
+        $('.bNine').css('display','none');
+        $('.b6').css('display','none');
+        $('.b7').css('display','none');
+        $('.b8').css('display','none');
+        $(".bThreeOne").css('display','none');
+    } 
+    $("#indexAccountSetting").on("click",function(){
+       navAcountSetShow();
+       indexAjax(myUrl+'/user/selectByUserId','post',{loginId :eId,token :eIdToken},
+        function(data){
+            var userSetData = data.result;
+            console.log("userSetData",userSetData);
+            $("#nav-name").val(userSetData.pName);
+            $("#nav-birth").val(userSetData.uBirthday);
+            $("#nav-address").val(userSetData.uAddress);
+            $("#nav-truename").val(userSetData.uName);
+            $("#nav-age").val(userSetData.uAge);
+            $("#certificate").val(userSetData.uIdNumber);           
+            $("#accountID").text(userSetData.uId);
+            if(userSetData.uSex =='男'){
+                $('#sexBoy').attr('checked',true);
+            }else if(userSetData.uSex =='女'){
+                $('#sexGirl').attr('checked',true);
+            }
+            if(userSetData.uPhone !=undefined){
+                $("#nav-tellphone").val(userSetData.uPhone);
+                $("#bindphone").val(userSetData.uPhone);
+            }
+            if(userSetData.uEmail !=undefined){
+                $("#nav-email").val(userSetData.uEmail);
+                $("#bindEmail").val(userSetData.uEmail);
+            }
+        });
+    });
+})

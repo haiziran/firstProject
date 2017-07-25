@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../style/css.css" />
+    <link rel="stylesheet" type="text/css" href="../style/reset.css" />
+</head>
+<body>
+<div class="bFourOne">
+    <div class="bFourOneTitle">
+        我的账户
+    </div>
+    <div style="clear: both"></div>
+    <div class="bFourOneContent">
+        <ul>
+            <li class="bFourOneContentFirst">个人资料</li>
+            <li class="bFourOneContentSecond">账户绑定</li>
+            <li class="bFourOneContentThird">修改密码</li>
+        </ul>
+        <div style="clear: both"></div>
+        <ul>
+            <li class="bFourOneContentFirstF"></li>
+            <li class="bFourOneContentSecondS"></li>
+            <li class="bFourOneContentThirdT"></li>
+        </ul>
+        <div style="clear: both"></div>
+        <div class="bFourOneInformation">
+            <div class="bFourOneList">
+                <div class="bFourOneListFirst">手机号码</div>
+                <div class="bFourOneListSecond">
+                    <input type="number" class="bFourOneListNumber">
+                    <div class="bFourOneListBlind">立即绑定</div>
+                    <div style="clear: both"></div>
+                </div>
+            </div>
+            <div class="bFourOneList">
+                <div class="bFourOneListFirst">邮箱</div>
+                <div class="bFourOneListSecond">
+                    <input type="number" class="bFourOneListNumber">
+                    <div class="bFourOneListBlind">去解绑</div>
+                    <div style="clear: both"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

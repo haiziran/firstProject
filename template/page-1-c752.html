@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>创建进度-编辑</title>
+    <link rel="stylesheet" type="text/css" href="../style/css.css" />
+    <link rel="stylesheet" type="text/css" href="../style/reset.css" />
+    <link rel="stylesheet" type="text/css" href="../style/WdatePicker.css" />
+    <script src="../js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="../js/WdatePicker.js"></script>
+    <script src="../js/index.js"></script>
+    <script src="../js/enter.js"></script>
+</head>
+<body>
+<div class="cSevenFiveTwo">
+    <div class="cSevenFiveTwoHeader">编辑</div>
+    <div class="cSevenFiveTwoTask">
+        <div>任务名称</div>
+        <input type="text" class="cSevenFiveTwoTaskName">
+    </div>
+    <div>
+        <div class="cSevenFiveTwoContent">
+            <div class="cSevenFiveTwoLeft">计划开始</div>
+            <div class="cSevenFiveTwoLeft">计划结束</div>
+            <div style="clear: both"></div>
+        </div>
+        <div style="clear: both"></div>
+        <div class="cSevenFiveTwoSelect">
+            <span>
+               <input type="text" class="planStart" placeholder="" onfocus="WdatePicker({skin:'whyGreen'})"/>
+            </span>
+            <span>
+                <input type="text" class="planEnd" placeholder="" onfocus="WdatePicker({skin:'whyGreen'})"/>
+            </span>
+        </div>
+    </div>
+    <div class="cSevenFiveTwoFooter">
+        <div class="cSevenFiveTwoReset">取消</div>
+        <div class="cSevenFiveTwoKeep">保存</div>
+        <div style="clear: both"></div>
+    </div>
+</div>
+</body>
+</html>

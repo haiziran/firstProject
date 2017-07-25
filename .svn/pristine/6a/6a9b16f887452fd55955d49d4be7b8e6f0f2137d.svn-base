@@ -1,0 +1,88 @@
+<!--封装在index.html-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>系统管理</title>
+    <link rel="stylesheet" type="text/css" href="../style/css.css" />
+    <link rel="stylesheet" type="text/css" href="../style/reset.css" />
+    <script src="../js/jquery-1.7.2.js"></script>
+    <script src="../js/index.js"></script>
+</head>
+<body>
+<div class="bNine">
+    <div class="bNineLeftContent">
+        <div class="bNineLeft">
+            <ul>
+                <li><a href="#" class="inactive">数据字典</a>
+                    <ul style="display: none">
+                        <li class=""><a href="#">常量参数配置</a>
+                        </li>
+                        <li class=""><a href="#">选项参数配置</a></li>
+                    </ul>
+                </li>
+                <li><a href="#" class="inactive">权限配置</a>
+                    <ul style="display: none">
+                        <!--<li class=""><a href="#"></a></li>-->
+                        <!--<li class=""><a href="#"></a></li>-->
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="bNineLeftFooter"></div>
+    </div>
+    <div class="bNineContent">
+        <div class="bNineContentHeader">
+            常量参数配置
+        </div>
+        <div class="bNineContentMain">
+            <div class="bNineList">
+                <ul>
+                    <li class="bNineListOne">标签</li>
+                    <li class="bNineListTwo">数据表名</li>
+                    <li class="bNineListThree">解释</li>
+                    <li class="bNineListFour">描述</li>
+                    <li class="bNineListSix">操作</li>
+                    <li class="bNineListSix"></li>
+                    <div style="clear: both"></div>
+                </ul>
+
+            </div>
+            <div class="bNineList bNineListColor">
+                <ul>
+                    <li class="bNineListOne">待审核</li>
+                    <li class="bNineListTwo">phome_ecms_news</li>
+                    <li class="bNineListThree">系统模型-主表</li>
+                    <li class="bNineListFour">副表可无限添加</li>
+                    <li class="bNineListFive">修改</li>
+                    <li class="bNineListFive">删除</li>
+                    <div style="clear: both"></div>
+                </ul>
+            </div>
+            <div class="bNineList bNineListColor">
+                <ul>
+                    <li class="bNineListOne">全部</li>
+                    <li class="bNineListTwo">phome_ecms_news</li>
+                    <li class="bNineListThree">系统模型-主表</li>
+                    <li class="bNineListFour">副表可无限添加</li>
+                    <li class="bNineListFive">修改</li>
+                    <li class="bNineListFive">删除</li>
+                    <div style="clear: both"></div>
+                </ul>
+            </div>
+            <div class="bNineList bNineListColor">
+                <ul>
+                    <li class="bNineListOne">审核未通过</li>
+                    <li class="bNineListTwo">phome_ecms_news</li>
+                    <li class="bNineListThree">系统模型-主表</li>
+                    <li class="bNineListFour">副表可无限添加</li>
+                    <li class="bNineListFive">修改</li>
+                    <li class="bNineListFive">删除</li>
+                    <div style="clear: both"></div>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

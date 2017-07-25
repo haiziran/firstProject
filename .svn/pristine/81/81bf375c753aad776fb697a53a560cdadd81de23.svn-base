@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>用户管理</title>
+	<link rel="stylesheet" type="text/css" href="../style/css.css">
+	<link rel="stylesheet" type="text/css" href="../style/reset.css">
+	<link rel="stylesheet" type="text/css" href="../style/index.css">
+	<script src="../js/jquery-1.7.2.js"></script>
+	<script src="../js/index.js"></script>
+	<script src="../js/enter1.js"></script>
+</head>
+<body>
+	<div class="header">
+	    <div style="float: left">BIM装修工程协同管理系统</div>
+	    <div class="Engineer">工程管理</div>
+	    <div class="Unit">单位管理</div>
+	    <div class="System">系统管理</div>
+	    <div class="Manger">用户管理</div>
+	    <div class="User">
+	        <span class="Photo">头像</span>
+	        <span>Type something@163.com</span>
+	        <span class="Function"></span>
+	    </div>
+	</div>
+	<!-- b5页面 -->
+	<div class="b5">
+		<div class="b5-header">
+			<span class="b5-left">用户信息列表</span>
+			<div class="b5-right">
+				<div class="b5-btn">创建账户</div>
+				<input type="search" name="" placeholder="搜索" id="b5Input">
+				<span class="b5Find"><img src="../images/search.png"></span>
+			</div>
+		</div>
+		<div class="b5-center">
+			<ul class="table-header">
+				<li>
+					<span><input type="checkbox" name="userName"></span>
+					<span>用户名</span>
+					<span>姓名</span>
+					<span>联系方式</span>
+					<span>联系地址</span>
+					<span>创建时间</span>
+					<span>操作</span>
+				</li>
+			</ul>
+			<ul class="b5-tbody">
+				<li  hidden="true">
+					<span><input type="checkbox" name="userName"></span>
+					<span id="beforeId"></span>
+					<span id="beforeName"></span>
+					<span id="beforePhone"></span>
+					<span id="beforeAddress"></span>
+					<span id="beforeTime"></span>
+					<span>
+						<button class="exit">编辑</button>
+						<button class="delete">删除</button>
+					</span>
+				</li>
+			</ul>	
+			<div class="b5-footer">
+				<span class="select-delete">删除</span>
+				<div class="yeshu">
+					<ul class="unlist-style">
+						<li class="active number">1</li>
+						<li class="number">2</li>
+						<li class="number">3</li>
+						<li class="number">4</li>
+						<li class="number">5</li>
+						<li>......</li>
+						<li class="number">10</li>
+						<li class="word">跳转到</li>
+						<li class="numberBox"><input type="text" name=""></li>
+						<li class="word">共10页</li>
+					</ul>
+				</div>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<!-- 编辑用户弹出框 -->
+		<div class="b5Exit">
+			<div class="b51-title text">
+				<span>用户信息</span>
+			</div>
+			<div class="b51-right sign b51Close">
+				<span>x</span>
+			</div>
+			<div style="clear:both"></div>
+			<div class="b51-left infor">
+				用户ID
+				<br>
+				<input type="text" name="name" placeholder="单位名称" id="userId">
+			</div>
+			<div class="b51-right infor">
+				姓名
+				<br>
+				<input type="text" name="name" placeholder="单位地址" id="userName">
+			</div>
+			<div style="clear:both"></div>
+			<br>
+			<div class="b51-left infor">
+				联系方式
+				<br>
+				<input type="text" name="name" placeholder="联系方式" id="userPhone">
+			</div>
+			<div class="b51-right infor">
+				联系地址
+				<br>
+				<input type="text" name="name" placeholder="联系地址" id="userAddress">
+				<!-- <select class="b51-select">
+					<option value="option1">
+						关联单位
+					</option>
+					<option value="option2">
+						关联单位
+					</option>
+				</select> -->
+			</div>
+			<div style="clear:both"></div>
+			<div class="please-btn">
+				<button id="b51Save" class="b51Save">保存</button>
+			</div>
+		</div>
+	</div>
+	<!-- b6页面 -->
+	<div class="b6">
+		<div class="b6-header">
+			创建账户
+		</div>
+		<div class="b6-center">
+			<div class="b6-left title" id="create1">
+				<span class="active">后台创建</span>
+			</div>
+			<div class="b6-right title" id="create2">
+				<span>邀请注册</span>
+			</div>
+			<div style="clear:both"></div>
+			<!--page-1-b6-->
+			<div class="b6-content">
+				<div class="describe">
+				下面提供的信息将用于用户登录账户。
+				<br>请输入以下信息
+				</div>
+				<div class="b6-left text">
+					<span>账户信息</span>
+				</div>
+				<div class="b6-right sign">
+					<span>*必填项</span>
+				</div>
+				<div style="clear:both"></div>
+				<div class="b6-left infor">
+					<span>*</span>姓名
+					<br>
+					<input type="text" name="name" placeholder="姓名">
+				</div>
+				<div class="b6-right infor">
+					<span>*</span>关联单位
+					<br>
+					<select>
+						<option value="option1">
+							关联单位
+						</option>
+						<option value="option2">
+							关联单位
+						</option>
+					</select>
+				</div>
+				<div style="clear:both"></div>
+				<div class="please-btn">
+					<button>提交</button>
+				</div>
+			</div>
+			<div class="b61-center">
+				<div class="b61-content">
+					<div class="b61-left text">
+						<span>请填写邀请好友信息。</span>
+					</div>
+					<div class="b61-right sign">
+						<span>*必填项</span>
+					</div>
+					<div style="clear:both"></div>
+					<div class="b61-left infor">
+						<span>*</span>姓名
+						<br>
+						<input type="text" name="name" placeholder="姓名">
+					</div>
+					<div class="b61-right infor">
+						<span>*</span>邮箱/手机号码
+						<br>
+						<input type="text" name="name" placeholder="邮箱/手机号码">
+					</div>
+				</div>
+				<div style="clear:both"></div>
+				<div class="please-btn">
+					<button>立即邀请</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="../js/jquery-1.7.2.js"></script>
+    <script src="../js/index.js"></script>
+    <script src="../js/enter.js"></script>
+    <script src="../js/enter1.js"></script>
+</body>
+</html>

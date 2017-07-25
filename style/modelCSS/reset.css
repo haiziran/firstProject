@@ -1,0 +1,49 @@
+html, body, div, span, p, a, applet, object, iframe, h1, h2, h3, h4, h5, h6, blockquote, pre, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, hgroup, menu, header, footer, nav, output, section, summary, time, mark, audio, video
+{
+    margin: 0;
+    padding: 0;
+
+    cursor: default;
+    vertical-align: baseline;
+
+    border: 0;
+
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+       -moz-tap-highlight-color: rgba(0, 0, 0, 0);
+        -ms-tap-highlight-color: rgba(0, 0, 0, 0);
+         -o-tap-highlight-color: rgba(0, 0, 0, 0);
+            tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+
+ol, ul
+{
+    list-style: none;
+}
+
+h1, h2, h3, h4, h5, h6
+{
+    font-weight: normal;
+    line-height: 1.2;
+}
+
+a
+{
+    text-decoration: none;
+    color: #333;
+}
+
+body
+{
+    font: 14px/1.5 '宋体', 'Microsoft Yahei', sans-serif;
+    height: 100%;
+}
+
+.clearfloat:after
+{
+    display: block;
+    visibility: hidden;
+    clear: both;
+    height: 0;
+    content: '.';
+}

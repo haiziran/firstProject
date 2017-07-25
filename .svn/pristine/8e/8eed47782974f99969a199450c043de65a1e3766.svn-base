@@ -1,0 +1,44 @@
+<!--封装在page-1-b1-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>工程管理弹窗</title>
+    <link rel="stylesheet" type="text/css" href="../style/css.css" />
+    <link rel="stylesheet" type="text/css" href="../style/reset.css" />
+    <script src="../js/jquery-1.7.2.js"></script>
+    <script src="../js/index.js"></script>
+</head>
+<body>
+<div class="bTwoHeader">
+    <div class="bTwoTitle">
+        编辑
+    </div>
+    <div class="bTwoBack">X</div>
+    <div class="bTwoColum">
+    单位工程配置
+    </div>
+    <textarea class="bTwoContent">
+    </textarea>
+    <div class="bTwoColum">
+        检验批配置
+    </div>
+    <textarea class="bTwoContent1">
+    </textarea>
+    <div class="bTwoColum">
+        物料配置
+    </div>
+    <textarea class="bTwoContent1">
+    </textarea>
+    <div class="bTwoColum">
+        参与单位
+    </div>
+    <textarea class="bTwoContent1">
+    </textarea>
+    <div class="bTwoSubmit">
+        <div class="send">提交</div>
+    </div>
+</div>
+</body>
+</html>

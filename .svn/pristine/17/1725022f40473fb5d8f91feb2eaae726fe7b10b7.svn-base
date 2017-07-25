@@ -1,0 +1,2449 @@
+/**
+ * Created by Administrator on 2017/4/27.
+ */
+//获取当前url地址
+$.getUrlParam = function(name)
+{
+    var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r!=null) return unescape(r[2]); return null;
+};
+// alert(window.location.href);
+// alert($.getUrlParam('eId'));
+// alert($.getUrlParam('eIdToken'));
+var eId=$.getUrlParam('eId');   //loginId
+var eIdToken=$.getUrlParam('eIdToken'); //token
+var pId=$.getUrlParam('pId');
+window.localStorage.setItem("loginId", eId);
+window.localStorage.setItem("token", eIdToken);
+//后台地址
+var myUrl="http://192.168.3.31:8080/bim/";
+var testUrl="http://192.168.3.70:8080/bim/";
+//消息提示全局配置
+toastr.options = {
+    "closeButton": true,//是否配置关闭按钮
+    "debug": false,//是否开启debug模式
+    "newestOnTop": false,//新消息是否排在最上层
+    "progressBar": false,//是否显示进度条
+    "positionClass": "toast-center-center",//消息框的显示位置
+    "preventDuplicates": false,//是否阻止弹出多个消息框
+    "onclick": null,//点击回调函数
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "1500",//1.5s后关闭消息框
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+};
+//enter.html
+$().ready(function(){
+    //登录界面
+    $('.aOneSubmitMess').click(function(){
+        if($('#username').val() =="" || $('#password').val() ==""){
+            alert("用户名或密码不能为空")
+        }else{
+            $.ajax({
+                type:"POST",
+                url:myUrl+"account/base/login",
+                cache:true,
+                // data:"&loginName=" + escape($('#username').val()) +"&loginPwd=" + escape($('#password').val()),
+                data:{loginName:$('#username').val(),loginPwd:$('#password').val()},
+                success:function(enterSection){
+                    // console.log(typeof enterSection.code);
+                    if(enterSection.code == 0){
+                        toastr.success("登录成功");
+                        console.log(enterSection);
+                        // console.log(enterSection.result.loginId);
+                        // console.log(typeof enterSection.result.loginId);
+                        window.location.href ="home.html?eId="+enterSection.result.loginId+'&'+"eIdToken="+enterSection.result.token;
+                        // alert(window.location.href);
+                    }else if(enterSection.code == 20002){
+                        alert("登录失败")
+                    } else if(enterSection.code == 20006){
+                        alert("用户名不存在")
+                    } else if(enterSection.code == 10002){
+                        alert("没有请求权限")
+                    }
+                },
+                error:function (str) {
+                    // alert("检查后端数据类型");
+                    // console.log(str.code);
+                }
+            })
+        }
+    });
+});
+//index.html
+$().ready(function(){
+//home.html
+    $(function () {
+        $(document).on('click','.enterIndex',function(){
+            var pId=$(this).parent('div').parent('div').parent('div').attr('data-id'); //获取项目编号
+            // alert(pId);
+            // alert(pId)
+            $.getUrlParam = function(name)
+            {
+                var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);
+                if (r!=null) return unescape(r[2]); return null;
+            };
+            window.location.href="index.html?eId="+$.getUrlParam('eId')+'&'+"eIdToken="+$.getUrlParam('eIdToken')+'&'+'pId='+pId;
+            //进入页面自动加载index.html左侧创建进度
+            window.onload=(function () {
+                $.ajax({
+                    type: "POST",
+                    url: myUrl + "pace/projectPacelist",
+                    data: {loginId:eId,token:eIdToken, pId: pId},
+                    success: function (data) {
+                        if (data.code == 0) {
+                            // alert("显示成功");
+                            $('.bThreeOneContentList').css('display', 'none');
+                            if (!$.isEmptyObject(data)) {
+                                var jasonTree = data.result;
+                                /*添加无级树*/
+                                if ($('.bThreeOneContentMessTitle1 ul').length > 0) {
+                                    $('.bThreeOneContentMessTitle1 ul:gt(0)').css('background', 'red');
+                                    $('.bThreeOneContentMessTitle1 ul').remove();
+                                }
+                                strf = "";
+                                $('.bThreeOneContentMessTitle1').append(forTree(jasonTree, true));
+                            }
+                            // console.log(str);
+                        }
+                        else {
+                            // alert("请添加项目任务")
+                        }
+                    }
+                })
+            });
+        })
+    });
+    //url传参
+    $(function () {
+        $('.bThreeOneBack').click(function () {
+            $.getUrlParam = function(name)
+            {
+                var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);
+                if (r!=null) return unescape(r[2]); return null;
+            };
+            window.location.href='home.html?eId='+$.getUrlParam('eId')+'&'+"eIdToken="+$.getUrlParam('eIdToken');
+        })
+    });
+    //进度显示-添加任务
+    $(function () {
+        //申明当前function变量函数
+        var ulId;
+        var nameId;
+        var startTime;
+        var endTime;
+        //中间--添加任务
+        $('.cSevenFiveSubmit').click(function(){
+            if($("#paceName").val()==""){
+                toastr.warning('内容不得为空');
+                return false;
+            }
+            $.ajax({
+                type:"POST",
+                url:myUrl+"pace/projectPaceInsert",
+                data:{loginId:eId,token:eIdToken,pId:pId,paceName:$("#paceName").val(),parentPaceId:0},
+                success:function (cSevenFiveSubmitDate) {
+                    if($('.bThreeOneContentMessTitle1').has('div').length>0){
+                        $('.bThreeOneContentMessTitle1 div').remove();
+                    }
+                    $('.bThreeOneShow').trigger('click');
+                    $('#paceName').val();
+                },
+                error:function () {
+                }
+            })
+        });
+        //左侧--创建进度
+        // $('.bThreeOneShow').unbind("click");
+        $('.bThreeOneShow').click(function(){
+            // $(".bThreeOneContentMessTitle1").html("");
+            // $('.bThreeOneContentMessTitle1 div').unbind("click");
+            $('.bThreeOneContent').css('display','block');
+            $('.bThreeOneRight').css('display','block');
+            $('.cSixOne').css('display','none');
+            $('.cSixTwoOne').css('position','absolute').css('top','-9999px').css('left','-9999px');
+            $('.cSixThree').css('display','none');
+            $('.cThree').css('display','none');
+            $('.cOne').css('display','none');
+            $('.cFive').css('display','none');
+            $('.cSix').css('display','none');
+            $('.cFour').css('display','none');
+            $('.bThreeThree').css('display','none');
+            if($('.bThreeOneContentList').css('display')=='none'){
+                $('.bThreeOneContentList').css('display','block');
+                $('.bThreeOneContentPicture').css({'height':$('.bThreeOneContentPicture').height() - $('.bThreeOneContentList').height()});
+                $('.bThreeOneContentPicture canvas').css({'height': $('canvas').height()-$('.bThreeOneContentList').height()});
+                // alert($('canvas').height());
+                // parent.location.reload()
+                // $('.bThreeOneContent').modelCSS({'height':$('.bThreeOneContent').height()- $('.bThreeOneContentList').height()});
+                $('.shrinkDown').addClass('shrinkDowns');
+            }else{
+                $('.shrinkDown').removeClass('shrinkDowns');
+            }
+            $.ajax({
+                type:"POST",
+                url:myUrl+"pace/projectPacelist",
+                data:{loginId:eId,token:eIdToken,pId:pId},
+                success:function (data) {
+                    if(data.code==0){
+                        $('.bThreeOneContentList').css('display','block');
+                        if(!$.isEmptyObject(data)){
+                            var jasonTree=data.result;
+                            /*添加无级树*/
+                            // if($('.bThreeOneContentMessTitle1 div').length >0){
+                            //     $('.bThreeOneContentMessTitle1 div:gt(0)').css('background','red');
+                            //     $('.bThreeOneContentMessTitle1 div').remove();
+                            // }
+                            if($('.bThreeOneContentMessTitle1').has('div').length>0){
+                                $('.bThreeOneContentMessTitle1 div').remove();
+                            }
+                            str="";
+                            $('.bThreeOneContentMessTitle1').append(forTree(jasonTree));
+                        }
+                    }
+                    else{
+                        // alert("请添加项目任务")
+                    };
+                }
+            })
+        });
+    });
+    //进度管理-上下移动图标--向上
+    $(document).on("click",".bThreeOneContentMessTitle1 div .bThreeOneList2 .upr",function () {
+        var arr=$(this).parents("div").attr("pid");
+        var arrUp=$(this).parents().prev("div").attr("pid");
+        $('.bThreeOneContentList').css('display','block');
+        //参数请求
+        $.ajax({
+            type:"POST",
+            url:myUrl+"/pace/projectPaceMove",
+            data:{loginId:eId,token:eIdToken,pId:pId,upPace:arr,downPace:arrUp},
+            success:function (data) {
+                $('.bThreeOneShow').trigger('click');
+            },
+            error:function () {
+
+            }
+        });
+    });
+    //进度管理-上下移动图标--向下
+    $(document).on("click",".bThreeOneContentMessTitle1 div .bThreeOneList2 .downg",function () {
+        var arr=$(this).parents("div").attr("pid");
+        var arrUp=$(this).parents().next("div").attr("pid");
+        $('.bThreeOneContentList').css('display','block');
+        //参数请求
+        $.ajax({
+            type:"POST",
+            url:myUrl+"/pace/projectPaceMove",
+            data:{loginId:eId,token:eIdToken,pId:pId,upPace:arr,downPace:arrUp},
+            success:function (data) {
+                $('.bThreeOneShow').trigger('click');
+            },
+            error:function () {
+            }
+        });
+    });
+    //进度管理-子级+展开
+    $(document).on("click",".bThreeOneContentMessTitle1 div .bThreeOneList12 .bThreeOneImg",function (event) {
+    //     // var target =event.target;
+    //     // var parent=$(target).parents()[1];
+    //     // var next=$(parent).next();
+    //     // if($(next).modelCSS('display') =='none'){
+    //     //     $(this).addClass('bThreeOneList111');
+    //     //     $(next).modelCSS('display','block');
+    //     //     $(this).removeClass('bThreeOneList11');
+    //     // }else {
+    //     //     $(next).modelCSS('display', 'none');
+    //     //     $(this).removeClass('bThreeOneList111');
+    //     //     $(this).addClass('bThreeOneList11');
+    //     // }
+    //     var target =event.target;
+    //     var parent=$(target).parents()[1];
+    //     var next=$(parent).next();     //兄弟级的下一级ul
+    //     var aa=$(this).parents("ul").attr('class');  //当前所点击的class
+    //     var bb=next.attr('class');                      //当前所点击的兄弟级下一级class
+    //     var cc="bThreeOneChildren";
+    //     if($(next).css('display') =='none'){          //有子级是隐藏状态
+    //         $(this).addClass('bThreeOneList111');
+    //         $(this).removeClass('bThreeOneList11');
+    //         // $(next).modelCSS('display','block');
+    //         if($(next).attr('class') == 'bThreeOneChildren'){
+    //             $(next).css('display','block');
+    //             // alert(11)
+    //         }
+    //     }else {                                         //有子级是展开状态
+    //         $(next).css('display','none');
+    //         $(this).removeClass('bThreeOneList111');
+    //         $(this).addClass('bThreeOneList11');
+    //         if($(next).attr('class') =='bThreeOneFather'){
+    //             // alert(22);
+    //             $(next).css('display', 'block');
+    //         }
+    //     }
+        var ul = $(this).parent('li').siblings("ul");
+        var spanStr = $(this).parent('li').html();
+        var spanContent = spanStr.substr(3, spanStr.length);
+        if (ul.find("div").html() != null) {
+            if (ul.css("display") == "none") {
+                ul.slideDown(300);
+                $(this).addClass('bThreeOneList111');
+                // $(this).parent('li').html(spanContent);
+            } else {
+                ul.slideUp(300);
+                $(this).removeClass('bThreeOneList111');
+                // $(this).parent('li').html(spanContent);
+            }
+        }
+    });
+    //进度管理-子级进度添加
+    $(document).on("click",".bThreeOneContentMessTitle1 div .bThreeOneList6",function () {
+        var ulId=$(this).parent("div").attr("pid");
+        // alert(ulId)
+        //子级进度添加弹窗显示
+        $('.cSevenFiveOne').css('display','block');
+        $('#popLayer').css('display','block');
+        $('.bThreeOneContentList').css('display','block');
+        //    点击X，弹窗消失
+        $('.cSevenFiveBack').click(function(){
+            $('.cSevenFiveOne').css('display','none');
+            $('#popLayer').css('display','none');
+            $('#paceName').val('');
+            $('#paceNameOne').val('');
+        });
+        //提交-效果隐藏
+        $('.cSevenFiveSubmitOne').unbind('click'); //解决重复提交问题
+        $('.cSevenFiveSubmitOne').click(function () {
+            $('.cSevenFiveOne').css('display','none');
+            $('#popLayer').css('display','none');
+            //数据请求接口
+            $.ajax({
+                type:"POST",
+                url:myUrl+"pace/projectPaceInsert",
+                data:{paceName:$("#paceNameOne").val(),parentPaceId :ulId,pId:pId,loginId:eId,token:eIdToken},
+                success:function (data) {
+                    $('#paceNameOne').val('');
+                    if(data.code==0){
+                        if($('.bThreeOneContentMessTitle1').has('div').length>0){
+                            $('.bThreeOneContentMessTitle1 div').remove();
+                        }
+                        $('.bThreeOneShow').trigger('click');
+                    }else if(data.code == 10001 || data.code == 10002 || data.code == 10003){
+                        toastr.warning('身份过期，请重新登录！');
+                    }
+                },
+                error:function(){
+                }
+            });
+        })
+    });
+    //进度管理-进度编辑弹窗
+    $(document).on("click",".bThreeOneContentMessTitle1 div .bThreeOneList9",function(e){
+        ulId=$(this).parents("div").attr("pid");      //取得所点击事件的父级ID
+        nameId=$(this).parents("div").children("li").children(".bThreeOneList11").html(); //取得所点击事件的任务名称
+        startTime=$(this).parents("div").children(".bThreeOneList4").html();         //开始时间
+        endTime=$(this).parents("div").children(".bThreeOneList13").html();          //结束时间
+        $('.planStart').val(startTime);
+        $('.planEnd').val(endTime);
+        $('.cSevenFiveTwoTaskName').val(nameId);
+        $('.bThreeOneContentList').css('display','block');
+        $('.cSevenFiveTwo').css('display','block');
+        $('#popLayer').css('display','block');
+        //    点击取消，弹窗消失
+        $('.cSevenFiveTwoReset').click(function(){
+            $('.cSevenFiveTwo').css('display','none');
+            $('#popLayer').css('display','none')
+        });
+    });
+    // 进度管理-进度编辑弹窗-点击保存，弹窗消失
+    $('.cSevenFiveTwoKeep').click(function (e) {
+        e.preventDefault();
+        $('.cSevenFiveTwo').css('display','none');
+        $('#popLayer').css('display','none');
+        var str={"id":ulId,"name":$('.cSevenFiveTwoTaskName').val(),"planStart":$('.planStart').val(),"planEnd":$('.planEnd').val()};
+        var ob=JSON.stringify(str);
+        //数据请求接口
+        $.ajax({
+            type:"POST",
+            url:myUrl+"pace//projectPaceModify",
+            data:{proPaceJson:ob, pId:pId, loginId:eId,token:eIdToken},
+            success:function (FF) {
+                console.log(FF);
+                alert("保存成功");
+                //模拟点击加载
+                $('.bThreeOneShow').trigger('click');
+            },
+            error:function () {
+                return false;
+            }
+        });
+    });
+    //进度管理-进度删除
+    $(document).on("click",".bThreeOneContentMessTitle1 div .bThreeOneList10",function (e) {
+        e.preventDefault();
+        // var ulId=$(this).parents("ul").attr("pid");      //取得所点击事件的父级ID
+        var arr=new Array($(this).parents("div").attr("pid"));
+        var abb=JSON.stringify(arr);         //数组转为json数组
+        //参数请求
+        $.ajax({
+            type:"POST",
+            url:myUrl+"pace/projectPaceDelete",
+            data:{delPace:abb,loginId:eId,token:eIdToken,pId:pId},
+            success:function (Md) {
+                if(Md.code==0){
+                    toastr.success('删除成功')
+                    //模拟点击加载
+                    $('.bThreeOneShow').trigger('click');
+                }else{
+                    toastr.error('删除失败');
+                }
+            }
+        })
+    });
+    //进度管理-添加构建
+    $('.bThreeOneSearchGouJian').click(function(){
+        //正向构建列表
+        $('.zTreeDemoBackgrounds').css('display','block');
+        $('.zTreeDemoBackgrounds img').click(function(){
+            $('.zTreeDemoBackgrounds').css('display','none');
+        });
+        $.ajax({
+            type:'POST',
+            url:myUrl+'project/scene/scenepacelist',
+            data:{loginId:eId,token:eIdToken,pId:pId},
+            success:function (a) {
+                // console.log(a);
+                var zNodes = a.result;
+                var setting = {
+                    data: {
+                        key: {
+                            children: "childs",
+                            name: "nodeName",
+                            title: "",
+                            url: "url",
+                            icon: "icon",
+                            pathname:"nodePath"
+                        },
+                        simpleData: {
+                            enable: true,
+                            idKey: "nodeId",
+                            pIdKey:"parentId" ,
+                            rootPId: null
+                        },
+                        keep: {
+                            parent: false,
+                            leaf: false
+                        }
+                    },
+                    check: {
+                        enable: true,
+                        autoCheckTrigger: false,
+                        nocheckInherit: false,
+                        chkDisabledInherit: false,
+                        chkboxType: {
+                            "Y": "p",
+                            "N": "p"
+                        }
+                    },
+                    callback: {
+                        onCheck:onCheck,    // zTreeOnCheck
+                        // onCheck:GetCheckedAll,
+                    }
+                };    //参数配置
+                $(document).ready(function(){
+                    $.fn.zTree.init($("#treeDemo1"), setting, zNodes);
+                });
+                //封装函数
+                function onCheck() {
+                    var treeObj = $.fn.zTree.getZTreeObj("treeDemo1");
+                    var nodes = treeObj.getCheckedNodes(true);      //获取
+                    // console.log(nodes);
+                    var selectnodes=new Array();
+                    for(var i=0;i<nodes.length;i++){
+                        if(!nodes[i].isParent){
+                            // selectnodes.push(nodes[i]);
+                            $('.index-structure').css('display','block');
+                            $('.index-structureHeader img').click(function(){
+                                $('.index-structure').css('display','none');
+                            });
+                            $('.index-structureCancel').click(function(){
+                                $('.index-structure').css('display','none');
+                            });
+                            var pathname=nodes[i].nodePath;
+                            $.ajax({
+                                type:'POST',
+                                url:myUrl+'pace/isSelect',
+                                data:{loginId:eId,token:eIdToken,pId:pId,modelCode:nodes[i].nodeId},
+                                success:function(msgGouJ){
+                                    // console.log(msgGouJ);
+                                    if(!$.isEmptyObject(msgGouJ)){
+                                        var jasonTree=msgGouJ.result;
+                                        if($('.index-structureContent').has('div').length>0){
+                                            $('.index-structureContent div').remove();
+                                        }
+                                        strf1="";
+                                        $('.index-structureContent').append(forTree1(jasonTree,pathname));
+                                    }
+                                }
+                            })
+                        }
+                    }
+                }
+                var treeObj = $.fn.zTree.getZTreeObj("treeDemo1");
+                var nodes2 = treeObj.transformToArray(treeObj.getNodes());
+                // console.log(nodes2);
+                for (var i=0, l=nodes2.length; i < l; i++) {
+                    // if(nodes2[i].hasChose==1){  //判断返回数据是否勾选
+                    //     treeObj.checkNode(nodes2[i], true, true);  //添加勾选状态
+                    onCheck();
+                    // }
+                }
+            }
+        })
+    });
+    // 进度管理--构建
+    $(document).on("click",".bThreeOneContentMessTitle1 div .bThreeOneList7",function(){
+        //进度管理-构建--添加构建
+        //构建任务表弹窗显示
+        $('.bThreeThree').css('display','block');
+        //构建任务表弹窗关闭
+        $('.bThreeThreeBack').click(function(){
+            $('.bThreeThree').css('display','none');
+            $('.zTreeDemoBackground').css('display','none')
+        });
+        nowId=$(this).parents("div").attr("pid");      //取得所点击事件的ID
+        var zTreeID=$('.bThreeThreeAdd').attr('zTreeID',nowId);
+        //构建任务表数据获取
+        $.ajax({
+            type:'POST',
+            url:myUrl+'pace/modelPacelist',
+            data:{loginId:eId,token:eIdToken,pId:pId,parentId:nowId},
+            success:function(list){
+                // console.log(list)
+                if(list.code == 0){
+                    //判断页面是否有值
+                    if($('.bThreeThreeContent').has('ul').length>0){
+                        $('.bThreeThreeContent ul').remove();
+                        var  addGou="";
+                        list.result.forEach(function(item,index){
+                            addGou+=
+                                '<ul nodeId='+item.mtaskId+'>' +
+                                '<li>'+index+'</li>' +
+                                '<li>'+item.mName+'</li>' +
+                                '<li>'+item.mpstime+'</li>' +
+                                '<li>'+item.mpetime+'</li>' +
+                                '<li>'+item.mastime+'</li>' +
+                                '<li>'+item.maetime+'</li>' +
+                                '<li>'+item.mStatu+'</li>' +
+                                '<li class="bThreeThreeEditMes">编辑</li>' +
+                                '<li class="bThreeThreeDel">删除</li>' +
+                                '<div style="clear: both"></div>'+
+                                '</ul>';
+                        });
+                        $('.bThreeThreeContent').append(addGou);
+                    }else{
+                        var  addGou="";
+                        list.result.forEach(function(item,index){
+                            addGou+=
+                                '<ul nodeId='+item.mtaskId+'>' +
+                                '<li>'+index+'</li>' +
+                                '<li>'+item.mName+'</li>' +
+                                '<li>'+item.mpstime+'</li>' +
+                                '<li>'+item.mpetime+'</li>' +
+                                '<li>'+item.mastime+'</li>' +
+                                '<li>'+item.maetime+'</li>' +
+                                '<li>'+item.mStatu+'</li>' +
+                                '<li class="bThreeThreeEditMes">编辑</li>' +
+                                '<li class="bThreeThreeDel">删除</li>' +
+                                '<div style="clear: both"></div>'+
+                                '</ul>';
+                        });
+                        $('.bThreeThreeContent').append(addGou);
+                    }
+                }else if(list.code==10001|| list.code == 10002 || list.code == 10003){
+                    toastr.warning('身份过期，请重新登录')
+                }else if(list.code ==20005){
+                    toastr.warning('暂无数据')
+                }
+            }
+        })
+    });
+    // 左侧构建弹窗-提交
+    $(document).on('click','.index-structureContent input',function(){
+        var inputId=$(this).parents('div').attr('pid');
+        var inputName=$('.index-structureFooter').siblings('.index-structureContent').children('.bThreeOneFather').attr('pathname');
+        $('.index-structureConform').click(function(){
+            $('.index-structure').css('display','none');
+            $.ajax({
+                type:'POST',
+                url:myUrl+'pace/addModelPace',
+                data:{loginId:eId,token:eIdToken,pId:pId,taskId:inputId,modelCode:inputName},
+                success:function(sub){
+                    console.log(sub);
+                    if(sub.code == 0){
+                        toastr.success('添加成功')
+                    }else if(sub.code == 10001|| sub.code == 10002 || sub.code == 10003){
+                        toastr.warning('身份过期，请重新登录')
+                    }else if(sub.code ==20005){
+                        toastr.warning('暂无数据')
+                    }
+                }
+            })
+        });
+        //弹窗关闭
+        $('.index-structureCancel').click(function(){
+            $('.index-structure').css('display','none');
+        });
+        $('.index-structure img').click(function(){
+            $('.index-structure').css('display','none');
+        });
+    });
+    //右侧模型树展示
+    $(document).on('click','.bThreeThreeAdd',function(){
+        //构建模型树展示
+        $('.zTreeDemoBackground').css('display','block');
+        //构建模型树关闭
+        $('.zTreeDemoBackground img').click(function(){
+            $('.zTreeDemoBackground').css('display','none');
+        });
+        var nowId=$('.bThreeThreeAdd').attr('zTreeID');
+        $.ajax({                     //右侧模型树数据请求
+            type:'POST',
+            url:myUrl+'project/scene/sceneChoselist',
+            data:{loginId:eId,token:eIdToken,projectPace:nowId,pId:pId},
+            success:function (a) {
+                // console.log(a);
+                var zNodes = a.result;
+                var setting = {
+                    data: {
+                        key: {
+                            children: "childs",
+                            name: "nodeName",
+                            title: "",
+                            url: "url",
+                            icon: "icon",
+                            pathname:"nodePath"
+                        },
+                        simpleData: {
+                            enable: true,
+                            idKey: "nodeId",
+                            pIdKey:"parentId" ,
+                            rootPId: null
+                        },
+                        keep: {
+                            parent: false,
+                            leaf: false
+                        }
+                    },
+                    check: {
+                        enable: true,
+                        autoCheckTrigger: false,
+                        nocheckInherit: false,
+                        chkDisabledInherit: false,
+                        chkboxType: {
+                            "Y": "p",
+                            "N": "p"
+                        }
+                    },
+                    callback: {
+                        onCheck:onCheck,    // zTreeOnCheck
+                        // onCheck:GetCheckedAll,
+                    }
+                };    //参数配置
+                $(document).ready(function(){
+                    $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+                });
+                var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+                var nodes2 = treeObj.transformToArray(treeObj.getNodes());
+                // console.log(nodes2);
+                for (var i=0, l=nodes2.length; i < l; i++) {
+                    if(nodes2[i].hasChose==1){  //判断返回数据是否勾选
+                        treeObj.checkNode(nodes2[i], true, true);  //添加勾选状态
+                        onCheck();
+                    }
+                }
+                //封装函数
+                function onCheck() {
+                    var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+                    var nodes = treeObj.getCheckedNodes(true);      //获取
+                    var selectnodes=new Array();
+                    // console.log(nodes);
+                    for(var i=0;i<nodes.length;i++){
+                        if(!nodes[i].isParent){
+                            selectnodes.push(nodes[i]);
+                            // console.log(selectnodes)
+                            var arr=[nodes[i].nodePath]
+                            // var itArr={
+                            //     'pId':pId,
+                            //     'proTaskId':nodes[i].nodeId,
+                            //     'modelCodeList':arr,
+                            // };
+                            // var itArrJson=JSON.stringify(itArr);
+                            //勾选一个请求一次
+                            $.ajax({
+                                type:'POST',
+                                url:myUrl+'pace/addModelPace',
+                                data:{loginId:eId,token:eIdToken,pId:pId,taskId:nodes[i].nodeId,modelCode:nodes[i].nodePath},
+                                success:function(oncheck){
+                                    console.log(oncheck);
+                                    if(oncheck.code ==0){
+                                        // // toastr.success('添加成功')
+                                        var  addGou="";
+                                        // oncheck.result.forEach(function(item,index){
+                                        // addGou=
+                                        //     '<ul nodeId='+oncheck.result.mtaskId+'>' +
+                                        //     '<li></li>' +
+                                        //     '<li>'+oncheck.result.mName+'</li>' +
+                                        //     '<li>'+oncheck.result.mpstime+'</li>' +
+                                        //     '<li>'+oncheck.result.mpetime+'</li>' +
+                                        //     '<li>'+oncheck.result.mastime+'</li>' +
+                                        //     '<li>'+oncheck.result.maetime+'</li>' +
+                                        //     '<li>'+oncheck.result.mStatu+'</li>' +
+                                        //     '<li class="bThreeThreeEditMes">编辑</li>' +
+                                        //     '<li class="bThreeThreeDel">删除</li>' +
+                                        //     '<div style="clear: both"></div>'+
+                                        //     '</ul>';
+                                        // // });
+                                        // $('.bThreeThreeContent ul').remove();
+                                        // $('.bThreeThreeContent').append(addGou);
+                                    }else if(oncheck.code==10001|| oncheck.code == 10002 || oncheck.code == 10003){
+                                        toastr.warning('身份过期，请重新登录')
+                                    }else if(oncheck.code ==20005){
+                                        toastr.warning('暂无数据')
+                                    }else if(oncheck.code ==20014){
+                                        // toastr.warning('同名任务已存在')
+                                    }
+                                }
+                            })
+                        }
+                    }
+                    var  addGou="";
+                    if(selectnodes.length>0){
+                        for(var i=0;i<selectnodes.length;i++){
+                            addGou+=
+                                '<ul nodeId='+selectnodes[i].nodeId+'>' +
+                                '<li>'+(i+1)+'</li>' +
+                                '<li>'+selectnodes[i].nodePath+'</li>' +
+                                '<li></li>' +
+                                '<li></li>' +
+                                '<li></li>' +
+                                '<li></li>' +
+                                '<li></li>' +
+                                '<li>编辑</li>' +
+                                '<li>删除</li>' +
+                                '<div style="clear: both"></div>'+
+                                '</ul>';
+                        }
+                        $('.bThreeThreeContent ul').remove();
+                        $('.bThreeThreeContent').append(addGou);
+                    }
+                }
+            }
+        });
+    });
+    //右侧模型列表-编辑
+    $(document).on('click','.bThreeThreeContent ul .bThreeThreeEditMes',function(){
+        var editId=$(this).parent('ul').attr('nodeid');             //取当前的ID
+        var startPTime=$(this).parent("ul").children("li:nth-child(3)");         //计划开始时间
+        var endPTime=$(this).parent("ul").children("li:nth-child(4)");          //计划结束时间
+        var startATime=$(this).parent("ul").children("li:nth-child(5)");         //计划开始时间
+        var endATime=$(this).parent("ul").children("li:nth-child(6)");          //计划结束时间
+        //页面取值
+        $('.cSevenFiveTwoGTSelect .planStart').val(startPTime.html());    //计划开始时间
+        $('.cSevenFiveTwoGTSelect .planEnd').val(endPTime.html());         //计划结束时间
+        $('.cSevenFiveTwoGSelect .planStart').val(startATime.html());    //实际开始时间
+        $('.cSevenFiveTwoGSelect .planEnd').val(endATime.html());         //实际结束时间
+        $('.cSevenFiveTwoG').css('display','block');
+        $('#popLayer').css('display','block');
+        $('.cSevenFiveTwoGReset').click(function(){
+            $('.cSevenFiveTwoG').css('display','none');
+            $('#popLayer').css('display','none');
+        });
+        //    点击取消，弹窗消失
+        $('.cSevenFiveTwoGReset').click(function(){
+            $('.cSevenFiveTwoG').css('display','none');
+            $('#popLayer').css('display','none')
+        });
+        //点击保存
+        $('.cSevenFiveTwoGKeep').unbind('click');
+        $('.cSevenFiveTwoGKeep').click(function(){
+            $('.cSevenFiveTwoG').css('display','none');
+            $('#popLayer').css('display','none');
+            $.ajax({
+                type:'POST',
+                url:myUrl+'pace/updateModelPace/'+editId,
+                data:{loginId:eId,token:eIdToken,planStartTime:$('.cSevenFiveTwoGTSelect .planStart').val(),planEndTime:$('.cSevenFiveTwoGTSelect .planEnd').val(),actStartTime:$('.cSevenFiveTwoGSelect .planStart').val(),actEndTime:$('.cSevenFiveTwoGSelect .planEnd').val()},
+                success:function(edit){
+                    // console.log(edit)
+                    if(edit.code ==0){
+                        toastr.success('修改成功');
+                        startPTime.html($('.cSevenFiveTwoGTSelect .planStart').val());
+                        endPTime.html($('.cSevenFiveTwoGTSelect .planEnd').val());
+                        startATime.html($('.cSevenFiveTwoGSelect .planStart').val());
+                        endATime.html($('.cSevenFiveTwoGSelect .planEnd').val());
+                    }else if(edit.code == 10001|| edit.code == 10002 || edit.code == 10003){
+                        toastr.warning('身份过期，请重新登录')
+                    }
+                }
+            })
+        })
+    });
+    //右侧模型列表-删除
+    $(document).on('click','.bThreeThreeContent ul .bThreeThreeDel',function(){
+        var nodeid=$(this).parent('ul').attr('nodeid');
+        $(this).parent('ul').remove();
+        $.ajax({
+            type:'POST',
+            url:myUrl+'pace/modelPacedelete',
+            data:{loginId:eId,token:eIdToken,pId:pId,delModelTask:nodeid},
+            success:function(del){
+                console.log(del);
+                if(del.code==0){
+                    toastr.success('删除成功');
+                }else if(del.code == 10001|| del.code == 10002 || del.code == 10003){
+                    toastr.warning('身份过期，请重新登录');
+                }
+            }
+        })
+    });
+    //构建弹窗下拉展开
+    $(document).on("click",".index-structureContent div .bThreeOneImg",function (event) {
+        var ul = $(this).parent('li').siblings("ul");
+        var spanStr = $(this).parent('li').html();
+        var spanContent = spanStr.substr(3, spanStr.length);
+        if (ul.find("div").html() != null) {
+            if (ul.css("display") == "none") {
+                $(this).addClass('bThreeOneList111');
+                // $(this).removeClass('bThreeOneImg');
+                ul.slideDown(300);
+                // $(this).parent('li').html(spanContent);
+            } else {
+                $(this).removeClass('bThreeOneList111');
+                // $(this).addClass('bThreeOneImg');
+                ul.slideUp(300);
+                // $(this).parent('li').html(spanContent);
+            }
+        }
+    });
+    // ue4模型数据获取
+    $('#b_title').click(function(){
+        $.ajax({
+            type:'POST',
+            url:myUrl+'/model/queryModelInfo',
+            data:{loginId:eId,token:eIdToken,pId:pId,modelId:1},
+            success:function(uE4m){
+                if($('.cSixTwoOneTaskSecond1 div').length>0){
+                    $('.cSixTwoOneTaskSecond1 div').remove()
+                };
+                if($('.cSixTwoOneTaskOne1 div').length>0){
+                    $('.cSixTwoOneTaskOne1 div').remove()
+                }
+                // console.log(uE4m);
+                var tableUe4mm="";
+                var tableUe4mms="";
+                uE4m.result.commoninfo.forEach(function(item,index) {
+                    console.log(item);
+                    console.log(item.mCode);
+                    tableUe4mm=
+                        '<div class="taskNameDeta">几何属性</div>'+
+                        '<div class="cSixTwoOneTaskLeft1" style="clear: both;">'+item.modelPropertyName+'</div>' +
+                        '<div class="cSixTwoOneTaskRight1">'+item.modelPropertyValue+'</div>'+
+                        '<div style="clear: both"></div>';
+                    $('.cSixTwoOneTaskSecond1').append(tableUe4mm);
+                });
+            }
+        })
+    });
+});
+//单位管理
+$().ready(function(){
+    //创建单位
+    $('.b7-btn').click(function(){
+        $('.b8').css('display','block');
+        $('#popLayer').css('display','block');
+        //关闭弹窗
+        $('.del').click(function(){
+            $('.b8').css('display','none');
+            $('#popLayer').css('display','none');
+            //输入框默认值
+            $('#unitName').val('');
+            $('#unitAddress').val('');
+            $('#unitPhone').val('')
+        });
+        //添加创建单位的类型
+        var unitItem=
+            [{'id':'1','name':'业主单位'},
+            {'id':'2','name':'勘察单位'},
+            {'id':'3','name':'设计单位'},
+            {'id':'4','name':'施工单位'},
+            {'id':'5','name':'监理单位'}
+        ];
+        var unitType="";
+        unitItem.forEach(function (item,index){
+            unitType='<option uitId='+item.id+'>'+item.name+'</option>';
+            $('.b8-select').append(unitType);
+        });
+        //移除重复
+        var unitList=$('.b8-select option');
+        unitList.each(function(index,item){
+            if(index>unitItem.length -1){
+                unitList[index].remove();
+            }else{
+                
+            }
+        })
+        //编辑移除重复
+        var unitList=$('.b7selType option');
+        unitList.each(function(index,item){
+            if(index>unitItem.length -1){
+                unitList[index].remove();
+            }else{
+                
+            }
+        })
+    });
+    //添加保存
+    $('#bEightSubmit').click(function(){
+        // alert(unitTypeId);
+        var aa={
+            'name':$('#unitName').val(),
+            'address':$('#unitAddress').val(),
+            'phone':$('#unitPhone').val(),
+            'type':unitTypeId
+        };
+        var bb=JSON.stringify(aa);
+        if($('#unitPhone').val()==""){
+        }else{
+            regUrl = /^1\d{10}$/.test($('#unitPhone').val());
+            if(!regUrl){
+                layer.msg("号码有误，请重填");
+                $(this).focus();
+                return false;
+            }
+        }
+        if($('#unitName').val().length==0 || $('#unitAddress').val().length==0 || $('#unitPhone').length==0){
+            toastr.warning('有星号的内容不得为空！');
+        }else if($('#unitName').val().length>50){
+            toastr.warning('单位名称长度不能超过50！');
+        }else if($('#unitAddress').val().length>50){
+            toastr.warning('单位地址长度不能超过50！');
+        }else if($('#unitPhone').val().length>11){
+            toastr.warning('联系方式长度不能超过11！');
+        }
+        else{
+            $('.b8').css('display','none');
+            $('#popLayer').css('display','none');
+            var unitTypeId=$('.b8-select').children("option:selected").attr('uitId');
+            $.ajax({
+                type:"POST",
+                url:myUrl+'company/createCompanyInfo',
+                data:{loginId:eId,token:eIdToken,companyJson:bb},
+                success:function(unit){
+                    if(unit.code == 0){
+                        // console.log(unit);
+                        //模拟点击
+                        $.ajax({
+                            type:"POST",
+                            url:myUrl+"company/select",
+                            data:{pageNum:1,loginId:eId,token:eIdToken},
+                            success:function (pageNumList) {
+                                // console.log(pageNumList);
+                                var pageNumberList="";
+                                if($('.b7-tbody').has('li').length>0){
+                                    $('ul.b7-tbody li').remove();
+                                    pageNumList.result.forEach(function (item,index) {
+                                        pageNumberList=
+                                            '<li id='+item.id+'>' +
+                                            '<span class="b7TbodyInput"><input type="checkbox" name="userName"></span>'+
+                                            '<span>'+item.name+'</span>'+
+                                            '<span>'+item.companyPhone+'</span>'+
+                                            '<span>'+item.companyAddress+'</span>'+
+                                            '<span>'+item.createTime+'</span>'+
+                                            '<span class="b7-tbodyEidit"><span class="exitb7">编辑</span><span class="deleteb7">删除</span></span>'+
+                                            '</li>';
+                                        $('ul.b7-tbody').append(pageNumberList);
+                                    });
+                                }else{
+                                    pageNumList.result.forEach(function (item,index) {
+                                        pageNumberList=
+                                            '<li>' +
+                                            '<span class="b7TbodyInput"><input type="checkbox" name="userName"></span>'+
+                                            '<span>'+item.name+'</span>'+
+                                            '<span>'+item.companyPhone+'</span>'+
+                                            '<span>'+item.companyAddress+'</span>'+
+                                            '<span>'+item.createTime+'</span>'+
+                                            '<span class="b7-tbodyEidit"><span class="exitb7">编辑</span><span class="deleteb7">删除</span></span>'+
+                                            '</li>';
+                                        $('ul.b7-tbody').append(pageNumberList);
+                                    });
+                                }
+                            },
+                            error:function () {
+                            }
+                        });
+                        //输入框默认值
+                        $('#unitName').val('');
+                        $('#unitAddress').val('');
+                        $('#unitPhone').val('')
+                    }else if(unit.code ==20014){
+                        toastr.warning('公司名称已存在')
+                    }else if(unit.code == 10001|| unit.code == 10002 || unit.code == 10003){
+                        toastr.warning('身份信息过期，请重新登录')
+                    }
+                }
+            })   
+        }
+    });
+    //全选删除
+    $('#allSelectDelete').change(function(){
+        if($(this).prop("checked")){
+            $('.b7TbodyInput input').prop('checked','checked')
+        }else{
+            $('.b7TbodyInput input').removeAttr('checked')
+        }
+    });
+    //选中删除
+    $('.b7-left').click(function(){
+        // alert(11)
+        var userArr=[];
+        $('.b7TbodyInput input').each(function(index,item){
+            if($(this).get(0).checked){
+                userArr.push($(this).parents("li").attr("id"));
+                $(this).parents('li').remove();
+            }
+        });
+        var dd=JSON.stringify(userArr);
+        $.ajax({
+            type:'POST',
+            url:myUrl+'company/updateIsDelete',
+            data:{companyIdjson:dd,loginId:eId,token:eIdToken},
+            success:function(b7leftDelete){
+                // console.log(b7leftDelete);
+                if(b7leftDelete.code == 0){
+                    alert("删除成功")
+                }
+                //模拟点击
+                $('.Unit').trigger('click');
+            },
+            error:function () {
+
+            }
+        })
+    });
+    //获取总条数-分页
+    $('.Unit').click(function(){
+        $.ajax({
+            type:'POST',
+            url:myUrl+'company/selectCount',
+            data:{loginId:eId,token:eIdToken},
+            success:function(selectCount){
+                // console.log(selectCount);
+                var pagecoung =Math.ceil(selectCount.result/15);
+                $('.b7-tbody').attr('selectId',pagecoung);
+                $(".zxf_pagediv").createPage({
+                    pageNum: pagecoung,
+                    current: 1,
+                    backfun: function(e) {
+                        //console.log(e);//回调
+                    }
+                });
+            }
+        })
+    });
+    // 分页展示
+    $('.zxf_pagediv').on('click','a',function(){
+        var pageNumber= $(this).html();
+        $.ajax({
+            type:"POST",
+            url:myUrl+"company/select",
+            data:{pageNum:pageNumber,loginId:eId,token:eIdToken},
+            success:function (pageNumList) {
+                console.log(pageNumList);
+                var pageNumberList="";
+                if($('.b7-tbody').has('li').length>0){
+                    $('ul.b7-tbody li').remove();
+                    pageNumList.result.forEach(function (item,index) {
+                        pageNumberList=
+                            '<li id='+item.id+'>' +
+                            '<span class="b7TbodyInput"><input type="checkbox" name="userName"></span>'+
+                            '<span>'+item.name+'</span>'+
+                            '<span>'+item.companyPhone+'</span>'+
+                            '<span>'+item.companyAddress+'</span>'+
+                            '<span>'+item.createTime+'</span>'+
+                            '<span class="b7-tbodyEidit"><span class="exitb7">编辑</span><span class="deleteb7">删除</span></span>'+
+                            '</li>';
+                        $('ul.b7-tbody').append(pageNumberList);
+                    });
+                }else{
+                    pageNumList.result.forEach(function (item,index) {
+                        pageNumberList=
+                            '<li>' +
+                            '<span class="b7TbodyInput"><input type="checkbox" name="userName"></span>'+
+                            '<span>'+item.name+'</span>'+
+                            '<span>'+item.companyPhone+'</span>'+
+                            '<span>'+item.companyAddress+'</span>'+
+                            '<span>'+item.createTime+'</span>'+
+                            '<span class="b7-tbodyEidit"><span class="exitb7">编辑</span><span class="deleteb7">删除</span></span>'+
+                            '</li>';
+                        $('ul.b7-tbody').append(pageNumberList);
+                    });
+                }
+            },
+            error:function () {
+            }
+        })
+    });
+    //分页确定按钮
+    $('.zxf_pagediv').on('click','.zxfokbtn',function(){
+        // alert(11)
+        // $('.zxfokbtn').attr('id','UnitLoad')
+        var pageNum= $('.zxfinput').val();
+        $.ajax({
+            type:"POST",
+            url:myUrl+"company/select",
+            data:{pageNum:pageNum,loginId:eId,token:eIdToken},
+            success:function (pageNumList) {
+                // console.log(pageNumList);
+                var pageNumberList="";
+                if($('.b7-tbody').has('li').length>0){
+                    $('ul.b7-tbody li').remove();
+                    pageNumList.result.forEach(function (item,index) {
+                        pageNumberList=
+                            '<li id='+item.id+'>' +
+                            '<span class="b7TbodyInput"><input type="checkbox" name="userName"></span>'+
+                            '<span>'+item.name+'</span>'+
+                            '<span>'+item.companyPhone+'</span>'+
+                            '<span>'+item.companyAddress+'</span>'+
+                            '<span>'+item.createTime+'</span>'+
+                            '<span class="b7-tbodyEidit"><span class="exitb7">编辑</span><span class="deleteb7">删除</span></span>'+
+                            '</li>';
+                        $('ul.b7-tbody').append(pageNumberList);
+                    });
+                }else{
+                    pageNumList.result.forEach(function (item,index) {
+                        pageNumberList=
+                            '<li>' +
+                            '<span class="b7TbodyInput"><input type="checkbox" name="userName"></span>'+
+                            '<span>'+item.name+'</span>'+
+                            '<span>'+item.companyPhone+'</span>'+
+                            '<span>'+item.companyAddress+'</span>'+
+                            '<span>'+item.createTime+'</span>'+
+                            '<span class="b7-tbodyEidit"><span class="exitb7">编辑</span><span class="deleteb7">删除</span></span>'+
+                            '</li>';
+                        $('ul.b7-tbody').append(pageNumberList);
+                    });
+                }
+            },
+            error:function () {
+            }
+        })
+    });
+    //搜索单位
+    $('.b7-right').on('click','span',function(){
+        var pageSearch=$('.zxf_pagediv').children('.current').html();
+        if($('.unitInputSearch').val() !== ''){
+            if($(this).hasClass('unitSearch')){
+                $(this).removeClass('unitSearch');
+                $(this).addClass('unitBack');
+                $('.b7-tbody li').remove();
+                $.ajax({
+                    type:'POST',
+                    url:myUrl+'company/likeSelectCompany',
+                    data:{loginId:eId,token:eIdToken,pageNum:pageSearch,condition:$('.unitInputSearch').val()},
+                    success:function(unitSearch){
+                        console.log(unitSearch);
+                        if(unitSearch.code == 0){
+                            var pageNumberList="";
+                            unitSearch.result.forEach(function(item,index){
+                                console.log(item);
+                                pageNumberList=
+                                    '<li>' +
+                                    '<span class="b7TbodyInput"><input type="checkbox" name="userName"></span>'+
+                                    '<span>'+item.name+'</span>'+
+                                    '<span>'+item.companyPhone+'</span>'+
+                                    '<span>'+item.companyAddress+'</span>'+
+                                    '<span>'+item.createTime+'</span>'+
+                                    '<span class="b7-tbodyEidit"><span class="exitb7">编辑</span><span class="deleteb7">删除</span></span>'+
+                                    '</li>';
+                                $('ul.b7-tbody').append(pageNumberList);
+                            })
+                        }else if(unitSearch.code==20005){
+                            toastr.warning('未搜索到该信息')
+                        }
+                    }
+                });
+            }else{
+                $(this).addClass('unitSearch');
+                $(this).removeClass('unitBack');
+                $('.unitInputSearch').val('');
+                $('.b7-tbody li').remove();
+                //模拟刷新
+                $('.Unit').trigger('click');
+            }
+        }else{
+            toastr.error('请输入搜索内容！')
+        }
+
+    });
+});
+//系统管理
+function cjDataDictionary(){
+    $('.bNineContent').css('display','block');
+    $.ajax({
+        type:'POST',
+        url:myUrl+'systemConfig/selectSysConfigByPage',
+        data:{loginId:eId,token:eIdToken,pageNum:1},
+        cache:false,
+        success:function(system){
+            // console.log(system);
+            if(system.code == 0){
+                var list="";
+                system.result.forEach(function(item,index){
+                    // console.log(item);
+                    list=
+                        '<div class="bNineListColor">'+
+                        '<ul sysId='+item.sysId+'>' +
+                        '<li class="bNineListOne">'+item.sysName+'</li>'+
+                        '<li class="bNineListTwo">'+item.sysCode+'</li>'+
+                        '<li class="bNineListThree">'+item.sysValue+'</li>'+
+                        '<li class="bNineListFour">'+item.sysRemake+'</li>'+
+                        '<li class="bNineListEdit">修改</li>'+
+                        '<li class="bNineListDel">删除</li>'+
+                        '<div style="clear: both"></div>'+
+                        '</ul>'+
+                        '</div>';
+                    $('.bNineContentMain').append(list);
+                });
+                var lists=$('.bNineContentMain .bNineListColor');
+                //移除重复
+                lists.each(function(index,item){
+                    if(index>system.result.length-1){
+                        lists[index].remove();
+                    }
+                });
+            }
+            else if(system.code == 10001|| system.code == 10002 || system.code == 10003){
+                toastr.warning('身份过期，请重新登录')
+            }
+        },
+        error:function () {
+        }
+    });
+    //获取总条数
+    $.ajax({
+        type:'POST',
+        url:myUrl+'systemConfig/selectCount',
+        data:{loginId:eId,token:eIdToken},
+        success:function(count){
+            console.log(count);
+            var pageNum=Math.ceil(count.result/15)
+            $(".systemPage").createPage({
+                pageNum: pageNum,
+                current: 1,
+                backfun: function(e) {
+                    //console.log(e);//回调
+                }
+            });
+        }
+    })
+}
+$().ready(function(){
+    $('.system-configuration a').click(function () {
+        cjDataDictionary();
+        /*$('.bNineContent').css('display','block');
+         $.ajax({
+         type:'POST',
+         url:myUrl+'systemConfig/selectSysConfigByPage',
+         data:{loginId:eId,token:eIdToken,pageNum:1},
+         cache:false,
+         success:function(system){
+         // console.log(system);
+         if(system.code == 0){
+         var list="";
+         system.result.forEach(function(item,index){
+         // console.log(item);
+         list=
+         '<div class="bNineListColor">'+
+         '<ul sysId='+item.sysId+'>' +
+         '<li class="bNineListOne">'+item.sysName+'</li>'+
+         '<li class="bNineListTwo">'+item.sysCode+'</li>'+
+         '<li class="bNineListThree">'+item.sysValue+'</li>'+
+         '<li class="bNineListFour">'+item.sysRemake+'</li>'+
+         '<li class="bNineListEdit">修改</li>'+
+         '<li class="bNineListDel">删除</li>'+
+         '<div style="clear: both"></div>'+
+         '</ul>'+
+         '</div>';
+         $('.bNineContentMain').append(list);
+         });
+         var lists=$('.bNineContentMain .bNineListColor');
+         //移除重复
+         lists.each(function(index,item){
+         if(index>system.result.length-1){
+         lists[index].remove();
+         }
+         });
+         }
+         else if(system.code == 10001|| data.code == 10002 || data.code == 10003){
+         toastr.error('身份过期，请重新登录')
+         }
+         },
+         error:function () {
+         }
+         });
+         //获取总条数
+         $.ajax({
+         type:'POST',
+         url:myUrl+'systemConfig/selectCount',
+         data:{loginId:eId,token:eIdToken},
+         success:function(count){
+         console.log(count);
+         var pageNum=Math.ceil(count.result/15)
+         $(".systemPage").createPage({
+         pageNum: pageNum,
+         current: 1,
+         backfun: function(e) {
+         //console.log(e);//回调
+         }
+         });
+         }
+         })*/
+    });
+    //分页展示
+    $('.systemPage').on('click','a',function(){
+        var pageNu=$(this).html();
+        $.ajax({
+            type:'POST',
+            url:myUrl+'systemConfig/selectSysConfigByPage',
+            data:{loginId:eId,token:eIdToken,pageNum:pageNu},
+            success:function(system){
+                // console.log(system);
+                if($('.bNineContentMain').has('.bNineListColor').length >0){
+                    $('.bNineContentMain .bNineListColor').remove();
+                    var list="";
+                    system.result.forEach(function(item,index){
+                        // console.log(item);
+                        list=
+                            '<div class="bNineListColor">'+
+                            '<ul sysId='+item.sysId+'>' +
+                            '<li class="bNineListOne">'+item.sysName+'</li>'+
+                            '<li class="bNineListTwo">'+item.sysCode+'</li>'+
+                            '<li class="bNineListThree">'+item.sysValue+'</li>'+
+                            '<li class="bNineListFour">'+item.sysRemake+'</li>'+
+                            '<li class="bNineListEdit">修改</li>'+
+                            '<li class="bNineListDel">删除</li>'+
+                            '<div style="clear: both"></div>'+
+                            '</ul>'+
+                            '</div>';
+                        $('.bNineContentMain').append(list);
+                    });
+                }else{
+                    var list="";
+                    system.result.forEach(function(item,index){
+                        console.log(item);
+                        list=
+                            '<div class="bNineListColor">'+
+                            '<ul sysId='+item.sysId+'>' +
+                            '<li class="bNineListOne">'+item.sysName+'</li>'+
+                            '<li class="bNineListTwo">'+item.sysCode+'</li>'+
+                            '<li class="bNineListThree">'+item.sysValue+'</li>'+
+                            '<li class="bNineListFour">'+item.sysRemake+'</li>'+
+                            '<li class="bNineListEdit">修改</li>'+
+                            '<li class="bNineListDel">删除</li>'+
+                            '<div style="clear: both"></div>'+
+                            '</ul>'+
+                            '</div>';
+                        $('.bNineContentMain').append(list);
+                    });
+                }
+            },
+            error:function () {
+            }
+        });
+    });
+    //分页确定按钮
+    $('.systemPage').on('click','zxfokbtn',function(){
+        var pageNu=$('.zxfinput').val();
+        $.ajax({
+            type:'POST',
+            url:myUrl+'systemConfig/selectSysConfigByPage',
+            data:{loginId:eId,token:eIdToken,pageNum:pageNu},
+            success:function(system){
+                // console.log(system);
+                if($('.bNineContentMain').has('.bNineListColor').length >0){
+                    $('.bNineContentMain .bNineListColor').remove();
+                    var list="";
+                    system.result.forEach(function(item,index){
+                        // console.log(item);
+                        list=
+                            '<div class="bNineListColor">'+
+                            '<ul sysId='+item.sysId+'>' +
+                            '<li class="bNineListOne">'+item.sysName+'</li>'+
+                            '<li class="bNineListTwo">'+item.sysCode+'</li>'+
+                            '<li class="bNineListThree">'+item.sysValue+'</li>'+
+                            '<li class="bNineListFour">'+item.sysRemake+'</li>'+
+                            '<li class="bNineListEdit">修改</li>'+
+                            '<li class="bNineListDel">删除</li>'+
+                            '<div style="clear: both"></div>'+
+                            '</ul>'+
+                            '</div>';
+                        $('.bNineContentMain').append(list);
+                    });
+                }else{
+                    var list="";
+                    system.result.forEach(function(item,index){
+                        console.log(item);
+                        list=
+                            '<div class="bNineListColor">'+
+                            '<ul sysId='+item.sysId+'>' +
+                            '<li class="bNineListOne">'+item.sysName+'</li>'+
+                            '<li class="bNineListTwo">'+item.sysCode+'</li>'+
+                            '<li class="bNineListThree">'+item.sysValue+'</li>'+
+                            '<li class="bNineListFour">'+item.sysRemake+'</li>'+
+                            '<li class="bNineListEdit">修改</li>'+
+                            '<li class="bNineListDel">删除</li>'+
+                            '<div style="clear: both"></div>'+
+                            '</ul>'+
+                            '</div>';
+                        $('.bNineContentMain').append(list);
+                    });
+                }
+            },
+            error:function () {
+            }
+        });
+    });
+    //搜索
+    $('.bNineContentHeader').on('click','span',function(){
+        var pageSearch=$('.systemPage').children('.current').html();
+        if($('.systemInput').val() !== ''){
+            if($(this).hasClass('systemSearch')){
+                $(this).removeClass('systemSearch');
+                $(this).addClass('systemBack');
+                $.ajax({
+                    type:'POST',
+                    url:myUrl+'systemConfig/likeSelectSysConfig',
+                    data:{loginId:eId,token:eIdToken,pageNum:pageSearch,condition:$('.systemInput').val()},
+                    success:function(system){
+                        $('.bNineContentMain .bNineListColor').remove();
+                        if(system.code == 0){
+                            var list="";
+                            system.result.forEach(function(item,index){
+                                list=
+                                    '<div class="bNineListColor">'+
+                                    '<ul sysId='+item.sysId+'>' +
+                                    '<li class="bNineListOne">'+item.sysName+'</li>'+
+                                    '<li class="bNineListTwo">'+item.sysCode+'</li>'+
+                                    '<li class="bNineListThree">'+item.sysValue+'</li>'+
+                                    '<li class="bNineListFour">'+item.sysRemake+'</li>'+
+                                    '<li class="bNineListEdit">修改</li>'+
+                                    '<li class="bNineListDel">删除</li>'+
+                                    '<div style="clear: both"></div>'+
+                                    '</ul>'+
+                                    '</div>';
+                                $('.bNineContentMain').append(list);
+                            });
+                        }else if(system.code ==20005){
+                            toastr.warning('未搜索到该信息')
+                        }
+                    }
+                });
+            }else{
+                $(this).addClass('systemSearch');
+                $(this).removeClass('systemBack');
+                $('.systemInput').val('');
+                $('.bNineContentMain .bNineListColor').remove();
+                $('.system-configuration a').trigger('click');
+            }
+        }else{
+            toastr.error('请输入搜索内容！')
+        }
+    });
+    //添加
+    $('.systemBtn').click(function(){
+        $('.systemAdd').css('display','block');
+        $('#popLayer').css('display','block');
+    });
+    $('.systemAdd-back').click(function(){
+        $('.systemAdd').css('display','none');
+        $('#popLayer').css('display','none');
+    });
+    $('#systemAdd').click(function(){
+        if($('.sysNameInput').val()=="" || $('.sysCodeInput').val()=="" || $('.sysValueInput').val()==""){
+            toastr.warning('内容不得为空');
+            return false;
+        }
+        var bb={
+            'systemConfigName':$('.sysNameInput').val(),
+            'systemConfigCode':$('.sysCodeInput').val(),
+            'systemConfigValue':$('.sysValueInput').val(),
+            'remake':$('.sysMarkInput').val()
+        };
+        $('.sysNameInput').val('');
+        $('.sysCodeInput').val('');
+        $('.sysValueInput').val('');
+        $('.sysMarkInput').val('');
+        $('.systemAdd').css('display','none');
+        $('#popLayer').css('display','none');
+        var dd=JSON.stringify(bb);
+        $.ajax({
+            type:'POST',
+            url:myUrl+'systemConfig/sysConfigInsert',
+            data:{loginId:eId,token:eIdToken,strJson:dd},
+            success:function(add){
+                // console.log(add);
+                if(add.code == 0){
+                    $.ajax({
+                        type:'POST',
+                        url:myUrl+'systemConfig/selectSysConfigByPage',
+                        data:{loginId:eId,token:eIdToken,pageNum:1},
+                        success:function(system){
+                            // console.log(system);
+                            if($('.bNineContentMain').has('.bNineListColor').length >0){
+                                $('.bNineContentMain .bNineListColor').remove();
+                                var list="";
+                                system.result.forEach(function(item,index){
+                                    // console.log(item);
+                                    list=
+                                        '<div class="bNineListColor">'+
+                                        '<ul sysId='+item.sysId+'>' +
+                                        '<li class="bNineListOne">'+item.sysName+'</li>'+
+                                        '<li class="bNineListTwo">'+item.sysCode+'</li>'+
+                                        '<li class="bNineListThree">'+item.sysValue+'</li>'+
+                                        '<li class="bNineListFour">'+item.sysRemake+'</li>'+
+                                        '<li class="bNineListEdit">修改</li>'+
+                                        '<li class="bNineListDel">删除</li>'+
+                                        '<div style="clear: both"></div>'+
+                                        '</ul>'+
+                                        '</div>';
+                                    $('.bNineContentMain').append(list);
+                                });
+                            }else{
+                                var list="";
+                                system.result.forEach(function(item,index){
+                                    console.log(item);
+                                    list=
+                                        '<div class="bNineListColor">'+
+                                        '<ul sysId='+item.sysId+'>' +
+                                        '<li class="bNineListOne">'+item.sysName+'</li>'+
+                                        '<li class="bNineListTwo">'+item.sysCode+'</li>'+
+                                        '<li class="bNineListThree">'+item.sysValue+'</li>'+
+                                        '<li class="bNineListFour">'+item.sysRemake+'</li>'+
+                                        '<li class="bNineListEdit">修改</li>'+
+                                        '<li class="bNineListDel">删除</li>'+
+                                        '<div style="clear: both"></div>'+
+                                        '</ul>'+
+                                        '</div>';
+                                    $('.bNineContentMain').append(list);
+                                });
+                            }
+                        },
+                        error:function () {
+                        }
+                    });
+                }
+            }
+        })
+    });
+    //删除
+    $(document).on('click','.bNineContentMain .bNineListColor .bNineListDel',function(){
+        var sysId=[];
+        sysId.push($(this).parent('ul').attr('sysid'));
+        var dd=JSON.stringify(sysId);
+        var list=$(this).parents('.bNineListColor');
+        $.ajax({
+            type:'POST',
+            url:myUrl+'systemConfig/delectSysConfig',
+            data:{loginId:eId,token:eIdToken,deletelist:dd},
+            success:function(del){
+                console.log(del);
+                if(del.code == 0){
+                    toastr.success('删除成功！');
+                    list.remove();
+                }
+            }
+        })
+    });
+    //修改
+    $(document).on('click','.bNineContentMain .bNineListColor .bNineListEdit',function(){
+        //弹窗打开事件
+        $('.systemEdi').css('display','block');
+        $('#popLayer').css('display','block');
+        //弹窗关闭
+        $('.systemEdi-back').click(function(){
+            $('.systemEdi').css('display','none');
+            $('#popLayer').css('display','none');
+        });
+        //取当前事件的父级与兄弟级
+        var systemConfigId=$(this).parent('ul').attr('sysid'); //取ID
+        var systemEdiNameInput=$(this).siblings('.bNineListOne');
+        var systemConfigCode=$(this).siblings('.bNineListTwo');
+        var systemConfigValue=$(this).siblings('.bNineListThree');
+        var remake=$(this).siblings('.bNineListFour');
+        //弹窗页面取值
+        $('.systemEdiNameInput').val(systemEdiNameInput.html());
+        $('.systemEdiCodeInput').val(systemConfigCode.html());
+        $('.systemEdiValueInput').val(systemConfigValue.html());
+        $('.systemEdiMarkInput').val(remake.html());
+        //提交
+        $('#systemEdi').unbind('click');
+        $('#systemEdi').click(function(){
+            var bb={
+                'systemConfigName':$('.systemEdiNameInput').val(),
+                'systemConfigCode':$('.systemEdiCodeInput').val(),
+                'systemConfigValue':$('.systemEdiValueInput').val(),
+                'remake':$('.systemEdiMarkInput').val()
+            };
+            $('.systemEdi').css('display','none');
+            $('#popLayer').css('display','none');
+            // alert(bb);
+            var dd=JSON.stringify(bb);
+            // alert(dd);
+            $.ajax({
+                type:'POST',
+                url:myUrl+'systemConfig/updateSysConfig',
+                data:{loginId:eId,token:eIdToken,strJson:dd,systemConfigId:systemConfigId},
+                cache:false,
+                success:function(eidit){
+                    // console.log(eidit);
+                    if(eidit.code == 0){
+                        // $('.System').trigger('click');
+                        toastr.success('修改成功');
+                        //页面传值
+                        systemEdiNameInput.html($('.systemEdiNameInput').val());
+                        systemConfigCode.html($('.systemEdiCodeInput').val());
+                        systemConfigValue.html($('.systemEdiValueInput').val());
+                        remake.html($('.systemEdiMarkInput').val());
+                    }
+                }
+            })
+        })
+    })
+});
+//用户管理
+$().ready(function(){
+    //关联单位
+    $('.b5-btn').on("click",function () {
+        // 打开弹窗
+        $(".b6").css("display","block");
+        $('#popLayer').css('display','block');
+        //关闭弹窗
+        $('.del').click(function(){
+            $(".b6").css("display","none");
+            $('#popLayer').css('display','none');
+            //输入框默认值
+            $('.bSixName').val('');
+            $('.bSixOneName').val('');
+        });
+        $.ajax({
+            type:"POST",
+            url:myUrl+"company/selectName",
+            data:{pageNum:1,loginId:eId,token:eIdToken},
+            success:function(b6Select){
+                console.log(b6Select);
+                if(b6Select.code == 0){
+                    $('.bSixName').val('');
+                    var selectedList="";
+                    b6Select.result.forEach(function (item,index) {
+                        // console.log(item);
+                        // console.log(item.name);
+                        selectedList=
+                            '<option opId='+item.id+'>'+item.name+'</option>';
+                        $('.b6Select').append(selectedList);
+                        // localStorage.itemNmame = item.id;
+                        // console.log(localStorage.itemNmame);
+                        //移除重复
+                        var selectList=$('.b6Select option');
+                        selectList.each(function(index,item){
+                            if(index>b6Select.result.length-1){
+                                selectList[index].remove();
+                            }
+                        })
+                    })
+                }else{
+
+                }
+            },
+            error:function(){
+            }
+        })
+    });
+    //创建用户
+    $('.bSixSubmit').click(function(){
+        // alert(mangerType)
+        if($('.bSixName').val().length==0){
+            toastr.warning('内容不得为空！');
+            return false;
+        }else if($('.bSixName').val().length>10){
+            toastr.warning('账户姓名长度不能超过10！');
+        }else{
+        //提交之后关闭弹窗
+        $(".b6").css("display","none");
+        $('#popLayer').css('display','none');
+        var mangerType=$('.b6Select').children("option:selected").attr('opId');
+           $.ajax({
+                type:"POST",
+                url:myUrl+"user/createUserInfo",
+                data:{userName:$('.bSixName').val(),companyId:mangerType,loginId:eId,token:eIdToken},
+                success:function(bSixSubmit){
+                    console.log(bSixSubmit);
+                    // 模拟刷新
+                    $('.Manger').trigger("click");
+                    if(bSixSubmit.code == 0){
+                        $('.bSixName').val("");
+                        //创建成功账号 密码 提示弹窗
+                        $('.manger-log').css('display','block');
+                        $('#popLayer').css('display','block');
+                        //关闭
+                        $('.manger-log-close img').click(function(){
+                            $('.manger-log').css('display','none');
+                            $('#popLayer').css('display','none');
+                        });
+                        //确定
+                        $('.manger-log-submit').one('click',function(){
+                            $('.manger-log').css('display','none');
+                            $('#popLayer').css('display','none');
+                            //分页刷新
+                            $.ajax({
+                                type:"POST",
+                                url:myUrl+"user/select",
+                                data:{pageNum:1,loginId:eId,token:eIdToken},
+                                success:function (pageNumList) {
+                                    console.log(pageNumList);
+                                    var pageNumberList="";
+                                    if($('.b5-tbody').has('li').length>0){
+                                        $('ul.b5-tbody li').remove();
+                                        pageNumList.result.forEach(function (item,index) {
+                                            // console.log(item);
+                                            pageNumberList=
+                                                '<li class="b5list" id='+item.uId+'>' +
+                                                '<span class="selected-delete"><input type="checkbox" name="userName"></span>'+
+                                                '<span id="beforeId">'+item.loginName.loginName+'</span>'+
+                                                '<span id="beforeName">'+item.uName+'</span>'+
+                                                '<span id="beforePhone">'+item.uPhone+'</span>'+
+                                                '<span id="beforeAddress">'+item.companyName.name+'</span>'+
+                                                '<span id="beforeTime">'+item.uCreateTime+'</span>'+
+                                                '<span class="b5-tbodyEidit"><span class="exit">编辑</span><span class="b5delete">删除</span></span>'+
+                                                '</li>';
+                                            $('ul.b5-tbody').append(pageNumberList);
+                                        });
+                                        // alert(11)
+                                    }else{
+                                        pageNumList.result.forEach(function (item,index) {
+                                            console.log(item);
+                                            pageNumberList=
+                                                '<li id='+item.uId+'>' +
+                                                '<span class="selected-delete"><input type="checkbox" name="userName"></span>'+
+                                                '<span id="beforeId">'+item.loginName.loginName+'</span>'+
+                                                '<span id="beforeName">'+item.uName+'</span>'+
+                                                '<span id="beforePhone">'+item.uPhone+'</span>'+
+                                                '<span id="beforeAddress">'+item.companyName.name+'</span>'+
+                                                '<span id="beforeTime">'+item.uCreateTime+'</span>'+
+                                                '<span class="b5-tbodyEidit"><span class="exit">编辑</span><span class="b5delete">删除</span></span>'+
+                                                '</li>';
+                                            $('ul.b5-tbody').append(pageNumberList);
+                                        });
+                                    }
+                                },
+                                error:function () {
+                                }
+                            })
+                        });
+                        if($('.manger-log-content').has('div').length>0){
+                            $('.manger-log-content div').remove();
+                            //添加数据
+                            var mangerList="";
+                            mangerList=
+                                '<div class="manger-log-contentList">' +
+                                '<div>用户ID:</div>'+
+                                '<div>'+bSixSubmit.result.id+'</div>'+
+                                '</div>'+
+                                '<div style="clear: both"></div>'+
+                                '<div class="manger-log-contentList">' +
+                                '<div>初始密码:</div>'+
+                                '<div>'+bSixSubmit.result.pwd+'</div>'+
+                                '</div>'+
+                                '<div style="clear: both"></div>';
+                            $('.manger-log-content').append(mangerList);
+                        }else{
+                            //添加数据
+                            var mangerList="";
+                            // bSixSubmit.result.forEach(function(index,item){
+                            mangerList=
+                                '<div class="manger-log-contentList">' +
+                                '<div>用户ID:</div>'+
+                                '<div>'+bSixSubmit.result.id+'</div>'+
+                                '</div>'+
+                                '<div style="clear: both"></div>'+
+                                '<div class="manger-log-contentList">' +
+                                '<div>初始密码:</div>'+
+                                '<div>'+bSixSubmit.result.pwd+'</div>'+
+                                '</div>'+
+                                '<div style="clear: both"></div>';
+                            $('.manger-log-content').append(mangerList);
+                        }
+                        //移除重复
+                        // $('.manger-log-contentList').each(function (index,item) {
+                        //     if(index>1){
+                        //         $('.manger-log-contentList').get(2).remove();
+                        //     }
+                        // })
+                    }
+                },
+                error:function(){
+
+                }
+            }) 
+        }
+        
+    });
+    //邀请注册
+    $('.bSixOneSubmit').click(function(){
+        if($('.bSixOneName').val()==""|| $('.bSixOneMail').val()==""){
+            toastr.warning('内容不得为空');
+            return false;
+        }
+        var email=$(".bSixOneMail").val();
+            // var str = $(this).val();
+        if(email.indexOf('@')>0){
+            if(email==""){
+            }else{
+                regUrl = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/.test(email);
+                if(!regUrl){
+                    layer.msg("邮箱有误，请重填");
+                    $(this).focus();
+                    return false;
+                }
+            };
+        }else{
+            if(email==""){
+            }else{
+                regUrl = /^1\d{10}$/.test(email);
+                if(!regUrl){
+                    layer.msg("号码有误，请重填");
+                    $(this).focus();
+                    return false;
+                }
+            }
+        }
+        //提交之后关闭弹窗
+        $(".b6").css("display","none");
+        $('#popLayer').css('display','none');
+        $.ajax({
+            type:"POST",
+            url:myUrl+"user/inviteRegistration",
+            data:{inviteName:$('.bSixOneName').val(),inviteWay:$('.bSixOneMail').val(),loginId:eId,token:eIdToken},
+            success:function(bSix){
+                // console.log(bSix);
+                //输入框默认值
+                $('.bSixOneName').val('');
+                if(bSix.code==0){
+                    toastr.success("邀请成功");
+                    //模拟刷新
+                    $('.Manger').trigger("click");
+                }else{
+                    alert("请求失败");
+                }
+            },
+            error:function(){
+
+            }
+        })
+    });
+    //全选删除
+    $('#allSelect').change(function () {
+        if($(this).prop("checked")){
+            $('.selected-delete input').prop('checked','checked')
+        }else{
+            $('.selected-delete input').removeAttr('checked')
+        }
+    });
+    $(".b5-tbody").on("click",".selected-delete input",function(){
+        if($(this).prop("checked")){
+            $(".b5-left").css("display","block");
+         }else{
+            $(".b5-left").css("display","none");
+         }
+    })
+    //选中删除
+    $('.b5-left').click(function(){
+        var userArr=[];
+        $('.selected-delete input').each(function (index,item) {
+            if($(this).get(0).checked){
+                userArr.push($(this).parents('li').attr('id'));
+                $(this).parents('li').remove();
+            }
+        });
+        // console.log(userArr)
+        var dd=JSON.stringify(userArr);
+        $.ajax({
+            type:'POST',
+            url:myUrl+'user/updateUserDeleteInfo',
+            data:{loginId:eId,userIdJson:dd,token:eIdToken},
+            dataType:'json',
+            success:function(userArrDelete){
+                // console.log(userArrDelete);
+                if(userArrDelete.code==0){
+                    //alert('删除成功')
+                    $(".b5-left").css("display","none");
+                }
+                //模拟点击
+                $('.Manger').trigger('click');
+            }
+        })
+    });
+    //获取总条数-分页
+    $('.Manger').click(function(){
+        $.ajax({
+            type:'POST',
+            url:myUrl+'user/selectCount',
+            data:{loginId:eId,token:eIdToken},
+            success:function(selectCount){
+                // console.log(selectCount);
+                var pagecoung =Math.ceil(selectCount.result/15);
+                $('.b5-tbody').attr('selectId',pagecoung);
+                $(".zxf_pagediv2").createPage({
+                    pageNum: pagecoung,
+                    current: 1,
+                    backfun: function(e) {
+                        //console.log(e);//回调
+                    }
+                });
+            }
+        })
+    });
+    // 分页展示
+    $('.zxf_pagediv2').on('click','a',function(){
+        var pageNumber= $(this).html();
+        $.ajax({
+            type:"POST",
+            url:myUrl+"user/select",
+            data:{pageNum:pageNumber,loginId:eId,token:eIdToken},
+            success:function (pageNumList) {
+                // console.log(pageNumList);
+                var pageNumberList="";
+                if($('.b5-tbody').has('li').length>0){
+                    $('ul.b5-tbody li').remove();
+                    pageNumList.result.forEach(function (item,index) {
+                        // console.log(item);
+                        pageNumberList=
+                            '<li id='+item.uId+'>' +
+                            '<span class="selected-delete"><input type="checkbox" name="userName"></span>'+
+                            '<span id="beforeId">'+item.loginName.loginName+'</span>'+
+                            '<span id="beforeName">'+item.uName+'</span>'+
+                            '<span id="beforePhone">'+item.uPhone+'</span>'+
+                            '<span id="beforeAddress">'+item.companyName.name+'</span>'+
+                            '<span id="beforeTime">'+item.uCreateTime+'</span>'+
+                            '<span class="b5-tbodyEidit"><span class="exit">编辑</span><span class="b5delete">删除</span></span>'+
+                            '</li>';
+                        $('ul.b5-tbody').append(pageNumberList);
+                    });
+                    // alert(11)
+                }else{
+                    pageNumList.result.forEach(function (item,index) {
+                        console.log(item);
+                        pageNumberList=
+                            '<li id='+item.uId+'>' +
+                            '<span class="selected-delete"><input type="checkbox" name="userName"></span>'+
+                            '<span id="beforeId">'+item.loginName.loginName+'</span>'+
+                            '<span id="beforeName">'+item.uName+'</span>'+
+                            '<span id="beforePhone">'+item.uPhone+'</span>'+
+                            '<span id="beforeAddress">'+item.companyName.name+'</span>'+
+                            '<span id="beforeTime">'+item.uCreateTime+'</span>'+
+                            '<span class="b5-tbodyEidit"><span class="exit">编辑</span><span class="b5delete">删除</span></span>'+
+                            '</li>';
+                        $('ul.b5-tbody').append(pageNumberList);
+                    });
+                }
+            },
+            error:function () {
+            }
+        })
+    });
+    //分页确定按钮
+    $('.zxf_pagediv2').on('click','.zxfokbtn',function(){
+        // alert(11)
+        // $('.zxfokbtn').attr('id','UnitLoad')
+        var pageNum= $('.zxfinput').val();
+        $.ajax({
+            type:"POST",
+            url:myUrl+"user/select",
+            data:{pageNum:pageNum,loginId:eId,token:eIdToken},
+            success:function (pageNumList) {
+                console.log(pageNumList);
+                var pageNumberList="";
+                if($('.b5-tbody').has('li').length>0){
+                    $('ul.b5-tbody li').remove();
+                    pageNumList.result.forEach(function (item,index) {
+                        // console.log(item);
+                        pageNumberList=
+                            '<li id='+item.uId+'>' +
+                            '<span class="selected-delete"><input type="checkbox" name="userName"></span>'+
+                            '<span id="beforeId">'+item.loginName.loginName+'</span>'+
+                            '<span id="beforeName">'+item.uName+'</span>'+
+                            '<span id="beforePhone">'+item.uPhone+'</span>'+
+                            '<span id="beforeAddress">'+item.companyName.name+'</span>'+
+                            '<span id="beforeTime">'+item.uCreateTime+'</span>'+
+                            '<span class="b5-tbodyEidit"><span class="exit">编辑</span><span class="b5delete">删除</span></span>'+
+                            '</li>';
+                        $('ul.b5-tbody').append(pageNumberList);
+                    });
+                    // alert(11)
+                }else{
+                    pageNumList.result.forEach(function (item,index) {
+                        console.log(item);
+                        pageNumberList=
+                            '<li id='+item.uId+'>' +
+                            '<span class="selected-delete"><input type="checkbox" name="userName"></span>'+
+                            '<span id="beforeId">'+item.loginName.loginName+'</span>'+
+                            '<span id="beforeName">'+item.uName+'</span>'+
+                            '<span id="beforePhone">'+item.uPhone+'</span>'+
+                            '<span id="beforeAddress">'+item.companyName.name+'</span>'+
+                            '<span id="beforeTime">'+item.uCreateTime+'</span>'+
+                            '<span class="b5-tbodyEidit"><span class="exit">编辑</span><span class="b5delete">删除</span></span>'+
+                            '</li>';
+                        $('ul.b5-tbody').append(pageNumberList);
+                    });
+                }
+            },
+            error:function () {
+            }
+        })
+    });
+    //搜索用户
+    $('.b5-right').on('click','span',function(){
+        var pageSearch=$('.zxf_pagediv2').children('.current').html();
+        var inputVal=$('#mangerSearch').val();
+        console.log(inputVal);
+        if($('#mangerSearch').val() !== ''){
+            //页数
+            $.ajax({
+                type:'POST',
+                url:myUrl+'user/selectCount',
+                data:{loginId:eId,token:eIdToken,condition:inputVal},
+                success:function(selectCount){
+                    // console.log(selectCount);
+                    var pagecoung =Math.ceil(selectCount.result/15);
+                    $('.b5-tbody').attr('selectId',pagecoung);
+                    $(".zxf_pagediv2").createPage({
+                        pageNum: pagecoung,
+                        current: 1,
+                        backfun: function(e) {
+                            //console.log(e);//回调
+                        }
+                    });
+                }
+            })
+            if($(this).hasClass('unitSearch')){
+                $(this).removeClass('unitSearch');
+                $(this).addClass('unitBack');
+                $.ajax({
+                    type:'POST',
+                    url:myUrl+'user/likeSelectUser',
+                    data:{loginId:eId,token:eIdToken,pageNum:pageSearch,condition:$('#mangerSearch').val()},
+                    success:function(mangerSeach){
+                            $('.b5-tbody li').remove();
+                            if(mangerSeach.code == 0){
+                                var pageNumberList="";
+                                mangerSeach.result.forEach(function(item,index){
+                                    // console.log(item);
+                                    pageNumberList=
+                                        '<li id='+item.uId+'>' +
+                                        '<span class="selected-delete"><input type="checkbox" name="userName"></span>'+
+                                        '<span id="beforeId">'+item.loginName.loginName+'</span>'+
+                                        '<span id="beforeName">'+item.uName+'</span>'+
+                                        '<span id="beforePhone">'+item.uPhone+'</span>'+
+                                        '<span id="beforeAddress">'+item.companyName.name+'</span>'+
+                                        '<span id="beforeTime">'+item.uCreateTime+'</span>'+
+                                        '<span class="b5-tbodyEidit"><span class="exit">编辑</span><span class="b5delete">删除</span></span>'+
+                                        '</li>';
+                                    $('ul.b5-tbody').append(pageNumberList);
+                                });
+                            }else if(mangerSeach.code ==20005){
+                                toastr.warning('未搜索到该信息')
+                            }
+                    }
+                });
+                // alert(11)
+            }else{
+                $(this).addClass('unitSearch');
+                $(this).removeClass('unitBack');
+                $('#mangerSearch').val('');
+                $('.b5-tbody li').remove();
+                $('.Manger').trigger('click');
+            }
+        }else{
+            toastr.error('请输入搜索内容!')
+        }
+    });
+});
+//*递归实现获取无级树数据并生成DOM结构*/
+var str = "";
+var forTree = function (o) {
+
+    var urlstr = "";
+    var urlst = "";
+    var urlstrt = "";
+    var urlstt = "";
+    for(var j=0;j< o.length;j++){
+        urlst=
+            '<div class="bThreeOneFather"  pid='+o[j].id+' father='+o[j].father+'>';  //父级
+        urlstt=
+            '<div class="bThreeOneChildren"  pid='+o[j].id+' father='+o[j].father+'>';  //子级
+        urlstr=
+            '<li class="bThreeOneList1">' +(o[j].father==0?(j+1):"")+ '</li>' +
+            '<li class="bThreeOneList2">' +
+            '<span class="downg"><img src="images/downr.png"></span>'+
+            '<span class="upr"><img src="images/upr.png"></span> </li>' +
+            '<li class="bThreeOneList12">' +
+            '<span class="bThreeOneImg"></span>' +
+            '<span class="bThreeOneList11">' + o[j].pname + '</span>' +
+            '</li>' +
+            '<li class="bThreeOneList4">' + o[j].pstime + '</li>' +
+            '<li class="bThreeOneList13">' + o[j].petime + '</li>' +
+            '<li class="bThreeOneList14">' + o[j].astime + '</li>' +
+            '<li class="bThreeOneList15">' + o[j].aetime + '</li>' +
+            '<li class="bThreeOneList5">'  + '</li>' +
+            "<li class='bThreeOneList6'>添加</li>" +
+            '<li class="bThreeOneList9">编辑</li>' +
+            '<li class="bThreeOneList10">删除</li>';
+        if(!$.isEmptyObject(o[j].childs)){
+            urlstrt= '<div style="clear: both"></div><ul>';   //子级携带，父级不携带
+        }else{
+            urlstrt= '<li class="bThreeOneList7">构建</li><div style="clear: both"></div><ul>';   //子级携带，父级不携带
+        }
+        str+=urlst+urlstr+urlstrt;
+        if(!$.isEmptyObject(o[j].childs)){
+
+            forTree(o[j].childs);
+
+        }
+        str += "</ul></div>";
+    }
+    return str;
+}
+// var strf = "";
+// var forTree = function (o,isTop1) {
+//     // strf="";
+//     var isTop=isTop1;
+//     var urlstr = "";
+//     //  var aetimestr="";
+//     for(var j=0;j< o.length;j++){
+//         urlstr=getbTree(j+1,o[j],isTop);
+//         // urlstr=getTreeList(j+1,o[j],isTop);
+//         strf+=urlstr;
+//         if(!$.isEmptyObject(o[j].childs)){
+//             forTree(o[j].childs,false);
+//         }
+//         // console.log(str);
+//     }
+//     return strf;
+// };
+//
+// function getbTree(i,obj,isTop1) {
+//     var str = "";
+//     var commonstr =
+//         '<li class="bThreeOneList2">' +
+//         '<span class="downg"><img src="images/downr.png"></span>'+
+//         '<span class="upr"><img src="images/upr.png"></span> ' +
+//         '<li class="bThreeOneList12">' +
+//         '<span class="bThreeOneImg"></span>' +
+//         '<span class="bThreeOneList11">' + obj.pname + '</span>' +
+//         '</li>' +
+//         '<li class="bThreeOneList4">' + obj.pstime + '</li>' +
+//         '<li class="bThreeOneList13">' + obj.petime + '</li>' +
+//         '<li class="bThreeOneList14">' + obj.astime + '</li>' +
+//         '<li class="bThreeOneList15">' + obj.aetime + '</li>' +
+//         '<li class="bThreeOneList5">'  + '</li>' +
+//         "<li class='bThreeOneList6'>添加</li>" +
+//         '<li class="bThreeOneList9">编辑</li>' +
+//         '<li class="bThreeOneList10">删除</li>';
+//     if (isTop1) {
+//         if (!$.isEmptyObject(obj.childs)) {
+//             str = '<ul class="bThreeOneFather"  pid='+obj.id+'>'+
+//                 '<li class="bThreeOneList1">' + i + '</li>' +
+//                 '</li>' +commonstr + '<div style="clear: both"></div></ul>';
+//         } else {
+//             str = '<ul class="bThreeOneFather" pid='+obj.id+'>' +
+//                 '<li class="bThreeOneList1">' + i + '</li>' +
+//                 '</li>' + commonstr + '<li class="bThreeOneList7">构建</li><div style="clear: both"></div></ul>'
+//         }
+//     } else {
+//         if (!$.isEmptyObject(obj.childs)) {
+//             str = '<ul class="bThreeOneFather"  pid='+obj.id+'>' +
+//                 '<li class="bThreeOneList1">' + i + '</li>' +
+//                 '</li>' +
+//                 commonstr + '<div style="clear: both"></div></ul>';
+//         } else {
+//             str = '<ul class="bThreeOneChildren"  pid='+obj.id+'>' +
+//                 '<li class="bThreeOneList1">' + i + '</li>' +
+//                 '</li>' + commonstr + '<li class="bThreeOneList7">构建</li><div style="clear: both"></div></ul>'
+//         }
+//     }
+//     return str;
+// };
+//递归-构建弹窗
+var strf1 = "";
+var forTree1 = function (o,pathname) {
+    var urlstr = "";
+    var urlst = "";
+    var urlstrt = "";
+    var urlstt = "";
+    var urlsttr='';
+    // console.log(o);
+    // console.log(pathname)
+    for(var j=0;j< o.length;j++){
+        urlst=
+            '<div class="bThreeOneFather"  pid='+o[j].id+' pathname='+pathname+'>' + //父级
+            '<li>' +
+            '<span class="bThreeOneImg"></span>';
+        urlsttr=
+            '<span class="bThreeOneList11">' + o[j].pname + '</span></li><div style="clear: both"></div><ul>';
+        if(!$.isEmptyObject(o[j].childs)){
+        }else {
+            if(o[j].selectStatu==1){
+                urlstrt='<input type="checkbox:checked" name="name">' ;
+            }else{
+                urlstrt='<input type="checkbox" name="name">' ;
+            }
+        }
+        strf1+=urlst+urlstr+urlstrt+urlsttr+urlstt;
+        if(!$.isEmptyObject(o[j].childs)){  //父级
+            forTree1(o[j].childs);
+        }
+        strf1 += "</ul></div>";
+    }
+    return strf1;
+};
+//
+// function getTreeList(i,obj,isTop1) {
+//     var str1 = "";
+//     if (isTop1) {
+//         if (!$.isEmptyObject(obj.child)) {
+//             str1 = '<ul class="bThreeOneFather"  pid='+obj.id+'>'+
+//                 '</li>' +
+//                 '<span class="bThreeOneImg"></span>'+
+//                 '<span class="bThreeOneList11">' + obj.pname + '</span>' + '<div style="clear: both"></div></ul>';
+//         } else {
+//             str1 = '<ul class="bThreeOneFather" pid='+obj.id+'>' +
+//                 '</li>' +
+//                 '<span class="bThreeOneImg"></span>'+
+//                 '<span class="bThreeOneList11">' + obj.pname + '</span>' + '<div style="clear: both"></div></ul>'
+//         }
+//     } else {
+//         if (!$.isEmptyObject(obj.child)) {
+//             str1 = '<ul class="bThreeOneFather"  pid='+obj.id+'>' +
+//                 '</li>' +
+//                 '<span class="bThreeOneImg"></span>'+
+//                 '<span class="bThreeOneList11">' + obj.pname + '</span>' + '<div style="clear: both"></div></ul>';
+//         } else {
+//             str1 = '<ul class="bThreeOneChildren"  pid='+obj.id+'>' +
+//                 '</li>' +
+//                 '<span class="bThreeOneImg"></span>'+
+//                 '<input type="radio" name="name">'+
+//                 '<span class="bThreeOneList11">' + obj.pname + '</span>' + '<div style="clear: both"></div></ul>'
+//         }
+//     }
+//     return str1;
+// };
+//UE4模型数据展示--进度展示
+function mm(s){
+    $.ajax({
+        type:'POST',
+        url:myUrl+'/model/queryModelInfo',
+        data:{loginId:eId,token:eIdToken,pId:pId,modelId:s},
+        success:function(uE4m){
+            if($('.cSixTwoOneTaskSecond1 div').length>0){
+                $('.cSixTwoOneTaskSecond1 div').remove()
+            };
+            if($('.cSixTwoOneTaskOne1 div').length>0){
+                $('.cSixTwoOneTaskOne1 div').remove()
+            }
+            console.log(uE4m);
+            var tableUe4mm="";
+            var tableUe4mms="";
+            uE4m.result.commoninfo.forEach(function(item,index) {
+                console.log(item);
+                console.log(item.mCode);
+                tableUe4mm=
+                    '<div class="taskNameDeta">几何属性</div>'+
+                    '<div class="cSixTwoOneTaskLeft1" style="clear: both;">'+item.modelPropertyName+'</div>' +
+                    '<div class="cSixTwoOneTaskRight1">'+item.modelPropertyValue+'</div>'+
+                    '<div style="clear: both"></div>';
+                $('.cSixTwoOneTaskSecond1').append(tableUe4mm);
+            });
+            uE4m.result.otherinfo.forEach(function(item,index) {
+                var state=""
+                if(item.mStatu==1){
+                    state="施工中"
+                }else if(item.mStatu==2){
+                    state="准时完工"
+                }else if(item.mStatu==3){
+                    state="临时完工"
+                }else{
+                    state="未开工"
+                }
+                console.log(item);
+                tableUe4mms=
+                    '<div class="taskNameDeta">非几何属性</div>'+
+                    '<div class="cSixTwoOneTaskLeft1" style="clear: both;">构建名称2</div>' +
+                    '<div class="cSixTwoOneTaskRight1">'+item.mCode+'</div>'+
+                    '<div style="clear: both"></div>'+
+                    '<div class="cSixTwoOneTaskLeft1" style="clear: both;">计划开始时间</div>' +
+                    '<div class="cSixTwoOneTaskRight1">'+item.mpetime+'</div>'+
+                    '<div style="clear: both"></div>'+
+                    '<div class="cSixTwoOneTaskLeft1" style="clear: both;">计划结束时间</div>' +
+                    '<div class="cSixTwoOneTaskRight1">'+item.mpstime+'</div>'+
+                    '<div style="clear: both"></div>'+
+                    '<div class="cSixTwoOneTaskLeft1" style="clear: both;">实际开始时间</div>' +
+                    '<div class="cSixTwoOneTaskRight1">'+item.maetime+'</div>'+
+                    '<div style="clear: both"></div>'+
+                    '<div class="cSixTwoOneTaskLeft1" style="clear: both;">实际结束时间</div>' +
+                    '<div class="cSixTwoOneTaskRight1">'+item.mastime+'</div>'+
+                    '<div style="clear: both"></div>'+
+                    '<div class="cSixTwoOneTaskLeft1" style="clear: both;">施工状态</div>' +
+                    '<div class="cSixTwoOneTaskRight1">'+state+'</div>'+
+                    '<div style="clear: both"></div>';
+                $('.cSixTwoOneTaskOne1').append(tableUe4mms);
+            });
+            if($('.cSixTwoOneTaskSecond1 div').length>0){
+                $('.cSixTwoOneTaskOne div:eq(17)').remove()
+            }
+        }
+    })
+};
+//UE4模型数据展示--物料使用
+function modelUe4(c){
+    // alert(c);
+    //调用src/modelJS/index.js里的meshcode
+    $.ajax({
+        type:'POST',
+        url:myUrl+'/material/lookuseMaterialInfo',
+        data:{loginId:eId,token:eIdToken,pId:pId,modelId:c},
+        success:function (Ue4) {
+            console.log(Ue4);
+            console.log(Ue4.mBrand);
+            var tableUe4="";
+            Ue4.result.forEach(function( item,index){
+                console.log(item);
+                console.log(item.mumaterial.mBrand);
+                console.log(item.muunit.uName);
+                // tableUe4=$(".cSixTwoOneContentMessS ul").clone();
+                // tableUe4.removeAttr('hidden');
+                // tableUe4.attr('muid',item.muid);
+                // tableUe4.children('li').eq(0).html(item.mumaterial.mBrand);
+                tableUe4=
+                    '<ul muId='+item.muid+' mid='+item.mumaterial.mId+'>'+
+                    '<li>'+item.mumaterial.mclass+'</li>'+
+                    '<li>'+item.mumaterial.mType+'</li>'+
+                    '<li>'+item.mumaterial.mBrand+'</li>'+
+                    '<li>'+item.mumaterial.mSeries+'</li>'+
+                    '<li uid='+item.muunit.uid+'>'+item.muuse+item.muunit.uName+'</li>'+
+                    '<li style="color: blue;cursor: pointer">删除</li>'+
+                    '</ul>'+
+                    '<div style="clear: both"></div>';
+                $(".cSixTwoOneContentMess").append(tableUe4);
+
+
+            });
+            if($('.cSixTwoOneContentMess ul').length>0){
+                $('.cSixTwoOneContentMess ul:gt(2)').remove();
+            }
+        },
+        error:function () {
+
+        }
+    });
+    $.ajax({
+        type:'POST',
+        url:myUrl+'/model/queryModelInfo',
+        data:{loginId:eId,token:eIdToken,pId:pId,modelId:c},
+        success:function(uE4m){
+            if($('.cSixTwoOneTaskSecond div').length>0){
+                $('.cSixTwoOneTaskSecond div').remove()
+            }
+            if($('.cSixTwoOneTaskOne div').length>0){
+                $('.cSixTwoOneTaskOne div').remove()
+            }
+            console.log(uE4m);
+            var tableUe4mm="";
+            var tableUe4mms="";
+            uE4m.result.commoninfo.forEach(function(item,index) {
+                console.log(item);
+                console.log(item.mCode);
+                tableUe4mm=
+                    '<div class="taskNameDeta">几何属性</div>'+
+                    '<div class="cSixTwoOneTaskLeft" style="clear: both;">'+item.modelPropertyName+'</div>' +
+                    '<div class="cSixTwoOneTaskRight">'+item.modelPropertyValue+'</div>'+
+                    '<div style="clear: both"></div>';
+                $('.cSixTwoOneTaskSecond').append(tableUe4mm);
+            });
+            uE4m.result.otherinfo.forEach(function(item,index) {
+                var state="";
+                if(item.mStatu==1){
+                    state="施工中"
+                }else if(item.mStatu==2){
+                    state="准时完工"
+                }else if(item.mStatu==3){
+                    state="临时完工"
+                }else{
+                    state="未开工"
+                }
+                console.log(item);
+                tableUe4mms=
+                    '<div class="taskNameDeta">非几何属性</div>'+
+                    '<div class="cSixTwoOneTaskLeft" style="clear: both;">构建名称2</div>' +
+                    '<div class="cSixTwoOneTaskRight">'+item.mCode+'</div>'+
+                    '<div style="clear: both"></div>'+
+                    '<div class="cSixTwoOneTaskLeft" style="clear: both;">计划开始时间</div>' +
+                    '<div class="cSixTwoOneTaskRight">'+item.mpetime+'</div>'+
+                    '<div style="clear: both"></div>'+
+                    '<div class="cSixTwoOneTaskLeft" style="clear: both;">计划结束时间</div>' +
+                    '<div class="cSixTwoOneTaskRight">'+item.mpstime+'</div>'+
+                    '<div style="clear: both"></div>'+
+                    '<div class="cSixTwoOneTaskLeft" style="clear: both;">实际开始时间</div>' +
+                    '<div class="cSixTwoOneTaskRight">'+item.maetime+'</div>'+
+                    '<div style="clear: both"></div>'+
+                    '<div class="cSixTwoOneTaskLeft" style="clear: both;">实际结束时间</div>' +
+                    '<div class="cSixTwoOneTaskRight">'+item.mastime+'</div>'+
+                    '<div style="clear: both"></div>'+
+                    '<div class="cSixTwoOneTaskLeft" style="clear: both;">施工状态</div>' +
+                    '<div class="cSixTwoOneTaskRight">'+state+'</div>'+
+                    '<div style="clear: both"></div>';
+                $('.cSixTwoOneTaskOne').append(tableUe4mms);
+            });
+
+        }
+    })
+};
+//退出
+$(function(){
+    $("#navLoginOut").on("click",function(){
+        $.ajax({
+            type:'POST',
+            url:myUrl+'account/userlogout',
+            data:{loginId:eId,token:eIdToken},
+            success:function(data){
+                console.log(data);
+                if(data.code==0){
+                    window.location.href='enter.html';
+                }else if(data.code==10001||data.code==10002||data.code==10003){
+                    toastr.warning('身份过期，请重新登录!');
+                }else{
+                    toastr.error("请求错误！");
+                }
+            },
+            error:function () {
+
+            }
+        })
+    })
+})
+
+

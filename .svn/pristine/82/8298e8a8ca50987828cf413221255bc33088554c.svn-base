@@ -1,0 +1,1362 @@
+/**
+ * Created by Administrator on 2017/4/21.
+ */
+// $(document).ready(function () {
+//     //模拟
+//     $(".bThreeOneLeft>ul>li").children('a.inactive.actives').trigger("click");
+// });
+ // proMenu
+ $(function(){
+    //菜单操作
+    $(".navImg img").click(function(){
+        if($(".bThreeOneLeft").css('display')=='none'){
+            $(".bThreeOneLeft").css("display","block");
+            $(".proMenu").css("margin-left","13.8%");
+            $(".oneMainContent").css("margin-left","13.8%").css("width","86%");
+        }else{
+            $(".proMenu").css("margin-left","0px");
+            $(".bThreeOneLeft").css("display","none");
+            $(".oneMainContent").css("margin-left","0px").css("width","100%");
+        }
+    });
+    //导航切换
+    $(".bThreeOneLeft>ul").on("click","a.inactive",function(){
+        //$(this).addClass("actives").siblings().removeClass("actives");
+        $(".bThreeOneLeft>ul>li>a").removeClass("actives");
+        $(this).addClass("actives");
+        var thisVal=$(this).html();
+        $(".nav2").remove();
+        $(".nav3").remove();
+        var $innav=$('<span class="nav2"><span class="iconl"><img src="images/ioc_l.png"></span>'+
+                '<span class="nav2Val">'+thisVal+'</span></span>');
+        $(".menuCenter").append($innav);
+        //其他的隐藏
+        //$(".bThreeOneLeft>ul>li>a>ul").slideUp();
+       //展示点击的
+        //$(this).children("ul").stop().slideDown();
+    });
+    $(".bThreeOneLeft>ul").on("click",".ina",function(){
+        $(".ina").removeClass("active");
+        $(this).addClass("active");
+        var thisVal=$(this).html();
+        $(".nav3").remove();
+        var $innav=$('<span class="nav3"><span class="iconl"><img src="images/ioc_l.png"></span>'+
+                '<span>'+thisVal+'</span></span>');
+        $(".menuCenter").append($innav);
+    })
+ });
+// header头部导航栏
+$(function(){
+    $('.borderbottomOne').click(function(){
+        $('.project-manage').css('display','none');
+        $('.bFour').css('display','block');
+        $('.borderbottom').css('display','none');
+        $('.bNine').css('display','none');
+        $('.b6').css('display','none');
+        $('.b7').css('display','none');
+        $('.b8').css('display','none');
+    });
+});
+//返回按钮
+$(function () {
+    $('.bThreeOneBacker').click(function () {
+        $('.bThreeOneContent').css('display','block');
+        $('.bThreeOneRight').css('display','block');
+        $('.bThreeOneLeft').css('display','block');
+        $('.cSixTwoOne').css('position','absolute').css('top','-9999px').css('left','-9999px');
+        $('.cThree').css('display','none');
+        $('.cOne').css('display','none');
+        // $('.cThreeShow').modelCSS('display','none');
+        // $('.cOneShow').modelCSS('display','none');
+        $('.cFive').css('display','none');
+        // $('.cSixShow').css('display','none');
+        $('.cSixOne').css('display','none');
+        $('.cSixThree').css('display','none');
+        $('.cSix').css('display','none');
+
+    })
+});
+//index左侧导航栏
+$(function() {
+    $('.bThreeOneLeft .inactive').click(function(){
+        $('.inactive').parents("li").removeClass("adBackground");
+        $(this).parents("li").addClass("adBackground");
+        //$(this).css("background-color","red");
+        if($(this).siblings('ul').css('display')=='none'){
+            $(this).parent('li').siblings('li').removeClass('inactives');
+            $(this).addClass('inactives');
+            $(this).siblings('ul').slideDown(100).children('li');
+            $(this).parent('li').siblings('li').children('ul').slideUp(100);
+            $(this).parent('li').siblings('li').children('a').removeClass('inactives');
+        }else{
+            //控制自身变成+号
+            $(this).removeClass('inactives');
+            //控制自身菜单下子菜单隐藏
+            $(this).siblings('ul').slideUp(100);
+            //控制自身子菜单变成+号
+            $(this).siblings('ul').children('li').children('ul').parent('li').children('a').addClass('inactives');
+            //控制自身菜单下子菜单隐藏
+            $(this).siblings('ul').children('li').children('ul').slideUp(100);
+            //控制同级菜单只保持一个是展开的（-号显示）
+            $(this).siblings('ul').children('li').children('a').removeClass('inactives');
+            //控制同级只展示一个，其他收缩上去
+            // $(this).parent('li').siblings('li').children('ul').slideDown(100);
+        }
+        
+    })
+    //数据管理
+    $(".cThreeShow").click(function(){
+        $(this).parent('li').siblings('li').children('ul').slideUp(100);
+        $(".ina").removeClass("active");
+    })
+});
+//系统管理左侧导航栏
+$(function() {
+    $('.bNineLeft .inactive').click(function(){
+        $('.inactive').parents("li").removeClass("adBackground");
+        // $(this).parents("li").addClass("adBackground");
+        $(this).siblings("ul").children('li').addClass("adBackground");
+        //$(this).css("background-color","red");
+        var wwhindex = $(this).index('.inactive');
+        if(wwhindex==0){
+            $(".bNineContent").show();
+            $("#wlimitsRight").hide();
+            // cjDataDictionary();
+        }else if(wwhindex==1){
+            $(".bNineContent").hide();
+            $("#wlimitsRight").show();
+        }
+        if($(this).siblings('ul').css('display')=='none'){
+            $(this).parent('li').siblings('li').removeClass('inactives');
+            $(this).addClass('inactives');
+            $(this).siblings('ul').slideDown(100).children('li');
+            $(this).parent('li').siblings('li').children('ul').slideUp(100);
+            $(this).parent('li').siblings('li').children('a').removeClass('inactives');
+        }else{
+            //控制自身变成+号
+            $(this).removeClass('inactives');
+            //控制自身菜单下子菜单隐藏
+            $(this).siblings('ul').slideUp(100);
+            //控制自身子菜单变成+号
+            $(this).siblings('ul').children('li').children('ul').parent('li').children('a').addClass('inactives');
+            //控制自身菜单下子菜单隐藏
+            $(this).siblings('ul').children('li').children('ul').slideUp(100);
+            //控制同级菜单只保持一个是展开的（-号显示）
+            $(this).siblings('ul').children('li').children('a').removeClass('inactives');
+            //控制同级只展示一个，其他收缩上去
+            // $(this).parent('li').siblings('li').children('ul').slideDown(100);
+        }
+    })
+});
+// 头部右侧--编辑
+// $(function(){
+//     $('.bThreeOneEidit').click(function(){
+//         $('.bTwoHeader').modelCSS('display','block');
+//         $('#popLayer').modelCSS('display','block');
+//     })
+// });
+// page32
+// $(function(){
+//     //		获取'创建进度'元素
+//     var oBtn=$('.bThreeOneList6');
+//     var oShow=$('.bThreeTwo');
+//     var oBack=$('.bThreeTwoBack');
+//     var popLayer=$('#popLayer');
+//     oBtn.click(function(){
+//         oShow.modelCSS('display','block');
+//         $('.bThreeThree').modelCSS('display','none');
+//         $('.cSixOne').modelCSS('display','none');
+//         $('.bThreeOneContent').modelCSS('display','block');
+//         $('.bThreeOneRight').modelCSS('display','block');
+//         $('.cSixThree').modelCSS('display','none');
+//         popLayer.modelCSS('display','block');
+//     });
+// //    点击发送，弹窗消失
+//     oBack.click(function(){
+//         oShow.modelCSS('display','none');
+//         popLayer.modelCSS('display','none')
+//     });
+// });
+
+//page 33
+$(function () {
+//    获取'显示进度'元素
+    var oBt=$('.bThreeOneList7');
+    var oSho=$('.bThreeThree');
+    var popLayer=$('#popLayer');
+    oBt.click(function(){
+        oSho.css('display','block');
+        $('.bThreeTwo').css('display','none');
+        $('.cSixOne').css('display','none');
+        $('.cSixThree').css('display','none');
+        $('.bThreeOneContent').css('display','block');
+        $('.bThreeOneRight').css('display','block');
+        popLayer.css('display','block');
+    });
+    $('.bThreeThreeBack').click(function(){
+        oSho.css('display','none');
+        popLayer.css('display','none')
+    });
+});
+
+// //page34
+// $(function () {
+// //    获取'二级弹窗'元素
+//     var oBt=$('.bThreeThreeAdd');
+//     var oSho=$('.zTreeDemoBackground');
+//     var popLayer=$('#popLayer');
+//     oBt.click(function(){
+//         // oSho.css('display','block').css('position','absolute').css('left','1%').css('top','1%');
+//         // popLayer.css('display','block');
+//         // console.log(11)
+//         oSho.css('display','block')
+//     });
+//     $('.zTreeDemoBackground img').click(function(){
+//         oSho.css('display','none');
+//         // popLayer.css('display','block');
+//     });
+// });
+
+//二级弹窗下拉菜单,点击空白消失
+// $(function(){
+//     $(".bThreeFourPlus").click(function(event){
+//         var e=window.event || event;
+//         if(e.stopPropagation){
+//             e.stopPropagation();
+//         }else{
+//             e.cancelBubble = true;
+//         }
+//         $(".bThreeFourList").show();
+//     });
+//     $(".bThreeFourList").click(function(event){
+//         var e=window.event || event;
+//         if(e.stopPropagation){
+//             e.stopPropagation();
+//         }else{
+//             e.cancelBubble = true;
+//         }
+//     });
+//     document.onclick = function(){
+//         $(".bThreeFourList").hide();
+//     };
+// });
+$(function () {
+    $('.bThreeFourPlus').click(function () {
+        if($('.bThreeFourList').css('display')=='none'){
+            $('.bThreeFourList').css('display','block');
+        }else{
+            $('.bThreeFourList').css('display','none');
+        }
+    })
+});
+
+//page-1-c611
+$(function () {
+//    获取'二级弹窗'元素
+    var oBt=$('.cSixOneNavFir');
+    var oSho=$('.c611addBox');
+    var oBack=$('.bac');
+    var popLayer=$('#popLayer');
+    oBt.click(function(){
+        oSho.css('display','block').css('position','absolute').css('left','15%').css('top','0%');
+        popLayer.css('display','block');
+        // console.log(11)
+    });
+    oBack.click(function(){
+        oSho.css('display','none');
+        popLayer.css('display','none')
+    });
+});
+//page-1-c61
+$(function () {
+//    获取'物料管理'元素
+    var oBt=$('.bSixOneClick');
+    var oSho=$('.cSixOne');
+    oBt.click(function(){
+        oSho.css('display','block');
+        $('.cSixOneHeaderOne').css('background-color','#E6E6E6');
+        $('.bThreeOneContent').css('display','none');
+        $('.bThreeOneRight').css('display','none');
+        $('.cSixThree').css('display','none');
+        $('.cFive').css('display','none');
+        $('.cSix').css('display','none');
+        $('.cOne').css('display','none');
+        $('.cThree').css('display','none');
+        $('.cFour').css('display','none');
+        // $('.cSixTwoOne').modelCSS('position','absolute').modelCSS('top','5%').modelCSS('left','0');
+        $('.cSixOneHeaderTwo').css('background-color','white');
+        //$(".cSixOneHeaderOne").trigger("click");
+        
+    });
+});
+
+//page-1-c621
+$(function () {
+//    获取'物料管理'元素
+    var oBt=$('.cSixOneHeaderOne');
+    var oSho=$('.cSixOne');
+    oBt.click(function(){
+        oSho.css('display','block');
+        $('.cSixOneHeaderTwo').css('background-color','white');
+        $('.cSixOneHeaderOne').css('background-color','#E6E6E6');
+        $('.bThreeOneContent').css('display','none');
+        $('.bThreeOneRight').css('display','none');
+        $('.cSixTwoOne').css('position','absolute').css('top','-9999px').css('left','-9999px');
+        $('.cSixThree').css('display','none');
+        $('.cOne').css('display','none');
+        $('.cThree').css('display','none');
+        $('.cFive').css('display','none');
+        $('.cSix').css('display','none');
+        // console.log(11)
+    });
+});
+$(function () {
+//    获取'物料入库'元素
+    var oBt=$('.cSixOneHeaderTwo');
+    var oSho=$('.cSixTwoOne');
+    oBt.click(function(){
+        oSho.css('position','absolute').css('margin-top','0.1%').css('left','0').css('top','14%');
+        $('.cSixOneHeaderOne').css('background-color','white');
+        $('.cSixOneHeaderTwo').css('background-color','#E6E6E6');
+        $('.bThreeOneContent').css('display','none');
+        $('.bThreeOneRight').css('display','none');
+        $('.cSixOne').css('display','none');
+        $('.cSixThree').css('display','none');
+        $('.cOne').css('display','none');
+        $('.cThree').css('display','none');
+        $('.cFive').css('display','none');
+        $('.cSix').css('display','none');
+    });
+});
+
+//page-1-c63
+$(function () {
+//获取'物料管理'元素
+    var oBt=$('.bSixThreeClick');
+    var oSho=$('.cSixThree');
+    oBt.click(function(){
+        oSho.css('display','block');
+        $('.bThreeOneContent').css('display','none');
+        $('.bThreeOneRight').css('display','none');
+        $('.cSixTwoOne').css('position','absolute').css('top','-9999px').css('left','-9999px');
+        $('.cSixOne').css('display','none');
+        $('.cFive').css('display','none');
+        $('.cSix').css('display','none');
+        $('.cFour').css('display','none');
+        $('.cThree').css('display','none');
+        // console.log(11)
+    });
+});
+
+//page-1-c631
+$(function(){
+    $(".cSixThreeOnePlus").click(function(event){
+        var e=window.event || event;
+        if(e.stopPropagation){
+            e.stopPropagation();
+        }else{
+            e.cancelBubble = true;
+        }
+        $(".cSixThreeOneList").show();
+    });
+    $(".cSixThreeOneList").click(function(event){
+        var e=window.event || event;
+        if(e.stopPropagation){
+            e.stopPropagation();
+        }else{
+            e.cancelBubble = true;
+        }
+    });
+    // document.onclick = function(){
+    //     $(".cSixThreeOneList").hide();
+    // };
+});
+
+$(function () {
+//    获取'二级弹窗'元素
+    var oBt=$('.cSixThreeHeaderSecond');
+    var oSho=$('.cSixThreeOne');
+    var oBack=$('.cSixThreeOneBack');
+    var popLayer=$('#popLayer');
+    oBt.click(function(){
+        oSho.css('display','block').css('position','absolute').css('left','0%').css('top','-14%');
+        popLayer.css('display','block');
+        // console.log(11)
+    });
+    oBack.click(function(){
+        oSho.css('display','none');
+        popLayer.css('display','none')
+    });
+});
+
+//page-1-b1
+// $(function(){
+//     $('.bOneContent').click(function(){
+//         window.location.href="index.html";
+//     })
+// });
+$(function () {
+//    获取'二级弹窗'元素
+    var oBt=$('.bOneLast');
+    var oSho=$('.bTwoHeader');
+    var oBack=$('.bTwoBack');
+    var popLayer=$('#popLayer');
+    oBt.click(function(){
+        oSho.css('display','block').css('position','absolute').css('left','0%').css('top','8%');
+        popLayer.css('display','block');
+        // console.log(11)
+    });
+    oBack.click(function(){
+        oSho.css('display','none');
+        popLayer.css('display','none')
+    });
+});
+
+//对话框
+$(function () {
+    $('.User').on("click",".Function",function () {
+        if($('.borderbottom').css('display')=='none'){
+            $('.borderbottom').css('display','block');
+        }else{
+            $('.borderbottom').css('display','none');
+        }
+    });
+});
+
+//page-1-b4
+$(function(){
+    $('.bFourOneContentFirst').click(function(){
+        // console.log(11)
+        $('.bFourOneContentFirst').css('color','#32CD64');
+        $('.bFourOneContentFirstF').css('border-bottom','1px solid #32CD64');
+        $('.bFourContentMain').css('display','block');
+        $('.bFourOneInformation').css('display','none');
+        $('.bFourOneContentSecond').css('color','#666');
+        $('.bFourOneContentSecondS').css('border-bottom','none');
+        $('.bFourOneContentThird').css('color','#666');
+        $('.bFourOneContentThirdT').css('border-bottom','none');
+        $('.bFourThreeList').css('display','none');
+    })
+});
+$(function(){
+    $('.bFourOneContentSecond').click(function(){
+        $('.bFourOneContentSecond').css('color','#32CD64');
+        $('.bFourOneContentSecondS').css('border-bottom','1px solid #32CD64');
+        $('.bFourOneInformation').css('display','block');
+        $('.bFourContentMain').css('display','none');
+        $('.bFourOneContentFirst').css('color','#666');
+        $('.bFourOneContentFirstF').css('border-bottom','none');
+        $('.bFourOneContentThird').css('color','#666');
+        $('.bFourOneContentThirdT').css('border-bottom','none');
+        $('.bFourThreeList').css('display','none');
+    })
+});
+$(function(){
+    $('.bFourOneContentThird').click(function(){
+        $('.bFourOneContentThird').css('color','#32CD64');
+        $('.bFourOneContentThirdT').css('border-bottom','1px solid #32CD64');
+        $('.bFourOneContentFirst').css('color','#666');
+        $('.bFourOneContentFirstF').css('border-bottom','none');
+        $('.bFourOneContentSecond').css('color','#666');
+        $('.bFourOneContentSecondS').css('border-bottom','none');
+        $('.bFourThreeList').css('display','block');
+        $('.bFourContentMain').css('display','none');
+        $('.bFourOneInformation').css('display','none');
+        // $('.bFourContentMain').modelCSS('display','block')
+    })
+});
+//page-1-b42
+$(function(){
+    /*$('.bFourOneListBlind').click(function(){
+        $('.bFourTwo').css('display','block');
+        $('#popLayer').css('display','block');
+    });*/
+    $('.bFourTwoBack').click(function(){
+        $('.bFourTwo').css('display','none');
+        $('#popLayer').css('display','none');
+    })
+});
+//page-1-c1
+$(function(){
+    $('.cOneShow').click(function(){
+        $('.cOne').css('display','block');
+        $('.cThree').css('display','none');
+        $('.bThreeOneContent').css('display','none');
+        $('.bThreeOneRight').css('display','none');
+        $('.cSixOne').css('display','none');
+        $('.cSixThree').css('display','none');
+        $('.cFive').css('display','none');
+        $('.cSix').css('display','none');
+        $('.cFour').css('display','none');
+        $('.cSixTwoOne').css('position','absolute').css('top','-9999px').css('left','-9999px');
+    })
+});
+//page-1-c2
+$(function () {
+   $('.cOneHeaderTwo').click(function(){
+       $('.cTwo').css('display','block');
+       $('#popLayer').css('display','block');
+   });
+    $('.cTwoBack').click(function(){
+        $('.cTwo').css('display','none');
+        $('#popLayer').css('display','none');
+    });
+    $('.cTwoSubmit').click(function(){
+        $('.cTwo').css('display','none');
+        $('#popLayer').css('display','none');
+    })
+});
+$(function () {
+    $('.cThreeHeaderTwo').click(function(){
+        // $('.cTwo').css('display','block');
+        // $('#popLayer').css('display','block');
+    });
+    $('.cTwoBack').click(function(){
+        $('.cTwo').css('display','none');
+        $('#popLayer').css('display','none');
+    });
+    $('.cTwoSubmit').click(function(){
+        $('.cTwo').css('display','none');
+        $('#popLayer').css('display','none');
+    })
+});
+//page-1-c3
+$(function(){
+    $('.cThreeShow').click(function(){
+        $('.cThree').css('display','block');
+        $('.cOne').css('display','none');
+        $('.cFive').css('display','none');
+        $('.cSix').css('display','none');
+        $('.bThreeOneContent').css('display','none');
+        $('.bThreeOneRight').css('display','none');
+        $('.cSixOne').css('display','none');
+        $('.cSixThree').css('display','none');
+        $('.cFour').css('display','none');
+        $('.cSixTwoOne').css('position','absolute').css('top','-9999px').css('left','-9999px');
+    })
+});
+//page-1-c5
+$(function(){
+    $('.cFiveShow').click(function(){
+        $('.cFive').css('display','block');
+        $('.cSix').css('display','none');
+        $('.cOne').css('display','none');
+        $('.bThreeOneContent').css('display','none');
+        $('.bThreeOneRight').css('display','none');
+        $('.cSixOne').css('display','none');
+        $('.cSixThree').css('display','none');
+        $('.cThree').css('display','none');
+        $('.cFour').css('display','none');
+        $('.cSixTwoOne').css('position','absolute').css('top','-9999px').css('left','-9999px');
+    })
+});
+//jingna
+//page-1-c6
+$(function(){
+    $('.cSixShow').click(function(){
+        $('.cFive').css('display','none');
+        $('.cSix').css('display','block');
+        $('.cOne').css('display','none');
+        $('.bThreeOneContent').css('display','none');
+        $('.bThreeOneRight').css('display','none');
+        $('.cSixOne').css('display','none');
+        $('.cSixThree').css('display','none');
+        $('.cThree').css('display','none');
+        $('.cFour').css('display','none');
+        $('.cSixTwoOne').css('position','absolute').css('top','-9999px').css('left','-9999px');
+    })
+});
+//page-1-b5
+$(function(){
+    $(".yeshu ul").on("click","li",function(){
+        $(".yeshu>ul>li").removeClass("active");
+        $(this).addClass("active");
+    });
+    $(".b6-left").on("click",function(){
+        $(".b6-content").css("display","block");
+        $(".b61-center").css("display","none");
+    });
+    // $(".b6-right").on("click",function(){
+    //     $(".b6-content").css("display","none");
+    //     $(".b61-center").css("display","block");
+    // });
+//page-1-b6
+    $(".b6-center .title").on("click","span",function(){
+        $(".title>span").removeClass("active");
+        $(this).addClass("active");
+    });
+});
+
+//page-1-b61
+// $(".b61-center .title").on("click","span",function(){
+//     $(".title>span").removeClass("active");
+//     $(this).addClass("active");
+// });
+
+//page-1-b8
+$(".b8-center .title").on("click","span",function(){
+    $(".title>span").removeClass("active");
+    $(this).addClass("active");
+});
+$(function(){
+       $(".yeshu ul").on("click","li",function(){
+        $(".yeshu>ul>li").removeClass("active");
+        $(this).addClass("active");
+    });
+    // $(".b5-btn").on("click",function(){
+    //     $(".b5").css("display","none");
+    //     $(".b6").css("display","block");
+    // });
+    $("#create1").on("click",function(){
+        $(".b6-content").css("display","block");
+        $(".b61-center").css("display","none");
+    });
+    $("#create2").on("click",function(){
+        $(".b6-content").css("display","none");
+        $(".b61-center").css("display","block");
+    });
+    //page-1-b6
+    $(".b6-center .title").on("click","span",function(){
+        $(".title>span").removeClass("active");
+        $(this).addClass("active");
+    });
+    //b51编辑用户弹出框
+    // $(".b51Close").on("click",function(){
+    //     $(".b5Exit").css("display","none");
+    // })
+});
+//page-1-b8
+$(function(){
+    $(".b8-center .title").on("click","span",function(){
+        $(".title>span").removeClass("active");
+        $(this).addClass("active");
+    });
+});
+//page-1-b7
+// $(function(){
+//     $('.b7-btn').click(function(){
+//         $('.b8').css('display','block');
+//         $('.b7').css('display','none');
+//     })
+// });
+//page-1-a2
+$(function(){
+    $(".aTwoSubmit .submit2").on("click",function(){
+        $(".aTwoSubmit  .submit2").css("background-color","#32CD64");
+        // $(".cicrl2").css("background-color","#32CD64");
+        $(".act2").css("color","#32CD64");
+        $(".a2-part").css("display","none");
+        $(".a3-part").css("display","block");
+    });
+    $(".aThreeSubmit .submit3").on("click",function(){
+        $(".aThreeSubmit .submit3").css("background-color","#21e27e");
+        // $(".cicrl3").css("background-color","#32CD64");
+        $(".act3").css("color","#32CD64");
+        $(".a3-part").css("display","none");
+        $(".a4-part").css("display","block");
+        // $('.login4').css('display','none')
+    });
+    $(".aFourSubmit .submit1").on("click",function(){
+        $(".aFourSubmit .submit1").css("background-color","#21e27e");
+        window.location.href="home.html";
+    });
+});
+
+//添加任务
+$(function(){
+    $('.bThreeOneSearchButton').click(function(){
+        $('.cSevenFive').css('display','block');
+        $('#popLayer').css('display','block');
+    });
+    $('.cSevenFiveBack').click(function(){
+        $('.cSevenFive').css('display','none');
+        $('#popLayer').css('display','none');
+        $('#paceName').val('');
+    });
+    $('.cSevenFiveSubmit').click(function () {
+        $('.cSevenFive').css('display','none');
+        $('#popLayer').css('display','none');
+    })
+});
+//enter.html
+$(function () {
+    $('#home-img').click(function () {
+        $('.login1').css('display','block');
+        window.location.href='enter.html';
+    });
+    $('.submit').click(function () {
+        $('.login1').css('display','none')
+    })
+});
+//page-1-c4
+$(function(){
+    $('.cFourShow').click(function () {
+        $('.cSixTwoOne').css('position','absolute').css('top','-9999px').css('left','-9999px');
+        $('.cThree').css('display','none');
+        $('.cOne').css('display','none');
+        $('.cSixOne').css('display','none');
+        $('.cSixThree').css('display','none');
+        $('.bThreeOneContent').css('display','none');
+        $('.bThreeOneRight').css('display','none');
+        $('.cFour').css('display','block');
+        $('.cFive').css('display','none');
+        $('.cSix').css('display','none');
+    })
+});
+//
+//c751
+// function bThreeOneList6click() {
+//     $('.bThreeOneList6').click(function () {
+//         var oBtn=$('.bThreeOneList6');
+//         var oShow=$('.cSevenFiveOne');
+//         var oBack=$('.cSevenFiveBack');
+//         var popLayer=$('#popLayer');
+//         oBtn.click(function(){
+//             oShow.modelCSS('display','block');
+//             $('.bThreeThree').modelCSS('display','none');
+//             $('.cSixOne').modelCSS('display','none');
+//             $('.bThreeOneContent').modelCSS('display','block');
+//             $('.bThreeOneRight').modelCSS('display','block');
+//             $('.cSixThree').modelCSS('display','none');
+//             popLayer.modelCSS('display','block');
+//         });
+//         //    点击X，弹窗消失
+//         oBack.click(function(){
+//             oShow.modelCSS('display','none');
+//             popLayer.modelCSS('display','none')
+//         });
+//         $('.cSevenFiveSubmitOne').click(function () {
+//             $('.cSevenFiveOne').modelCSS('display','none');
+//             $('#popLayer').modelCSS('display','none');
+//         })
+//     });
+// }
+
+// function bThreeOneImg() {
+//     $('.bThreeOneImg').click(function (event) {
+//         var target =event.target;
+//         var parent=$(target).parents()[1];
+//         var next=$(parent).next();
+//         if($(next).modelCSS('display') =='none'){
+//             $(this).addClass('bThreeOneList111');
+//             $(next).modelCSS('display','block');
+//             $(this).removeClass('bThreeOneList11');
+//         }else{
+//             $(next).modelCSS('display','none');
+//             $(this).removeClass('bThreeOneList111');
+//             $(this).addClass('bThreeOneList11');
+//         }
+//     })
+// }
+//page-1-c2
+
+//page-1-index--页面收缩,展示UE4模型
+$(function () {
+   // $('.shrinkRight').click(function () {
+   //      // $(".bThreeOneLeft").addClass("cjProject");
+   //     if($('.bThreeOneLeft').css('display')=='block'){
+   //         $('.bThreeOneContent').css({'width':$('.bThreeOneLeft').width()+ $('.bThreeOneContent').width()});
+   //         // $('.bThreeOneContentPicture canvas').css({'width': $('canvas').width()+$('.bThreeOneLeft').width()});
+   //         $('.shrinkRight').addClass('shrinkRights');
+   //         $('.bThreeOneLeft').css('display','none');
+   //     }else{
+   //         $('.bThreeOneLeft').css('display','block');
+   //         $('.shrinkRight').removeClass('shrinkRights');
+   //         $('.bThreeOneContent').css({'width':$('.bThreeOneContent').width()- $('.bThreeOneLeft').width()});
+   //         // $('.bThreeOneContentPicture canvas').css({'width': $('canvas').width()-$('.bThreeOneLeft').width()});
+   //     }
+   //  });
+    // $('.shrinkLeft').click(function () {
+    //     $(".bThreeOneLeft").removeClass("cjProject");
+    //     if($('.bThreeOneRight').css('display')=='block'){
+    //         $('.bThreeOneContent').css({'width':$('.bThreeOneRight').width()+ $('.bThreeOneContent').width()});
+    //         $('.bThreeOneContentPicture canvas').css({'width': $('canvas').width()+$('.bThreeOneRight').width()});
+    //         $('.shrinkLeft').addClass('shrinkLefts');
+    //         $('.bThreeOneRight').css('display','none');
+    //     }else{
+    //         $('.bThreeOneRight').css('display','block');
+    //         $('.shrinkLeft').removeClass('shrinkLefts');
+    //         $('.bThreeOneContent').css({'width':$('.bThreeOneContent').width() - $('.bThreeOneRight').width()});
+    //         $('.bThreeOneContentPicture canvas').css({'width': $('canvas').width()-$('.bThreeOneRight').width()});
+    //     }
+    // });
+    $('.shrinkDown').click(function () {
+        if($('.bThreeOneContentList').css('display')=='none'){
+            $('.bThreeOneContentList').css('display','block');
+            // $('.bThreeOneContent').modelCSS({'height':$('.bThreeOneContent').height()+ $('.bThreeOneContentList').height()});
+            $('.bThreeOneContentPicture').css({'height':$('.bThreeOneContentPicture').height()- $('.bThreeOneContentList').height()});
+            $('.bThreeOneContentPicture canvas').css({'height': $('canvas').height()-$('.bThreeOneContentList').height()})
+            $('.shrinkDown').addClass('shrinkDowns');
+
+        }else{
+            $('.bThreeOneContentPicture').css({'height':$('.bThreeOneContentPicture').height() + $('.bThreeOneContentList').height()});
+            $('.bThreeOneContentPicture canvas').css({'height': $('canvas').height()+$('.bThreeOneContentList').height()});
+            // $('.bThreeOneContent').modelCSS({'height':$('.bThreeOneContent').height()- $('.bThreeOneContentList').height()});
+            $('.shrinkDown').removeClass('shrinkDowns');
+            $('.bThreeOneContentList').css('display','none');
+
+        }
+    })
+});
+$(function(){
+    $('.index-structureContent ul').on("click","span",function () {
+        if($(this).siblings('li').css('display')=='none'){
+            $(this).removeClass('index-structurePlus');
+            $(this).addClass('index-structureMinus');
+            $(this).siblings('li').css('display','block')
+        }else{
+            $(this).removeClass('index-structureMinus');
+            $(this).addClass('index-structurePlus');
+            $(this).siblings('li').css('display','none')
+        }
+    })
+})
+
+//打开exe弹窗
+$(function(){
+    $('.HrefClickH5').click(function () {
+        // window.open("");
+    })
+});
+//home.html编辑弹窗
+$(function () {
+    $('.bTwoBack').click(function(){
+        $('.bTwoHeader').css('display','none');
+        $('#popLayer').css('display','none');
+    });
+    $(".planStart").focus(function(event){
+        WdatePicker({skin:'whyGreen'});
+        event.stopPropagation();
+    });
+    $(".planEnd").focus(function(){
+        WdatePicker({skin:'whyGreen'});
+        event.stopPropagation();
+    })
+});
+
+$(function(){
+    if(localStorage.loginUserInfo) {
+        var jsonData = localStorage.loginUserInfo;
+        $("#indexAccountName").text(JSON.parse(jsonData).uName);
+    }
+    $(".getNewItemName").text(localStorage.getItem("titleText"));
+    $(".shrinkRight").on("click",function(){
+        $(this).toggleClass("rotate-180");
+        $(".bThreeOneLeft").toggleClass("cjitems");
+        $(".bThreeOneContent").toggleClass("cjRightitems");
+        $(".bThreeOneLeft ul").toggleClass("dsn");
+    });
+    $(".indexUserMessage-li").on("click",function(){
+        $(".indexUserMessage-li-setExit").show();
+    });
+    $("#indexAccountSetting").on("click",function(){
+       navAcountSetShow();
+       indexAjax(myUrl+'/user/selectByUserId','post',{loginId :eId,token :eIdToken},
+        function(data){
+            var userSetData = data.result;
+            console.log("userSetData",userSetData);
+            $("#nav-name").val(userSetData.pName);
+            $("#nav-birth").val(userSetData.uBirthday);
+            $("#nav-address").val(userSetData.uAddress);
+            $("#nav-truename").val(userSetData.uName);
+            $("#nav-age").val(userSetData.uAge);
+            $("#certificate").val(userSetData.uIdNumber);           
+            $("#accountID").text(userSetData.uId);
+            if(userSetData.uSex =='男'){
+                $('#sexBoy').attr('checked',true);
+            }else if(userSetData.uSex =='女'){
+                $('#sexGirl').attr('checked',true);
+            }
+            if(userSetData.uPhone !=undefined){
+                $("#nav-tellphone").val(userSetData.uPhone);
+                $("#bindphone").val(userSetData.uPhone);
+            }
+            if(userSetData.uEmail !=undefined){
+                $("#nav-email").val(userSetData.uEmail);
+                $("#bindEmail").val(userSetData.uEmail);
+            }
+        });
+    });
+    $("#indexAccountExit").on("click",function(){
+        $.ajax({
+            type:'POST',
+            url:myUrl+'account/userlogout',
+            data:{loginId:eId,token:eIdToken},
+            success:function(data){
+                console.log(data);
+                if(data.code==0){
+                    window.location.href='enter.html';
+                }else if(data.code==10001||data.code==10002||data.code==10003){
+                    toastr.warning('身份过期，请重新登录!');
+                }else{
+                    toastr.error("请求错误！");
+                }
+            },
+            error:function () {
+
+            }
+        })
+        // if($('.bThreeOneLeft').hasClass('cjitems')){
+        //     $('.bThreeOneContent').css({'width':$('.bThreeOneLeft').width()+ $('.bThreeOneContent').width()+$('.cjitems.bThreeOneLeft').width()});
+        //     // $('.bThreeOneContentPicture canvas').css({'width': $('canvas').width()+$('.bThreeOneLeft').width()});
+        //     $('.shrinkRight').addClass('shrinkRights');
+        //     // $('.bThreeOneLeft').css('display','none');
+        // }else{
+        //     // $('.bThreeOneLeft').css('display','block');
+        //     $('.shrinkRight').removeClass('shrinkRights');
+        //     $('.bThreeOneContent').css({'width':$('.bThreeOneContent').width() - $('.bThreeOneLeft').width()-$('.cjitems.bThreeOneLeft').width()});
+        //     // $('.bThreeOneContentPicture canvas').css({'width': $('canvas').width()-$('.bThreeOneLeft').width()});
+        // }
+    })
+    function navAcountSetShow(){
+        $('.project-manage').css('display','none');
+        $('.b5').css('display','none');
+        $('.bFour').css('display','block');
+        $('.bNine').css('display','none');
+        $('.b6').css('display','none');
+        $('.b7').css('display','none');
+        $('.b8').css('display','none');
+        $(".bThreeOne").css('display','none');
+    } 
+    function indexAjax(url, method,parm,callback){
+        $.ajax({
+            url:url,
+            type:method,
+            dataType:'json',
+            data:parm,
+            success:function(data){
+                callback(data);
+            },
+            error:function(err){
+                alert(err);
+            }
+        })
+    }
+    /*$("#index-nav-submit").on("click",function(){
+        var accountName = $("#nav-name").val();
+        var birth = $("#nav-birth").val();
+        var phoneNum = $("#nav-tellphone").val();
+        var address = $("#nav-address").val();
+        var tureName = $("#nav-truename").val();
+        var age = $("#nav-age").val();
+        var certificate = $("#certificate").val();
+        var email = $("#nav-email").val();
+        var sex = $('input[name="sex"]:checked').val();
+        var userIdex ={
+            "pName":accountName,
+            "rName":tureName,
+            "sex":sex,
+            "age":age,
+            "birthday":birth,
+            "idNumber":certificate,
+            "phone":phoneNum,
+            "email":email,
+            "address":address
+        };
+        indexAjax(myUrl+'/user/UpdatePersonalData','post',{loginId :eId,token :eIdToken,fileId :"e684e8f4e593436c9909a6582d1ab98c", strJson :JSON.stringify(userIdex)},
+        function(data){
+            console.log("success",data);
+        })
+    });  */
+})
+$(function(){
+
+    $("#bindEmail").blur(function(){
+        var str = $(this).val();
+        if(str==""){
+        }else{
+            regUrl = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(str); 
+            if(!regUrl){
+                layer.msg("邮箱有误，请重填");
+                $(this).focus();  
+                return false;
+            }
+        }
+    });
+    $("#bindphone").blur(function(){
+        var str = $(this).val();
+        if(str==""){
+        }else{
+            regUrl = /^1[3|4|5|7|8][0-9]{9}$/.test(str); 
+            if(!regUrl){
+                layer.msg("号码有误，请重填");
+                $(this).focus();  
+                return false;
+            }
+        }
+    });
+    $("#certificate").blur(function(){
+        var str = $(this).val();
+        if(str==""){
+        }else{
+            regUrl = /^[1-9]{1}[0-9]{14}$|^[1-9]{1}[0-9]{16}([0-9]|[xX])$/.test(str); 
+            if(!regUrl){
+                layer.msg("证件号码有误，请重填");
+                $(this).focus();  
+                return false;
+            }
+        }
+    });
+    $("#oldPwd").blur(function(){
+        if(localStorage.loginPassword != $(this).val()){
+            layer.msg("原密码和新密码输入不一致，请重新填写");
+            $(this).focus();
+            return;
+        }
+    });
+    $("#nav-submit").on("click",function(){
+        var accountName = $("#nav-name").val();
+        var birth = $("#nav-birth").val();
+        var phoneNum = $("#nav-tellphone").val();
+        var address = $("#nav-address").val();
+        var tureName = $("#nav-truename").val();
+        var age = $("#nav-age").val();
+        var certificate = $("#certificate").val();
+        var email = $("#nav-email").val();
+        var sex = $('input[name="sex"]:checked').attr("value");
+        var fileId = $(".myAccount-new-headerImg").attr("data-fileId");
+        var userIdex ={
+            "pName":accountName,
+            "rName":tureName,
+            "sex":sex,
+            "age":age,
+            "birthday":birth,
+            "idNumber":certificate,
+            "phone":phoneNum,
+            "email":email,
+            "address":address, 
+        };
+        getData(myUrl+'/user/UpdatePersonalData','post',{loginId :eId,token :eIdToken,fileId :fileId, strJson :JSON.stringify(userIdex)},
+        function(data){
+            if(data.code == 0){
+                console.log("success",data);
+                var src = $(".myAccountImgFault").attr("src");
+                $("#user_header_img").attr("src",src);
+                layer.msg("保存个人资料成功");
+            }
+        });
+    });  
+    /*修改密码模块*/
+    $("#ModifyPwdSave").on("click",function(){
+        var oldPwd = $("#oldPwd").val();
+        var newId = $("#newId").val();
+        var reNewPwd = $("#reNewPwd").val();
+        if(oldPwd =="" || newId=="" || reNewPwd==""){
+            layer.msg("请输入完整的信息");
+        }
+        if(newId ==reNewPwd){
+            getData(myUrl+'/account/modifyPwd','post',{loginId :eId,token :eIdToken,currentPwd:oldPwd,
+            newPwd:newId},
+            function(data){
+                if(data.code == 0){
+                    layer.msg("修改密码成功");
+                    localStorage.removeItem("loginPassword");
+                }               
+           })
+        }
+        else if(newId !=reNewPwd){
+            layer.msg("新密码和再次输入密码不一致，请重新填写");
+        }
+    }); 
+    /*账户绑定*/
+    $("#immediateBind").on("click",function(){
+        var thatNoBindTell = this; 
+        var str = $(this).siblings("#bindphone").val();
+        if($(this).hasClass("funReduction")){
+            layer.confirm('确定解除绑定吗？', {
+                btn: ['取消','确定'], //按钮
+                title: false,
+                closeBtn:0,
+                shadeClose:true,
+            }, function() {
+                layer.closeAll();
+            },function(){
+                getData(myUrl+'/user/accountNoBinding','post',{loginId :eId,token :eIdToken,loginName:str},
+                function(data){
+                   if(data.code == 0){
+                        layer.msg("解除绑定成功！");
+                        $(thatNoBindTell).removeClass("funReduction").text("绑定");
+                   }
+               }) 
+            });  
+        }else{
+            if(str==""){
+                layer.msg("请输电话号码");
+                return;
+            }else{
+                regUrl = /^1[3|4|5|7|8][0-9]{9}$/.test(str); 
+                if(!regUrl){
+                    layer.msg("号码有误，请重填");
+                    $(this).siblings("#bindphone").focus();  
+                    return false;
+                }
+                $("#getTelBindNum").text($("#bindphone").val());
+                $('.alertAccountBindboxcover').show();
+                $('.alertAccountBindboxcover .alertAccountBindpopupsbox').show();
+            }
+        }
+    });
+    $("#btnEmailBind").on("click",function(){
+        var thatEmail = this; 
+        var str = $(this).siblings("#bindEmail").val();
+        if($(this).hasClass("funReductionEmail")){
+            layer.confirm('确定解除绑定吗？', {
+                btn: ['取消','确定'], //按钮
+                title: false,
+                closeBtn:0,
+                shadeClose:true,
+            }, function() {
+                layer.closeAll();
+            },function(){
+                getData(myUrl+'/user/accountNoBinding','post',{loginId :eId,token :eIdToken,loginName:str},
+                function(data){
+                   if(data.code == 0){
+                        layer.msg("解除绑定成功！");
+                        $(thatEmail).removeClass("funReductionEmail").text("绑定");
+                   }
+               }) 
+            });  
+        }else{
+            if(str==""){
+                layer.msg("请输入邮箱");
+                return;
+            }else{
+                regUrl = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/.test(str); 
+                if(!regUrl){
+                    layer.msg("邮箱有误，请重填");
+                   $(this).siblings("#bindEmail").focus();   
+                    return false;
+                }
+                $("#getEmailShow").text($("#bindEmail").val());
+                $('.emailboxcover,.emailboxcover .emailpopupsbox').show();
+            }
+        }
+    });
+    $(".alertAccountBindboxclose").on("click",function(){
+        $('.alertAccountBindboxcover').hide();
+        $('.alertAccountBindboxcover .alertAccountBindpopupsbox').hide();
+    });
+    $(".emailboxclose").on("click",function(){
+        $('.emailboxcover,.emailboxcover .emailpopupsbox').hide();
+    });
+    //发送验证码
+    $("#send_verification_phone").click(function() {
+        var phoneNumber = $("#bindphone")[0].value;
+        if(null != phoneNumber && 0 != phoneNumber.length) {
+            getData(myUrl+'/user/accountBindingSendCode','post',{loginId :eId,token :eIdToken,loginName: phoneNumber},
+            function(data){
+                console.log("手机绑定验证码",data);
+                if( 0 == data.code) {
+                    var t1 = window.setInterval(showLeftTime, 1000);
+                    var i = 59;
+                    function showLeftTime() {
+                        if(i > 1) {
+                            $("#send_verification_phone").attr("disabled", "true");
+                            $("#send_verification_phone").text(i + 's');
+                            $("#send_verification_phone").addClass("clickSendCode");
+                            i--;
+                        } else {
+                            window.clearInterval(t1);
+                            $("#send_verification_phone").text("重发验证码");
+                            $("#send_verification_phone").removeAttr("disabled");
+                            $("#send_verification_phone").removeClass("clickSendCode");
+                        }
+
+                    }
+                }
+           })
+        }
+    });
+    $("#send_verification_email").click(function() {
+        var emailNumber = $("#bindEmail")[0].value;
+        if(null != emailNumber && 0 != emailNumber.length) {
+            getData(myUrl+'/user/accountBindingSendCode','post',{loginId :eId,token :eIdToken,loginName: emailNumber},
+            function(data){
+                console.log("手机绑定验证码",data);
+                if( 0 == data.code) {
+                    var t1 = window.setInterval(showLeftTime, 1000);
+                    var i = 59;
+                    function showLeftTime() {
+                        if(i > 1) {
+                            $("#send_verification_email").attr("disabled", "true");
+                            $("#send_verification_email").text(i + 's');
+                            $("#send_verification_email").addClass("clickSendCode");
+                            i--;
+                        } else {
+                            window.clearInterval(t1);
+                            $("#send_verification_email").text("重发验证码");
+                            $("#send_verification_email").removeAttr("disabled");
+                            $("#send_verification_email").removeClass("clickSendCode");
+                        }
+
+                    }
+                }
+           })
+        }
+    });
+    //手机验证码确认
+    $("#alertAccountBindbtnok").on("click",function(){
+        var telphone = $("#bindphone").val();
+        var code = $("#alertbind").val();
+        getData(myUrl+'/user/accountBinding','post',{loginId :eId,token :eIdToken,loginName:telphone,code:code},
+        function(data){
+            if(data.code==0){
+                layer.msg("验证码发送成功！");
+                $('.alertAccountBindboxcover').hide();
+                $('.alertAccountBindboxcover .alertAccountBindpopupsbox').hide();
+                $("#immediateBind").text("解绑").addClass("funReduction");
+            }
+       })
+    });
+    $("#emailbtnok").on("click",function(){
+        var email = $("#bindEmail").val();
+        var code = $("#inputEmailVerification").val();
+        getData(myUrl+'/user/accountBinding','post',{loginId :eId,token :eIdToken,loginName:email,code:code},
+        function(data){
+            if(data.code==0){
+                layer.msg("邮箱验证码发送成功！");
+                $('.emailboxcover,.emailboxcover .emailpopupsbox').hide();
+                $("#btnEmailBind").text("解绑").addClass("funReductionEmail");
+            }
+       })
+    });
+    
+    /*账户设置重写*/
+    $(".myAccount-manage").on("click",function(){
+        myAccountChangeTabStyle(this);
+    });
+    function myAccountChangeTabStyle(obj){
+        $('.myAccount-manage').removeClass("nav-active has");
+        $(obj).addClass("has nav-active");
+        var thisMyaccountIndex= $('.myAccount-manage').index(obj);
+        console.log(thisMyaccountIndex);
+        if(thisMyaccountIndex==0){
+            $("#personal-data").show();
+            $("#account-bind").hide();
+            $("#account-password").hide();
+        }
+        else if(thisMyaccountIndex==1){
+            $("#personal-data").hide();
+            $("#account-password").hide();
+            var personDataTell = $("#nav-tellphone").val();
+            var personDataEmail = $("#nav-email").val();
+            if(personDataTell==""){
+
+                $("#immediateBind").text("绑定");
+            }else{
+                $("#immediateBind").text("解绑");
+                $("#bindphone").val(personDataTell);
+            }
+            if(personDataEmail==""){
+                $("#btnEmailBind").text("绑定");
+            }else{
+                $("#btnEmailBind").text("解绑");
+                $("#bindEmail").val(personDataEmail);
+            }
+            $("#account-bind").show();
+        }
+        else if(thisMyaccountIndex==2){
+            $("#oldPwd").val("");
+            $("#newId").val("");
+            $("#reNewPwd").val("");
+            $("#account-password").show();
+            $("#personal-data").hide();            
+            $("#account-bind").hide();
+
+        }   
+    }
+    headPortrait('indexmyAccountImgContainer','indexmyAccountImgbtn');
+    $("#myAccountnewclose").on("click",function(){
+        $(".myaccount-box-cover").hide();
+    });
+    function getUserByLoginId(wloginID,wtoken){
+        getData(myUrl+'/user/getUserByLoginId','post',{loginId :wloginID,token :wtoken},function(data){
+            console.log("根据登录编号获取用户",data.result);
+            $("#user_name").text(data.result.uName);
+            /*if(typeof($(".myAccount-new-headerImg").val("data-fileId") == undefined)){
+
+            }else{
+            $("#user_header_img").attr("src","http://192.168.3.31:8080/bim/getPic?token=" + wtoken + "&loginId=" + wloginID + "&fileId=" +data.result.headPic)
+            }*/
+            if(data.result.headPic == ""){
+                //
+            }else{
+               $("#user_header_img").attr("src","http://192.168.3.31:8080/bim/getPic?token=" + wtoken + "&loginId=" + wloginID + "&fileId=" +data.result.headPic); 
+            }
+        });
+    }
+    //头像上传
+    function headPortrait(imgContain, imgBtn){
+        var $list = $('#' +imgContain);
+        var ratio = window.devicePixelRatio || 1; 
+        var thumbnailWidth = 80 * ratio;
+        var thumbnailHeight = 80 * ratio; 
+        var uploader = WebUploader.create({ 
+            auto: true,
+            formData:{
+                uid: 123
+            },
+            swf:'Uploader.swf',
+            chunked : true,
+            chunkSize: 1024 * 1024,
+            threads:1,
+            server: 'http://192.168.3.31:8080/bim/upload?token=' +eIdToken +"&loginId=" +eId,
+            fileVal:'test',
+            pick: '#'+imgBtn,
+            accept: {
+                title: 'Images',
+                extensions: 'gif,jpg,jpeg,bmp,png',
+                mimeTypes: 'image/jpg,image/jpeg,image/png'
+            },
+            compress : false        
+        });
+
+        uploader.on( 'fileQueued', function( file ) {
+            console.log("file",file);
+            var $li = $(
+                    '<div id="' + file.id + '" class="file-item thumbnail">' +
+                        '<img>' +
+                    '</div>'
+                    ),
+                $img = $li.find('img');
+     
+            //$list.append( $li );
+            //$(".webuploader-pick").css("top","-30px");
+     
+            // 创建缩略图
+            uploader.makeThumb( file, function( error, src ) {
+                if ( error ) {
+                    $img.replaceWith('<span>不能预览</span>');
+                    return;
+                }             
+                $(".myAccountImgFault").attr("src",src);
+            }, thumbnailWidth, thumbnailHeight );
+        });
+
+        uploader.on( 'uploadSuccess', function( file,data ) {
+            $( '#'+file.id ).addClass('upload-state-done');
+            console.log("data",data);
+            $(".myAccount-new-headerImg").attr("data-fileId",data.result.fileId);
+            console.log("路径",data.result.tempFileDir + data.result.fileId);
+        });
+
+        uploader.on( 'uploadError', function( file ) {
+            var $li = $( '#'+file.id ),
+                $error = $li.find('div.error');
+     
+            // 避免重复创建
+            if ( !$error.length ) {
+                $error = $('<div class="error"></div>').appendTo( $li );
+            }
+     
+            $error.text('上传失败!!!');
+        });
+     
+        uploader.on( 'uploadComplete', function( file ) {
+            $( '#'+file.id ).find('.progress').remove();
+        });
+    }
+})
+  
+
+  

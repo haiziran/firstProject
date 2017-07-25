@@ -1,0 +1,21 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+    <!--<meta charset="UTF-8">-->
+    <!--<title>去绑定</title>-->
+<!--<link rel="stylesheet" type="text/css" href="../style/css.css">-->
+<!--<link rel="stylesheet" type="text/css" href="../style/reset.css">-->
+<!--<link rel="stylesheet" type="text/css" href="../style/index.css">-->
+<!--<script src="../js/jquery-1.7.2.js"></script>-->
+<!--<script src="../js/index.js"></script>-->
+<!--<script src="../js/enter1.js"></script>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="bFourTwo">-->
+    <!--<div class="bFourTwoBack">X</div>-->
+    <!--<div class="bFourTwoContent">&nbsp;&nbsp;您的号码为134.....442的手机，会收到一条含有6位数字验证码的短信</div>-->
+    <!--<div class="bFourTwoInput"><input type="text" placeholder="验证码"/></div>-->
+    <!--<div class="bFourTwoSubmit">49S秒后再次获取</div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->

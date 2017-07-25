@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据管理-设备管理</title>
+    <link rel="stylesheet" type="text/css" href="../style/css.css" />
+    <link rel="stylesheet" type="text/css" href="../style/reset.css" />
+    <link rel="stylesheet" type="text/css" href="../style/index.css" />
+    <link rel="stylesheet" type="text/css" href="../style/WdatePicker.css" />
+    <link rel="stylesheet" type="text/css" href="../style/webuploader.css">
+</head>
+<body>
+    <!-- <div class="header">
+        <div style="float: left">BIM装修工程协同管理系统</div>
+        <div class="Engineer">工程管理</div>
+        <div class="Unit">单位管理</div>
+        <div class="System">系统管理</div>
+        <div class="Manger">用户管理</div>
+        <div class="User">
+            <span class="Photo">头像</span>
+            <span>Type something@163.com</span>
+            <span class="Function"></span>
+        </div>
+    </div> -->
+    <div id="popLayer"></div>
+<!-- c6设备管理 -->
+<div class="cSix">
+    <div class="cSixContent">
+        <div class="cSixContentHeader">
+            <div class="c6right">
+                <button class="c6Add"><span>+</span>&nbsp;&nbsp;&nbsp;添加设备</button>
+                <div class="cSixHeaderInput"><input type="search" placeholder="搜索">
+                    <span id="c6Find"><img src="../images/search.png"></span>
+                </div>
+            </div>
+            <div style="clear:both;"></div>
+        </div>
+        <div class="cSixContentMain">
+            <div class="c6center">
+                <div class="cSixList cSixListFont">
+                    <ul class="c6header">
+                        <li class="c6id"><input type="checkbox">序号</li>
+                        <li class="cSixListOne">设备名称</li>
+                        <li class="cSixListTwo">数量</li>
+                        <li class="cSixListThree">负责人</li>
+                        <li class="cSixListSix">进场时间</li>
+                        <li class="cSixListSix">离场时间</li>
+                        <li class="cSixListFour">附件</li>
+                        <li class="cSixListSix">操作</li>
+                        <div style="clear: both"></div>
+                    </ul>
+                </div>
+                <div class="cSixList c6listContent">
+                    <div style="clear: both"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="c6_footer">
+        <!-- <div class="select-delete"><input type="checkbox" id="allDel"><span class="c6del">删除</span></div> -->
+        <div class="yeshu1 yeshu">
+            <ul class="unlist-style">
+                <li class="number active">1</li>
+                <li class="number">2</li>
+                <li class="number">3</li>
+                <li class="number">4</li>
+                <li class="number">5</li>
+                <li>......</li>
+                <li class="number">10</li>
+                <li class="word">跳转到</li>
+                <li class="numberBox"><input type="text" name=""></li>
+                <li class="word">共10页</li>
+            </ul>
+        </div>
+    </div>
+    <!-- 添加用户弹出框 -->
+    <div class="c6AddBox">
+        <div class="cSixOneOneHeader">
+            <span>设备管理</span>
+            <span class="bac closeC6">X</span>
+        </div>
+        <div class="cSixOneOneContent">
+            <div class="cSixOneOneFirst cSixOneOne1">
+                <div>设备名称</div>
+                <input class="c6name" type="text" name="name" placeholder="设备名称">
+            </div>
+            <div class="cSixOneOneFirst">
+                <div>数量</div>
+                <input class="c6number" type="text" name="number" placeholder="数量">
+            </div>
+            <div class="cSixOneOneFirst cSixOneOneFirst1">
+                <div>负责人</div>
+                <input type="text" placeholder="负责人" class="c6person">
+            </div>
+            <div style="clear: both"></div>
+            <div class="cSixOneOneSecond">
+                <div>进场时间</div>
+                <input type="text" placeholder="进场时间" class="c6start" onfocus="WdatePicker({skin:'whyGreen',maxDate:'%y-%M-%d'})">
+            </div>
+            <div class="cSixOneOneSecond cSixOneOneSecond1">
+                <div>离场时间</div>
+                <input type="text" placeholder="离场时间" class="c6end" onfocus="WdatePicker({skin:'whyGreen',maxDate:'%y-%M-%d'})">
+            </div>
+            <div style="clear: both"></div>
+            <div class="file">
+               <!--  <input class="cSixOneOneSixFile c6file" id="fileId" type="file" name="upload" multiple/> -->
+               <div id="uploader" class="wu-example">
+                    <div class="btns">
+                        <div id="c6picker">添加文件</div>
+                    </div>
+                    <!--用来存放文件信息-->
+                    <div id="c6thelist" class="uploader-list"></div>
+                </div> 
+             </div>
+            <div class="c6Submit">
+                <button class="c6Save" id="c6AddSave">提交</button>
+            </div>
+        </div>
+    </div>
+    <!-- 编辑用户弹出框 -->
+    <div class="c6Exit">
+        <div class="cSixOneOneHeader">
+            <span>设备管理</span>
+            <span class="bac closeC6">X</span>
+        </div>
+        <div class="cSixOneOneContent">
+            <div class="cSixOneOneFirst cSixOneOne1">
+                <div>设备名称</div>
+                <input class="c6name" type="text" name="name" placeholder="设备名称">
+            </div>
+            <div class="cSixOneOneFirst">
+                <div>数量</div>
+                <input class="c6number" type="text" name="number" placeholder="数量">
+            </div>
+            <div class="cSixOneOneFirst cSixOneOneFirst1">
+                <div>负责人</div>
+                <input type="text" placeholder="负责人" class="c6person">
+            </div>
+            <div style="clear: both"></div>
+            <div class="cSixOneOneSecond">
+                <div>进场时间</div>
+                <input type="text" placeholder="进场时间" class="c6start" onfocus="WdatePicker({skin:'whyGreen',maxDate:'%y-%M-%d'})">
+            </div>
+            <div class="cSixOneOneSecond cSixOneOneSecond1">
+                <div>离场时间</div>
+                <input type="text" placeholder="离场时间" class="c6end" onfocus="WdatePicker({skin:'whyGreen',maxDate:'%y-%M-%d'})">
+            </div>
+            <div style="clear: both"></div>
+            <div class="file">
+                <!-- <div class="fileExit">文件(选择删除或添加)</div> -->
+                <input class="cSixOneOneSixFile c6file" type="file" multiple value="添加文件" />
+                <div class="fileBox"></div>
+            </div>
+            <div class="c6SubmitExit">
+                <button class="c6Save" id="exitSave">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../js/jquery-1.7.2.js"></script>
+<script src="../js/toastr.min.js"></script>
+<script type="text/javascript" src="../js/WdatePicker.js"></script>
+<script type="text/javascript" src="../js/webuploader.min.js"></script>
+<script type="text/javascript" src="../js/enter.js"></script>
+<script type="text/javascript" src="../js/enter1.js"></script>
+</body>
+</html>

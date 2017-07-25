@@ -1,0 +1,62 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>找回账号密码</title>
+    <link rel="stylesheet" type="text/css" href="../style/css.css" />
+     <link rel="stylesheet" type="text/css" href="../style/reset.css" />
+    <script src="../js/jquery-1.7.2.js"></script>
+    <script src="../js/index.js"></script>
+</head>
+<body>
+<div class="header">
+    BIM装修工程协同管理系统
+</div>
+<div class="aFour">
+    <div class="login4">
+        <div class="message1">
+            找回账号密码
+        </div>
+        <div class="aTwoNext">
+            <div class="first">
+                <div class="cicrl">
+                    <div class="numb">1</div>
+
+                </div>
+                <div class="tes">发送验证码</div>
+            </div>
+            <div class="f1"></div>
+            <div class="first">
+                <div class="cicrl">
+                    <div class="numb">2</div>
+                    <div class="f2"></div>
+
+                </div>
+                <div class="tes">重置新密码</div>
+            </div>
+            <div class="f1"></div>
+            <div class="first">
+                <div class="cicrl">
+                    <div class="numb">3</div>
+                    <div class="f2"></div>
+
+                </div>
+                <div class="tes">完成</div>
+            </div>
+            <div style="clear: both"></div>
+        </div>
+        <div class="aFourFooter">
+            <div class="first4">
+                <div class="cicr2">
+                    <div class="numb1">√</div>
+                </div>
+            </div>
+        </div>
+        <div class="tes1">恭喜你，成功设置新密码！</div>
+        <div class="aFourSubmit">
+            <div class="submit1" value="去首页">去首页</div>
+        </div>
+    </div>
+</div>
+</body>
+</html> -->

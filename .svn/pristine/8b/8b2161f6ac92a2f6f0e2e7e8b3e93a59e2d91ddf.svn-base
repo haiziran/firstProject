@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据管理-人员管理</title>
+    <link rel="stylesheet" type="text/css" href="../style/css.css" />
+    <link rel="stylesheet" type="text/css" href="../style/reset.css" />
+    <link rel="stylesheet" type="text/css" href="../style/index.css" />
+    <link rel="stylesheet" type="text/css" href="../style/WdatePicker.css" />
+</head>
+<body>
+    <div class="header">
+        <div style="float: left">BIM装修工程协同管理系统</div>
+        <div class="Engineer">工程管理</div>
+        <div class="Unit">单位管理</div>
+        <div class="System">系统管理</div>
+        <div class="Manger">用户管理</div>
+        <div class="User">
+            <span class="Photo">头像</span>
+            <span>Type something@163.com</span>
+            <span class="Function"></span>
+        </div>
+    </div>
+    <div id="popLayer"></div>
+<div class="cFive">
+    <div class="cFiveContent">
+        <div class="cFiveContentHeader">
+            <div class="cFiveMember" id="cFiveMember">人员管理</div>
+            <div class="c5right">
+                <button class="c5Add">添加</button>
+                <div class="cFiveHeaderInput"><input type="search" placeholder="搜索">
+                    <span id="c5Find"><img src="../images/search.png"></span>
+                </div>
+            </div>
+            <div style="clear:both;"></div>
+        </div>
+        <div class="cFiveContentMain">
+            <div class="c5type">
+                <span class="title1">类型：</span>
+                <!-- <a  href='#' class="active3">施工</a>
+                <a  href='#'>施工</a> -->
+            </div>
+            <div class="c5center">
+                <div class="cFiveList cFiveListFont">
+                    <ul class="c5header">
+                        <li class="c5id">序号</li>
+                        <li class="cFiveListOne">姓名</li>
+                        <li class="cFiveListTwo">联系方式</li>
+                        <li class="cFiveListThree">身份证</li>
+                         <li class="cFiveListThree">类型</li>
+                          <li class="cFiveListThree">工种</li>
+                        <li class="cFiveListFive">进场时间</li>
+                        <li class="cFiveListFive">离场时间</li>
+                        <li class="cFiveListFour">附件</li>
+                        <li class="cFiveListSix">操作</li>
+                        <div style="clear: both"></div>
+                    </ul>
+                </div>
+                <div class="cFiveList c5listContent">
+                    <div style="clear: both"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="c5_footer">
+        <!-- <div class="select-delete"><input type="checkbox" id="allDel"><span class="c6del">删除</span></div> -->
+        <div class="yeshu1 yeshu">
+            <ul class="unlist-style">
+                <li class="number active">1</li>
+                <li class="number">2</li>
+                <li class="number">3</li>
+                <li class="number">4</li>
+                <li class="number">5</li>
+                <li>......</li>
+                <li class="number">10</li>
+                <li class="word">跳转到</li>
+                <li class="numberBox"><input type="text" name=""></li>
+                <li class="word">共10页</li>
+            </ul>
+        </div>
+    </div>
+    <!-- 添加用户弹出框 -->
+    <div class="c5AddBox">
+        <div class="cSixOneOneHeader">
+            <span>人员管理</span>
+            <span class="bac closeC5">X</span>
+        </div>
+        <div class="cSixOneOneContent">
+            <div class="cSixOneOneFirst">
+                <div>姓名</div>
+                <input class="c5name" type="text" name="name" placeholder="姓名">
+            </div>
+            <div class="cSixOneOneFirst cSixOneOneFirst1">
+                <div>联系方式</div>
+                <input type="text" name="phone" placeholder="联系方式" class="c5phone">
+            </div>
+            <div class="cSixOneOneThree cSixOneOneThree2">
+                <div>身份证</div>
+                <input type="text" placeholder="身份证" class="c5sfz">
+            </div>
+            <div class="cSixOneOneThree">
+                <div>类型</div>
+                <select class="c5type1">
+                </select>
+            </div>
+            <div class="cSixOneOneThree cSixOneOneThree1">
+                <div>工种</div>
+                <select class="c5gz">
+                </select>
+            </div>
+            <div style="clear: both"></div>
+            <div class="cSixOneOneSecond">
+                <div>进场时间</div>
+                <input type="text" placeholder="进场时间" class="c5start" onfocus="WdatePicker({skin:'whyGreen',maxDate:'%y-%M-%d'})">
+            </div>
+            <div class="cSixOneOneSecond cSixOneOneSecond1">
+                <div>离场时间</div>
+                <input type="text" placeholder="离场时间" class="c5end" onfocus="WdatePicker({skin:'whyGreen',maxDate:'%y-%M-%d'})">
+            </div>
+            <div style="clear: both"></div>
+            <div class="file">
+                <input class="cSixOneOneSixFile c5file" id="fileId" type="file" name="upload" multiple/>
+             </div>
+            <div class="c5Submit">
+                <button class="c5Save" id="c5AddSave">提交</button>
+            </div>
+        </div>
+    </div>
+    <!-- 编辑用户弹出框 -->
+    <div class="c5Exit">
+        <div class="cSixOneOneHeader">
+            <span>人员管理</span>
+            <span class="bac closeC5">X</span>
+        </div>
+        <div class="cSixOneOneContent">
+            <div class="cSixOneOneFirst">
+                <div>姓名</div>
+                <input class="c5name" type="text" name="name" placeholder="姓名">
+            </div>
+            <div class="cSixOneOneFirst cSixOneOneFirst1">
+                <div>联系方式</div>
+                <input type="text" name="phone" placeholder="联系方式" class="c5phone">
+            </div>
+            <div style="clear: both"></div>
+            <div class="cSixOneOneSecond">
+                <div>进场时间</div>
+                <input type="text" placeholder="进场时间" class="c5start" onfocus="WdatePicker({skin:'whyGreen',maxDate:'%y-%M-%d'})">
+            </div>
+            <div class="cSixOneOneSecond cSixOneOneSecond1">
+                <div>离场时间</div>
+                <input type="text" placeholder="离场时间" class="c5end" onfocus="WdatePicker({skin:'whyGreen',maxDate:'%y-%M-%d'})">
+            </div>
+            <div style="clear: both"></div>
+            <div class="cSixOneOneThree cSixOneOneThree2">
+                <div>身份证</div>
+                <input type="text" placeholder="身份证" class="c5sfz">
+            </div>
+            <div class="cSixOneOneThree">
+                <div>类型</div>
+                <select class="c5type1">
+                </select>
+            </div>
+            <div class="cSixOneOneThree cSixOneOneThree1">
+                <div>工种</div>
+                <select class="c5gz">
+                </select>
+            </div>
+            <div style="clear: both"></div>
+            <!-- <div class="cSixOneOneThree cSixOneOneThree2">
+                <div class="fileExit">文件</div>
+                <input type="text" placeholder="文件" class="c5file">
+            </div> -->
+            <div class="file">
+                <!-- <div class="fileExit">文件(选择删除或添加)</div> -->
+                <input class="cSixOneOneSixFile c5file" type="file" multiple value="添加文件" />
+                <div class="fileBox"></div>
+            </div>
+            <div class="c5SubmitExit">
+                <button class="c5Save" id="exitSave">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../js/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="../js/enter1.js"></script>
+<script type="text/javascript" src="../js/WdatePicker.js"></script>
+</body>
+</html>

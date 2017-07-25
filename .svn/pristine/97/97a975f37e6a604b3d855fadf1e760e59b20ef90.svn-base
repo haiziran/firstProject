@@ -1,0 +1,78 @@
+<!--封装在index-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数据管理-模型</title>
+    <link rel="stylesheet" type="text/css" href="../style/css.css">
+    <link rel="stylesheet" type="text/css" href="../style/reset.css">
+    <link rel="stylesheet" type="text/css" href="../style/index.css">
+    <script src="../js/jquery-1.7.2.js"></script>
+    <script src="../js/index.js"></script>
+    <script src="../js/enter1.js"></script>
+</head>
+<body>
+<div class="cThree">
+    <div class="cThreeHeader">
+        <span class="cThreeHeaderOne">图纸列表</span>
+        <span class="cThreeHeaderTwo">上传图纸</span>
+        <span class="cThreeHeaderThree"><input type="search" placeholder="搜索">
+                <span><img src="../img/search.png"></span>
+            </span>
+    </div>
+    <div class="cThreeContent">
+        <div class="cThreeContentMain">
+            <div class="cThreeImg"><img src="../img/pic1.jpg" /></div>
+            <div class="cThreeContentMainHeader">最新房屋设计模型</div>
+            <div class="cThreeContentMainList">
+                <ul>
+                    <li>管理单位：筑业置业</li>
+                    <li>管理单位：筑业置业</li>
+                    <li>管理单位：筑业置业</li>
+                </ul>
+            </div>
+            <div class="cThreeSelect"></div>
+        </div>
+        <div class="cThreeContentMain">
+            <div class="cThreeImg"><img src="../img/pic1.jpg" /></div>
+            <div class="cThreeContentMainHeader">最新房屋设计模型</div>
+            <div class="cThreeContentMainList">
+                <ul>
+                    <li>管理单位：筑业置业</li>
+                    <li>管理单位：筑业置业</li>
+                    <li>管理单位：筑业置业</li>
+                </ul>
+            </div>
+            <div class="cThreeSelect"></div>
+        </div>
+        <div class="cThreeContentMain">
+            <div class="cThreeImg"><img src="../img/pic1.jpg" /></div>
+            <div class="cThreeContentMainHeader">最新房屋设计模型</div>
+            <div class="cThreeContentMainList">
+                <ul>
+                    <li>管理单位：筑业置业</li>
+                    <li>管理单位：筑业置业</li>
+                    <li>管理单位：筑业置业</li>
+                </ul>
+            </div>
+            <div class="cThreeSelect"></div>
+        </div>
+        <div class="cThreeContentMain">
+            <div class="cThreeImg"><img src="../img/pic1.jpg" /></div>
+            <div class="cThreeContentMainHeader">最新房屋设计模型</div>
+            <div class="cThreeContentMainList">
+                <ul>
+                    <li>管理单位：筑业置业</li>
+                    <li>管理单位：筑业置业</li>
+                    <li>管理单位：筑业置业</li>
+                </ul>
+            </div>
+            <div class="cThreeSelect"></div>
+            <div style="clear: both"></div>
+        </div>
+        <div style="clear: both"></div>
+    </div>
+    <div style="clear: both"></div>
+</div>
+</body>
+</html>

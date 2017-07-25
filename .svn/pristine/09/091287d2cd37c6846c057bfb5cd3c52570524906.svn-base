@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="style/css.css" />
+    <link rel="stylesheet" type="text/css" href="style/reset.css" />
+    <link rel="stylesheet" type="text/css" href="style/index.css" />
+    <link rel="stylesheet" type="text/css" href="style/WdatePicker.css" />
+    <link rel="stylesheet" type="text/css" href="style/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style/home.css">
+    <link rel="stylesheet" type="text/css" href="style/project.css">
+    <link rel="stylesheet" href="http://g.alicdn.com/sj/dpl/1.5.1/css/sui.min.css">
+    <link rel="stylesheet" href="http://g.alicdn.com/sj/dpl/1.5.1/css/sui-append.min.css">
+    <link rel="stylesheet" type="text/css" href="style/toastr.css">
+    <link rel="stylesheet" type="text/css" href="style/webuploader.css">
+</head>
+<body>
+<div class="sui-navbar navBar" style="background-color: #FFFFFF;margin-bottom:0px">
+    <div class="navbar-inner tc" style="background-color: #FFFFFF;">
+        <div class="fl">
+            <a id="home-img" href="#" class="sui-brand" style="line-height: 34px;">
+                <img style="height: 34px;" src="images/LOGO.png" />
+            </a>
+        </div>
+        <nav class="nav-title tc disinblock">
+            <ul class="disinblock color-8 f16">
+                <span class="color-6 pr disinblock management has nav-active"><li class="">项目管理</li></span>
+                <span class="color-6 pr disinblock management"><li class="Unit">单位管理</li></span>
+                <span class="color-6 pr disinblock management"><li class="System">系统管理</li></span>
+                <span class="color-6 pr disinblock management"><li class="Manger">用户管理</li></span>
+                <span class="color-6 pr hide management"><li>数据分析</li></span>
+                <div class="cb"></div>
+            </ul>
+        </nav>
+        <div class="fr">
+            <ul class="sui-nav pull-right  nav-right">
+                <li class="sui-dropdown dropdown-xlarge align-right mr-02">
+                    <a href="javascript:void(0);" data-toggle="dropdown" class="dropdown-toggle">
+                        <span class="dropdown-inner wh-150">
+                            <img id="user_header_img" class="nav-header-img fl" src="images/pic1.jpg"/>
+                            <div  class = "newIndexUser">
+                                <div id="user_name">智在科技</div>
+                            </div>
+                            <img src="images/ioc_b.png" class="xittub">
+                            </span>
+                    </a>
+                    <ul role="menu" aria-labelledby="drop2" class="sui-dropdown-menu nav-right small-menu" style="width: 100%;font-size: 16px;text-align: center;margin-right: -1px; border: none;box-shadow: 0px 3px 10px rgba(0,0,0,0.075);-webkit-box-shadow: 0px 3px 10px rgba(0,0,0,0.075);-moz-box-shadow: 0px 3px 10px rgba(0,0,0,0.075);border-bottom-left-radius: 5px;border-bottom-right-radius: 5px;padding: 0;overflow: hidden;">
+                        <li role="presentation">
+                            <a role="menuitem" tabindex="-1" id="navAcountSetting">账户设置</a>
+                        </li>
+                        <li role="presentation">
+                            <a role="menuitem" tabindex="-1" id="navLoginOut">退出</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="sui-nav pull-right nav-menu">
+                <li class="sui-dropdown dropdown-xlarge align-right" style="margin-right: -1rem;">
+                    <a href="javascript:void(0);" data-toggle="dropdown" class="dropdown-toggle">
+                        <span class="dropdown-inner" style="width: 2rem;">
+                            <img style="margin-top: 0.4rem;margin-bottom: 0.2rem;" src="images/nav_menu.png"/>
+                            </span>
+                    </a>
+
+                    <ul role="menu" aria-labelledby="drop2" class="sui-dropdown-menu" style="width: 5rem; font-size: 16px; text-align: center;">
+                        <li role="presentation">
+                            <a id="projectManage" role="menuitem" tabindex="-1" style="height: 1.5rem;">项目管理</a>
+                        </li>
+                        <li role="presentation" class="UnitWin">
+                            <a id="unitManage" role="menuitem" tabindex="-1" style="height: 1.5rem;">单位管理</a>
+                        </li>
+                        <li role="presentation" class="systemWin">
+                            <a id="systemManage" role="menuitem" tabindex="-1" style="height: 1.5rem;">系统管理</a>
+                        </li>
+                        <li role="presentation" class="mangerWin">
+                            <a id="userManage" role="menuitem" tabindex="-1" style="height: 1.5rem;">用户管理</a>
+                        </li>
+                        <li role="presentation">
+                            <a id="dataAnalyze" role="menuitem" tabindex="-1" style="height: 1.5rem;">数据分析</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="sui-nav pull-right  nav-right">
+                <li class="align-right nav-question" style="float: left;margin-top: 20px;">
+                    <img src="images/warning.png">
+                </li>
+                <li class="align-right" style="float: left;max-height: 35px;border-right: 1px solid #ebebeb;margin-top: 10px;">
+                    <img id="btnOfMessage" class="nav-header-mess" />
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="popLayer"></div>
+<!--工程管理-->
+<div class="project-manage">
+    <div class="container-fluid setWidth">
+        <div class="null-div"></div>
+        <div class="title-name">所有项目</div>
+        <div class="row" id="project-content" style=" overflow-y: scroll;height:560px">
+            <div class="col-md-3 col-sm-3 col-xs-4 pl-0 cp mt-20" id="createNewProject">
+                <div class="get-project">
+                    <img src="images/add_ico.png">
+                    <div class="getNewPro">创建新项目</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="project-manage-template">
+    {{each}}
+    <div class="col-md-3 col-sm-3 col-xs-4 item-template mt-20" data-id={{$value.pId}}>
+        <div class="project one">
+            <div class="nunu">
+                <img class="enterIndex show_item_img" src={{if $value.ppicture ==""}}images/gardenTwo.png{{else}}{{"http://192.168.3.31:8080/bim/getPic?token=" + $value.token + "&loginId=" + $value.loginId + "&fileId=" +$value.ppicture}}{{/if}}>
+            </div>
+            <div class="project-name">{{$value.pName}}</div>
+            <div class="detail">
+                {{$value.pIntrouction}}
+            </div>
+            <div class="row">
+                <div class="edit col-md-1 col-sm-4 col-xs-4 col-md-offset-8 col-sm-offset-2 col-xs-offset-2">
+                    <img class="project-manageEidit" src="images/edit_ico.png">
+                </div>
+                <div class="remove col-md-2 col-sm-4 col-xs-6 pr-0">
+                    <img src="images/del_ico.png">
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</script>
+<!-- 创建新项目的弹出层 -->
+<div class="box-cover" id="creatNewItemBoxCover">
+    <div class="popups-box" id="creatNewItemPopupsBox">
+        <div class="box-close" id="box-close"></div>
+        <div class="popups-header">创建项目</div>
+        <div class="popups-content">
+            <div class="sub-title" id="getfileId">项目封面</div>
+            <div class="popups-img" style="float:left"><img id="defaultImg" src="images/gardenTwo.png"></div>
+            <div id="uploader-demo">
+                <div id="fileList" class="uploader-list"></div>
+                <div id="filePicker">重新选择</div>
+            </div>
+            <div style="clear:both"></div>
+            <div class="sub-title">项目标题</div>
+            <div><input type="text" class="sub-input item-title"></div>
+            <div class="sub-title">项目描述</div>
+            <div>
+                <textarea class="sub-textArea item-describe"></textarea>
+            </div>
+            <div class="footer">
+                <div class="btn-ok projectSubmit">提交</div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 手机绑定的弹窗 -->
+<div class="alertAccountBindboxcover">
+    <div class="alertAccountBindpopupsbox">
+        <div class="alertAccountBindboxclose"></div>
+        <div class="popups-content">
+            <div class="mt-20 tx-c">您的号码为<span id="getTelBindNum"></span>的手机,</div>
+            <div class="mt-20 tx-c">会收到一条含有6位数字验证码的短信</div>
+            <div class="mt-20 pl-200"><input type="text" placeholder="验证码" class="alertbind fl" id="alertbind">
+                <span id="send_verification_phone" class="alertverification fl cp">获取验证码</span>
+            </div>
+            <div class="cb"></div>
+            <div class="alertAccountBindfooter mt-20">
+                <div class="alertAccountBindbtnok" id="alertAccountBindbtnok">确定</div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- home页面的编辑弹窗 -->
+<div class="box-cover" id="editboxcover">
+    <div class="popups-box" id="editpopupsbox">
+        <div class="box-close" id="editboxclose"></div>
+        <div class="popups-header">
+            <div class="item-material fl item-edit cp">项目资料</div>
+            <div class="item-set fl item-edit cp">项目设置</div>
+        </div>
+        <div class="cb"></div>
+        <div class="editbottom-lines">
+            <div class="editbottom-line has-line fl"></div>
+            <div class="editbottom-line fl"></div>
+        </div>    
+        <div class="edit-popups-content">
+            <div class="sub-title" id="editItemCover">项目封面</div>
+            <div class="popups-img fl"><img class="editdefaultImg"></div>
+            <div id="uploader-edit">
+                <div id="fileContain" class="uploader-list"></div>
+                <div id="aginChoose">重新选择</div>
+            </div>
+            <div class="cb"></div>
+            <div class="sub-title">项目标题</div>
+            <div><input type="text" class="sub-input re-item-title"></div>
+            <div class="sub-title">项目描述</div>
+            <div>
+                <textarea class="sub-textArea re-item-describe"></textarea>
+            </div>
+            <div class="footer">
+                <div class="btn-ok re-projectSubmit">提交</div>
+            </div>
+        </div>
+        <div class="second-item-popups-content">
+            <div class="item-popups-content">
+                <div class="material-configuration">物料配置</div>
+                <div class="add-material-sort">
+                    <span>添加物料类别</span>
+                    <img src="images/add.png">    
+                </div>
+                <div class="input-material-sort">
+                    <textarea placeholder="输入物料类别" class="material-sort-textarea"></textarea>
+                    <div class="buttonDiv">
+                        <div class="save-edit fr">保存</div>
+                        <div class="cancel-edit fr">取消</div>                   
+                    </div>
+                </div>
+                <div class="second-input-material-sort">
+                    <textarea placeholder="输入物料类别" class="second-material-sort-textarea"></textarea>
+                    <div class="second-buttonDiv">
+                        <div class="second-save-edit fr">保存</div>
+                        <div class="second-cancel-edit fr">取消</div>                   
+                    </div>
+                </div>
+                <div class="appendDiv"></div>
+                <div class="mt-20">参与单位</div>
+                <div class="detail-participate-unit" id="detail-participate-unit">
+                    <img src="images/add.png">
+                </div>
+                <div class="unRealicationCompany" id="unRealicationCompany">
+                    <div class="fr">
+                        <div class="fl cancel-firm" id="cancel-unRealicationCompany">取消</div>
+                        <div class="fl add-firm" id="add-firm">添加</div>
+                    </div>
+                </div>
+                <div class="second-chosen-firm"></div>
+                <div class="edit-chosen-firm">
+                    <div class="edit-chosen-firmName">
+                        <span></span>
+                        <input type="radio" name="" checked>
+                    </div>
+                    <div class="all-edit-chosen-employee"></div>
+                    <div class="handle">
+                       <!--  <div class="cancel-second-chosen">取消</div> -->
+                        <div class="edit-chosen-added">添加</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 物料类别 -->
+<script type="text/html" id="message-list-temp">
+    {{each}}
+        <div class="pr all-added-material" data-value={{$value.typeId}}>
+            <div class="added-material">{{$value.typeName}}</div>
+            <img src="images/del.png" class="delete-added-material">
+        </div>
+    {{/each}}
+</script>
+
+<script type="text/html" id="company-message-list">
+    {{each}}
+        <div class="company-message">
+            <div class="firm">
+                <span class="company-name">{{$value.name}}</span>
+                <input type="radio" name="firmradio" class="firm-radio" data-firmId={{$value.id}}>
+            </div>
+            <div class="firm-employee">
+                {{each $value.realtionUser}}
+                <input type="checkbox"  data-userId={{$value.uId}} data-loginId={{$value.lId}}>
+                <span class="employee-name">{{$value.uName}}</span>
+                {{/each}}
+            </div>
+        </div>        
+    {{/each}}
+</script>
+<script type="text/html" id="second-get-companyMessage">
+    {{each}}
+    <div class="secondsecond-chosen-firm">
+        <div class="chosen-firmName">
+            <div class="secondsecond-company-message">
+                <div class="firm">
+                    <span class="second-company-name" data-firmId={{$value.id}}>{{$value.name}}</span>
+                </div>
+                <img src="images/del.png" class="cancel-chosen-firm">
+                <div class="second-firm-employee">
+                    {{each $value.realtionUser}}
+                        <span class="second-employee-name" data-userId={{$value.uId}} data-loginId={{$value.lId}}>{{$value.uName}}</span>
+                    {{/each}}
+                </div>
+            </div> 
+        </div>
+    </div>               
+    {{/each}}
+</script>
+<!-- <script type="text/html" id="chosen-firm-staff">
+    {{each}}
+        <div class="edit-chosen-employee">
+            <input type="checkbox" name="chosencheckbox" data-userId={{$value.uId}} data-loginId={{$value.lId}} {{if $value.statu==true}}checked{{/if}}>
+            <span>{{$value.uName}}</span>
+        </div>
+    {{/each}}
+</script> -->
+<script type="text/html" id="chosen-firm-staff">
+    {{each}}
+        <div class="edit-chosen-employee">
+            <input type="checkbox" data-userId={{$value.uId}} data-loginId={{$value.lId}} {{if $value.statu==true}}checked{{/if}}>
+            <span>{{$value.uName}}</span>
+        </div>
+    {{/each}}
+</script>
+<!--编辑弹窗-->
+    <!--b2开始-->
+    <div class="bTwoHeader">
+        <div class="bTwoTitle">
+            编辑
+        </div>
+        <div class="bTwoBack">X</div>
+        <div class="bTwoColum">
+            单位工程配置
+        </div>
+        <textarea class="bTwoContent">
+        </textarea>
+        <div class="bTwoColum">
+            检验批配置
+        </div>
+        <textarea class="bTwoContent1">
+        </textarea>
+        <div class="bTwoColum">
+            物料配置
+        </div>
+        <textarea class="bTwoContent1">
+        </textarea>
+        <div class="bTwoColum">
+            参与单位
+        </div>
+        <textarea class="bTwoContent1">
+        </textarea>
+        <div class="bTwoSubmit">
+            <div class="send">提交</div>
+        </div>
+    </div>
+    <!--b2结束-->
+<!--！！！-->
+<!--！！！-->
+<!--单位管理-->
+<!--b7开始-->
+<div class="b7">
+    <div class="b7-header">
+        <span class="b7-left">删除</span>
+        <div class="b7-right">
+            <div class="b7-btn">创建单位</div>
+            <input class="unitInputSearch" type="search" name="" placeholder="搜索">
+            <!--<span><img class="unitSearch" src="images/search.png"></span>-->
+            <span class="unitSearch"></span>
+        </div>
+    </div>
+    <div class="b7-center">
+        <ul class="table-header">
+            <li>
+                <span><input type="checkbox" name="userName" id="allSelectDelete"></span>
+                <span>已选中项</span>
+                <span>联系方式</span>
+                <span>单位地址</span>
+                <span>创建时间</span>
+                <span>操作</span>
+            </li>
+        </ul>
+        <ul class="b7-tbody">
+            <!--<li hidden="true">-->
+                <!--<span class="b7TbodyInput"><input type="checkbox" name="userName"></span>-->
+                <!--<span></span>-->
+                <!--<span>0512-3948850493</span>-->
+                <!--<span>浙江省杭州市西湖区余杭塘路</span>-->
+                <!--<span>2017-08-12 15：30</span>-->
+                <!--<span class="b7-tbodyEidit">-->
+                    <!--<button class="exitb7">编辑</button>-->
+                    <!--<button class="deleteb7">删除</button>-->
+                <!--</span>-->
+            <!--</li>-->
+        </ul>
+    </div>
+    <!--<div class="b5-footer">-->
+        <!--&lt;!&ndash;<span class="select-delete">删除</span>&ndash;&gt;-->
+        <!--<div class="yeshu">-->
+            <!--<ul class="unlist-style">-->
+                <!--<li class="active number">1</li>-->
+                <!--<li class="number">2</li>-->
+                <!--<li class="number">3</li>-->
+                <!--<li class="number">4</li>-->
+                <!--<li class="number">5</li>-->
+                <!--<li>......</li>-->
+                <!--<li class="number">10</li>-->
+                <!--<li class="word">跳转到</li>-->
+                <!--<li class="numberBox"><input type="text" name=""></li>-->
+                <!--<li class="word">共10页</li>-->
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div style="clear:both;"></div>-->
+    <div class="zxf_pagediv"></div>
+    <!-- 编辑用户弹出框 -->
+    <div class="b7Exit">
+        <div class="b71-title text">
+            <span>单位信息</span>
+        </div>
+        <div class="b71-right sign b71Close">
+            <span>x</span>
+        </div>
+        <div style="clear:both"></div>
+        <div class="b71-left infor">
+            单位名称
+            <br>
+            <input type="text" name="name" placeholder="单位名称" id="cmpName">
+        </div>
+        <div class="b71-right infor">
+            单位地址
+            <br>
+            <input type="text" name="name" placeholder="单位地址" id="cmpAddress">
+        </div>
+        <div style="clear:both"></div>
+        <br>
+        <div class="b71-left infor">
+            单位类型
+            <br>
+            <!--<input type="text" name="name" placeholder="创建时间" id="cmpTime">-->
+            <select class="">
+                <option value="option1">
+                    关联单位
+                </option>
+                <option value="option2">
+                    关联单位
+                </option>
+            </select>
+        </div>
+        <div class="b71-right infor">
+            联系方式
+            <br>
+            <input type="text" name="name" placeholder="联系方式" id="cmpPhone">
+        </div>
+        <div style="clear:both"></div>
+        <div class="please-btn">
+            <button id="b71Save" class="b71Save">保存</button>
+        </div>
+    </div>
+</div>
+<!--b7结束-->
+<!--b8开始-->
+<div class="b8">
+    <div class="b8-header">
+        创建单位
+    </div>
+    <div class="del"><img src="images/del.png"></div>
+    <div class="b8-center b8-center">
+        <!--<div class="b8-left title">-->
+            <!--<span class="active">后台创建</span>-->
+        <!--</div>-->
+        <!--<div class="b8-right title">-->
+            <!--<span>邀请注册</span>-->
+        <!--</div>-->
+        <!--<div style="clear:both"></div>-->
+        <div class="b8-content">
+            <div class="describe">
+                下面提供的信息将用于单位登录账户。
+                <br>请输入以下信息
+            </div>
+            <div class="b8-left text">
+                <span>单位信息</span>
+            </div>
+            <div class="b8-right sign">
+                <span>*必填项</span>
+            </div>
+            <div style="clear:both"></div>
+            <div class="b8-left infor">
+                <span>*</span>单位名称
+                <br>
+                <input type="text" name="name" placeholder="单位名称" id="unitName">
+            </div>
+            <div class="b8-right infor">
+                <span>*</span>单位地址
+                <br>
+                <input type="text" name="name" placeholder="单位地址" id="unitAddress">
+            </div>
+            <div style="clear:both"></div>
+            <div class="b8-left infor">
+                <span>*</span>单位类型
+                <br>
+                <!-- <input type="text" name="name" placeholder="单位类型"> -->
+                <select class="b8-select">
+                    <!--<option value="option1">-->
+                        <!--单位类型-->
+                    <!--</option>-->
+                    <!--<option value="option2">-->
+                        <!--单位类型-->
+                    <!--</option>-->
+                </select>
+            </div>
+            <div class="b8-right infor">
+                <span>*</span>联系方式
+                <br>
+                <input type="text" name="name" placeholder="联系方式" id="unitPhone">
+            </div>
+        </div>
+        <div style="clear:both"></div>
+        <div class="please-btn">
+            <button id="bEightSubmit">提交</button>
+        </div>
+    </div>
+</div>
+<!--b8结束-->
+<!--！！！-->
+<!--系统管理-->
+<!--b9开始-->
+<script type="text/html" id="limit-table-body">
+    {{each}}
+    <tr data-id={{$value.id}} data-roletype={{$value.roleType}} data-isdelete={{if $value.isDelete==true}}0{{else}}1{{/if}}>
+        <td class="character">{{$value.name}}</td>
+        <td class="rank">{{$value.roleSeq}}</td>
+        <td class="wdescription">{{$value.description}}</td>
+        <td>
+            <span class="mr-40 cp limit-edit">编辑权限</span>
+            <span class="mr-15 cp limit-modify">修改</span>
+            <span class="mr-15 cp limit-remove">删除</span>
+        </td>
+    </tr>
+    {{/each}}
+</script>
+
+<div class="bNine">
+    <div class="bNineLeftContent">
+        <div class="bNineLeft">
+            <ul>
+                <li><a href="#" class="inactive">数据字典</a>
+                    <ul style="display: none">
+                        <li class="system-configuration"><a href="#">参数配置</a>
+                        </li>
+                        <!--<li class=""><a href="#">选项参数配置</a></li>-->
+                    </ul>
+                </li>
+                <li><a href="#" class="inactive">权限配置</a>
+                    <ul style="display: none"></ul>
+                </li>
+            </ul>
+        </div>
+        <div style="height:200px;background-color:#fff"></div>
+        <div class="tr bcf">
+            <button class="psy-aside-show-btn" id="psy-aside-show-btn">
+                <img src="images/right.png">
+            </button>
+        </div>
+        <div class="bNineLeftFooter"></div>
+    </div>
+    <div class="wlimitsRight" id="wlimitsRight">
+        <div class="container-fluid">           
+            <div class="row limit-header">
+                <div class="col-md-8 col-sm-5"></div>
+                <div class="col-md-1 col-sm-2 limit-add" id="limit-add"><span class="icon-add">+</span>添加</div>
+                <div class="col-md-2 col-sm-4">
+                    <input type="text" class="limits-search" id="limits-search">
+                </div>
+            </div>
+            <div class="row">
+                <table class="table table-hover wait-invite-table">
+                    <thead>
+                        <tr>
+                            <th>角色名称</th>
+                            <th>排序</th>
+                            <th>描述</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="message-list-content" class="bcf">
+                        
+                    </tbody>
+                </table>
+                <div class="mt-10 bcf p-15 add-message-do" id="add-message-do">
+                    <div class="fl mr-40">
+                        <span class="fl message-input"><input class="w radius4 form-control input-sm limit-role-name" type="text" placeholder="角色名称" /></span>
+                        <div class="cb"></div>
+                    </div>
+                    <div class="fl mr-40">
+                        <span class="fl message-input"><input class="w radius4 form-control input-sm limit-sort" type="text" placeholder="排序(默认为0)" /></span>
+                        <div class="cb"></div>
+                    </div>
+                    <div class="fl mr-40">
+                        <span class="fl message-input"><input class="w radius4 form-control input-sm limit-describe" type="text" placeholder="描述" /></span>
+                        <div class="cb"></div>
+                    </div>
+                    <div class="fl mr-40">
+                        <div class="fr message-save" id="message-save">保存</div>
+                        <div class="fr message-cancel" id="message-cancel">取消</div>
+                        <div class="cb"></div>
+                    </div>
+                    <div class="cb"></div>
+                </div>        
+            </div>
+            
+        </div>        
+    </div>
+    <div class="bNineContent">
+        <div class="bNineContentHeader">
+            <div class="systemBtn">添加</div>
+            <input type="search" placeholder="搜索" class="systemInput">
+            <span class="systemSearch"></span>
+        </div>
+        <div class="bNineList">
+            <ul>
+                <li class="bNineListOne">名称</li>
+                <li class="bNineListTwo">编码</li>
+                <li class="bNineListThree">值</li>
+                <li class="bNineListFour">描述</li>
+                <li class="bNineListSix">操作</li>
+                <li class="bNineListSix"></li>
+                <div style="clear: both"></div>
+            </ul>
+        </div>
+        <div class="bNineContentMain">
+            <!--<div class="bNineListColor">-->
+                <!--<ul>-->
+                    <!--<li class="bNineListOne">待审核</li>-->
+                    <!--<li class="bNineListTwo">phome_ecms_news</li>-->
+                    <!--<li class="bNineListThree">系统模型-主表</li>-->
+                    <!--<li class="bNineListFour">副表可无限添加</li>-->
+                    <!--<li class="bNineListEdit">修改</li>-->
+                    <!--<li class="bNineListDel">删除</li>-->
+                    <!--<div style="clear: both"></div>-->
+                <!--</ul>-->
+            <!--</div>-->
+        </div>
+        <div style="clear: both"></div>
+        <div class="systemPage"></div>
+    </div>
+    <!--添加弹窗-->
+    <div class="systemAdd">
+        <div class="systemAdd-header">新建参数
+            <div class="systemAdd-back"><img src="images/del.png"></div>
+        </div>
+        <div class="systemAdd-headerName">名称</div>
+        <div class="system-nameInput"><input type="text" class="sysNameInput"></div>
+        <div class="systemAdd-headerName">编码</div>
+        <div class="system-nameInput"><input type="text" class="sysCodeInput"></div>
+        <div class="systemAdd-headerName">值</div>
+        <div class="system-nameInput"><input type="text" class="sysValueInput"></div>
+        <div class="systemAdd-headerName">描述</div>
+        <div class="system-sysMarkInput"><textarea class="sysMarkInput"></textarea></div>
+        <div class="systemAdd-submit" id="systemAdd">提交</div>
+    </div>
+    <!---->
+    <div class="systemEdi">
+        <div class="systemEdi-header">新建参数
+            <div class="systemEdi-back"><img src="images/del.png"></div>
+        </div>
+        <div class="systemEdi-headerName">名称</div>
+        <div class="systemEdi-nameInput"><input type="text" class="systemEdiNameInput"></div>
+        <div class="systemEdi-headerName">编码</div>
+        <div class="systemEdi-nameInput"><input type="text" class="systemEdiCodeInput"></div>
+        <div class="systemEdi-headerName">值</div>
+        <div class="systemEdi-nameInput"><input type="text" class="systemEdiValueInput"></div>
+        <div class="systemEdi-headerName">描述</div>
+        <div class="systemEdi-sysMarkInput"><textarea class="systemEdiMarkInput"></textarea></div>
+        <div class="systemEdi-submit" id="systemEdi">提交</div>
+    </div>
+</div>
+<!--b9结束-->
+<!--！！！-->
+<!--用户管理-->
+<!-- b5页面 -->
+<div class="b5">
+    <div class="b5-header">
+        <span class="b5-left" style="display:none;">删除</span>
+        <div class="b5-right">
+            <div class="b5-btn">创建账户</div>
+            <input type="search" name="" placeholder="搜索" id="mangerSearch">
+            <span class="unitSearch"></span>
+        </div>
+    </div>
+    <div class="b5-center">
+        <ul class="table-header">
+            <li>
+                <span><input type="checkbox" name="userName" id="allSelect"></span>
+                <span>用户名</span>
+                <span>姓名</span>
+                <span>联系方式</span>
+                <span>关联单位</span>
+                <span>创建时间</span>
+                <span>操作</span>
+            </li>
+        </ul>
+        <ul class="b5-tbody">
+            <!--<li  hidden="true">-->
+                <!--<span class="selected-delete"><input type="checkbox" name="userName"></span>-->
+                <!--<span id="beforeId"></span>-->
+                <!--<span id="beforeName"></span>-->
+                <!--<span id="beforePhone"></span>-->
+                <!--<span id="beforeAddress"></span>-->
+                <!--<span id="beforeTime"></span>-->
+                <!--<span class="b5-tbodyEidit">-->
+                    <!--<button class="exit">编辑</button>-->
+                    <!--<button class="b5delete">删除</button>-->
+                <!--</span>-->
+            <!--</li>-->
+        </ul>
+    </div>
+    <!--<div class="b5-footer">-->
+        <!--&lt;!&ndash;<span class="select-delete">删除</span>&ndash;&gt;-->
+        <!--<div class="yeshu">-->
+            <!--<ul class="unlist-style">-->
+                <!--<li class="active number">1</li>-->
+                <!--<li class="number">2</li>-->
+                <!--<li class="number">3</li>-->
+                <!--<li class="number">4</li>-->
+                <!--<li class="number">5</li>-->
+                <!--<li>......</li>-->
+                <!--<li class="number">10</li>-->
+                <!--<li class="word">跳转到</li>-->
+                <!--<li class="numberBox"><input type="text" name=""></li>-->
+                <!--<li class="word">共10页</li>-->
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</div>-->
+    <div class="zxf_pagediv2"></div>
+    <!--<div style="clear:both;"></div>-->
+    <!-- 编辑用户弹出框 -->
+    <div class="b5Exit">
+        <div class="b51-title text">
+            <span>用户信息</span>
+        </div>
+        <div class="b51-right sign b51Close">
+            <span>x</span>
+        </div>
+        <div style="clear:both"></div>
+        <div class="b51-left infor">
+            用户ID
+            <br>
+            <input type="text" name="name" placeholder="单位名称" id="userId">
+        </div>
+        <div class="b51-right infor">
+            姓名
+            <br>
+            <input type="text" name="name" placeholder="单位地址" id="userName">
+        </div>
+        <div style="clear:both"></div>
+        <br>
+        <div class="b51-left infor">
+            联系方式
+            <br>
+            <input type="text" name="name" placeholder="联系方式" id="userPhone">
+        </div>
+        <div class="b51-right infor">
+            关联单位
+            <br>
+            <!--<input type="text" name="name" placeholder="关联单位" id="userAddress">-->
+            <select class="b51selBox">
+                
+            </select>
+        </div>
+        <div style="clear:both"></div>
+        <div class="please-btn">
+            <button id="b51Save" class="b51Save">保存</button>
+        </div>
+    </div>
+    <!--！！！-->
+    <!--创建用户成功弹窗-->
+    <div class="manger-log">
+        <div class="manger-log-close">
+            <img src="images/del.png">
+        </div>
+        <div class="manger-log-header">
+            恭喜你，用户创建成功！
+        </div>
+        <div class="manger-log-content">
+            <!--<div class="manger-log-contentList">-->
+                <!--<div>用户ID:</div>-->
+                <!--<div>23132131</div>-->
+            <!--</div>-->
+            <!--<div style="clear: both"></div>-->
+            <!--<div class="manger-log-contentList">-->
+                <!--<div>初始密码:</div>-->
+                <!--<div>000000</div>-->
+            <!--</div>-->
+            <!--<div style="clear: both"></div>-->
+        </div>
+        <div class="manger-log-footer">
+            <div class="manger-log-submit">
+                确定
+            </div>
+        </div>
+    </div>
+    <!--！！！-->
+</div>
+<!-- b6页面 -->
+<div class="b6">
+    <div class="b6-header">
+        创建账户
+    </div>
+    <div class="del"><img src="images/del.png"></div>
+    <div class="b6-center">
+        <div class="b6-left title" id="create1">
+            <span class="active">后台创建</span>
+        </div>
+        <div class="b6-right title" id="create2">
+            <span>邀请注册</span>
+        </div>
+        <div style="clear:both"></div>
+        <!--page-1-b6-->
+        <div class="b6-content">
+            <div class="describe">
+                下面提供的信息将用于用户登录账户。
+                <br>请输入以下信息
+            </div>
+            <div class="b6-left text">
+                <span>账户信息</span>
+            </div>
+            <div class="b6-right sign">
+                <span>*必填项</span>
+            </div>
+            <div style="clear:both"></div>
+            <div class="b6-left infor">
+                <span>*</span>姓名
+                <br>
+                <input class="bSixName" type="text" name="name" placeholder="姓名">
+            </div>
+            <div class="b6-right infor">
+                <span>*</span>关联单位
+                <br>
+                <select class="b6Select">
+                    <!--<option value="option1">-->
+                        <!--关联单位-->
+                    <!--</option>-->
+                    <!--<option value="option2">-->
+                        <!--关联单位-->
+                    <!--</option>-->
+                </select>
+            </div>
+            <div style="clear:both"></div>
+            <div class="please-btn">
+                <button class="bSixSubmit">提交</button>
+            </div>
+        </div>
+        <div class="b61-center">
+            <div class="b61-content">
+                <div class="b61-left text">
+                    <span>请填写邀请好友信息。</span>
+                </div>
+                <div class="b61-right sign">
+                    <span>*必填项</span>
+                </div>
+                <div style="clear:both"></div>
+                <div class="b61-left infor">
+                    <span>*</span>姓名
+                    <br>
+                    <input class="bSixOneName" type="text" name="name" placeholder="姓名">
+                </div>
+                <div class="b61-right infor">
+                    <span>*</span>邮箱/手机号码
+                    <br>
+                    <input class="bSixOneMail" type="text" name="name" placeholder="邮箱/手机号码">
+                </div>
+            </div>
+            <div style="clear:both"></div>
+            <div class="please-btn">
+                <button class="bSixOneSubmit">立即邀请</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--！！！-->
+<!--右侧登录状态-->
+<!--b4开始-->
+<div class="bFour">
+    <div class="bFourTitle">
+        我的账户
+    </div>
+    <div class="bFourContent">
+        <ul>
+            <li class="bFourOneContentFirst">个人资料</li>
+            <li class="bFourOneContentSecond">账户绑定</li>
+            <li class="bFourOneContentThird">修改密码</li>
+        </ul>
+        <div style="clear: both"></div>
+        <ul>
+            <li class="bFourOneContentFirstF"></li>
+            <li class="bFourOneContentSecondS"></li>
+            <li class="bFourOneContentThirdT"></li>
+        </ul>
+        <div style="clear: both"></div>
+        <div class="bFourContentMain">
+            <div class="bFourPicture">
+                <div class="bFourPictureImg updateHeadImg">上传头像</div>
+            </div>
+            <div class="bFourInformation">
+                <div class="bFourInformationLeft">
+                    <div class="bFourInformationFirst">
+                        <div>昵称</div>
+                        <div><input type="text" class="accountSet" id="nav-name"></div>
+                    </div>
+                    <div class="bFourInformationSecond">
+                        <div>性别</div>
+                        <div style="float: left;width: 25%"><input name="sex" type="radio" value="男" id="sexBoy"><span class="pl-5">男</span></div>
+                        <div><input type="radio" name="sex" value="女" id="sexGirl"><span class="pl-5">女</span></div>
+                        <div style="clear: both"></div>
+                    </div>
+                    <div class="bFourInformationFirst" id='time-picker-container'>
+                        <div>出生日月</div>
+                        <div><input type="text" class="accountSet" id="nav-birth" onfocus="WdatePicker({skin:'whyGreen',maxDate:'%y-%M-%d'})"></div>
+                    </div>
+                    <div class="bFourInformationFirst">
+                        <div>手机号码</div>
+                        <div><input type="text" class="accountSet clor-999" id="nav-tellphone" readonly></div>
+                    </div>
+                    <div class="bFourInformationFirst">
+                        <div>常住地址</div>
+                        <div><input type="text" class="accountSet" id="nav-address"></div>
+                    </div>
+                </div>
+                <div class="bFourInformationRight">
+                    <div class="bFourInformationFirst">
+                        <div>真实姓名</div>
+                        <div><input type="text" class="accountSet" id="nav-truename"></div>
+                    </div>
+                    <div class="bFourInformationFirst">
+                        <div>年龄</div>
+                        <div><input type="text" class="accountSet" id="nav-age"></div>
+                    </div>
+                    <div class="bFourInformationFirst">
+                        <div>证件号</div>
+                        <div><input type="text" class="accountSet" id="certificate"></div>
+                    </div>
+                    <div class="bFourInformationFirst">
+                        <div>邮箱地址</div>
+                        <div><input type="text" class="accountSet clor-999" id="nav-email" readonly></div>
+                    </div>
+                </div>
+                <div style="clear: both"></div>
+                <div class="bFourSubmit cp" id="nav-submit">提交</div>
+            </div>
+            <div class="bFourOneInformation"></div>
+        </div>
+        <!--b41开始-->
+        <div class="bFourOneInformation">
+            <div class="bFourOneList">
+                <div class="bFourOneListFirst mt-20">手机号码</div>
+                <div class="bFourOneListSecond">
+                    <input type="text" class="bFourOneListNumber accountSets" id="bindphone">
+                    <span class="bFourOneListBlind immediateBind cp" id="immediateBind">立即绑定</span>
+                </div>
+            </div>
+            <div style="clear: both"></div>
+            <div class="bFourOneList">
+                <div class="bFourOneListFirst">邮箱</div>
+                <div class="bFourOneListSecond">
+                    <input type="text" class="bFourOneListNumber accountSets" id="bindEmail">
+                    <span class="bFourOneListBlind removeBind cp" id="removeBind">解绑</span>
+                    <div style="clear: both"></div>
+                </div>
+            </div>
+
+        </div>
+        <!--b41结束-->
+        <!--b42-->
+        <div class="bFourTwo">
+            <div class="bFourTwoBack">X</div>
+            <div class="bFourTwoContent">&nbsp;&nbsp;您的号码为134.....442的手机，会收到一条含有6位数字验证码的短信</div>
+            <div class="bFourTwoInput"><input type="text" placeholder="验证码"/></div>
+            <div class="bFourTwoSubmit">49S秒后再次获取</div>
+        </div>
+        <!--b42-->
+        <!--b43开始-->
+        <div class="bFourThreeList">
+            <div class="bFourThreeListName">
+                <div class="bFourThreeSecret">原密码</div>
+                <div class="bFourThreeInput"><input id="oldPwd" type="password" placeholder="请输入原密码"/></div>
+            </div>
+            <div class="bFourThreeListName">
+                <div class="bFourThreeSecret">新密码</div>
+                <div class="bFourThreeInput">
+                    <span><input id="newId" type="password" placeholder="请输入新密码"/></span>
+                    <span>密码由6-20个字符串</span>
+                </div>
+                <!-- <div class="bFourThreeNote">
+                    <span>密码强度</span>
+                    <span class="bFourThreeStrong">弱</span>
+                    <span class="bFourThreeStrong">中</span>
+                    <span class="bFourThreeStrong">强</span>
+                </div> -->
+            </div>
+            <div class="bFourThreeListName">
+                <div class="bFourThreeSecret">新密码</div>
+                <div class="bFourThreeInput"><input id="reNewPwd" type="password" placeholder="请再次输入新密码"/></div>
+            </div>
+            <div style="clear: both"></div>
+            <div class="bFourThreeSubmit">
+                <div class="bFourThreeSubmitButton" id="ModifyPwdSave">保存</div>
+            </div>
+        </div>
+        <!--b43结束-->
+    </div>
+</div>
+<!--b4结束-->
+<!--！！！-->
+<script src="js/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="js/webuploader.min.js"></script>
+<script type="text/javascript" src="js/WdatePicker.js"></script>
+<script src="js/toastr.min.js"></script>
+<script src="js/template.js"></script>
+<script type='text/javascript' src="http://g.alicdn.com/sj/dpl/1.5.1/js/sui.min.js" charset='utf-8'></script>
+<script src="layer/layer.js"></script>
+<script src="js/index.js"></script>
+<script src="js/enter.js"></script>
+<script src="js/controller.js"></script>
+<script src="js/home.js"></script>
+<script src="js/limitsConfiguration.js"></script>
+</body>
+<div class="limit-modify-tip layer_notice" hidden="">
+    <div class="limit-modify-li">
+        <div>角色名称</div>
+        <input class="w radius4 form-control input-sm mt-15 modify-role" type="text"/>
+    </div>
+    <div class="limit-modify-li">
+        <div>排序</div>
+        <input class="w radius4 form-control input-sm mt-15 modify-rank" type="text"/>
+    </div>
+    <div class="limit-modify-li">
+        <div>描述</div>
+        <input class="w radius4 form-control input-sm mt-15 modify-wdescription" type="text" />
+    </div>
+<div>
+</html>

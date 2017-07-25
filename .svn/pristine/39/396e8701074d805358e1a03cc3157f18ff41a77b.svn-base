@@ -1,0 +1,64 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>找回账号密码</title>
+    <link rel="stylesheet" type="text/css" href="../style/css.css" />
+     <link rel="stylesheet" type="text/css" href="../style/reset.css" />
+    <script src="../js/jquery-1.7.2.js"></script>
+    <script src="../js/index.js"></script>
+</head>
+<body>
+<div class="header">
+    BIM装修工程协同管理系统
+</div>
+<div class="aThree">
+    <div class="login3">
+        <div class="message1">
+            找回账号密码
+        </div>
+        <div class="aTwoNext">
+            <div class="first">
+                <div class="cicrl">
+                    <div class="numb">1</div>
+
+                </div>
+                <div class="tes">发送验证码</div>
+            </div>
+            <div class="f1"></div>
+            <div class="first">
+                <div class="cicrl">
+                    <div class="numb">2</div>
+                    <div class="f2"></div>
+
+                </div>
+                <div class="tes">重置新密码</div>
+            </div>
+            <div class="f1"></div>
+            <div class="first">
+                <div class="cicrl">
+                    <div class="numb">3</div>
+                    <div class="f2"></div>
+
+                </div>
+                <div class="tes">完成</div>
+            </div>
+            <div style="clear: both"></div>
+        </div>
+    </div>
+        <div class="a3">
+            <div class="action3" value="login">登录名</div>
+            <input class="aThreeInput" name="username" placeholder="请输入邮箱/手机号" type="text">
+            <div style="clear: both"></div>
+            <div class="action3" style="float: left" value="secret">确认新密码</div>
+                <div style="clear: both"></div>
+            <input class="aThreeInput" name="password" placeholder="请再次输入密码" type="password">
+            <div class="登录" style="width:100%;" type="submit"></div>
+            <div style="clear: both"></div>
+        </div>
+        <div class="aThreeSubmit">
+            <div class="submit3" value="确定">确定</div>
+        </div>
+</div>
+</body>
+</html> -->

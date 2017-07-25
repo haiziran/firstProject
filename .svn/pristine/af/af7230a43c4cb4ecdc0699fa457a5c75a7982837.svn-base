@@ -1,0 +1,86 @@
+<!--封装在index-->
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+    <!--<meta charset="UTF-8">-->
+    <!--<title>我的账户</title>-->
+<!--<link rel="stylesheet" type="text/css" href="../style/css.css" />-->
+<!--<link rel="stylesheet" type="text/css" href="../style/reset.css" />-->
+<!--<script src="../js/jquery-1.7.2.js"></script>-->
+<!--<script src="../js/index.js"></script>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="bFour">-->
+    <!--<div class="bFourTitle">-->
+        <!--我的账户-->
+    <!--</div>-->
+    <!--<div class="bFourContent">-->
+        <!--<ul>-->
+            <!--<li class="bFourOneContentFirst">个人资料</li>-->
+            <!--<li class="bFourOneContentSecond">账户绑定</li>-->
+            <!--<li class="bFourOneContentThird">修改密码</li>-->
+        <!--</ul>-->
+        <!--<div style="clear: both"></div>-->
+        <!--<ul>-->
+            <!--<li class="bFourOneContentFirstF"></li>-->
+            <!--<li class="bFourOneContentSecondS"></li>-->
+            <!--<li class="bFourOneContentThirdT"></li>-->
+        <!--</ul>-->
+        <!--<div style="clear: both"></div>-->
+        <!--<div class="bFourContentMain">-->
+            <!--<div class="bFourPicture">-->
+                <!--<div class="bFourPictureImg">上传头像</div>-->
+                <!--<div>账户ID：324245</div>-->
+            <!--</div>-->
+            <!--<div class="bFourInformation">-->
+                <!--<div class="bFourInformationLeft">-->
+                    <!--<div class="bFourInformationFirst">-->
+                        <!--<div>昵称</div>-->
+                        <!--<div><input type="text"></div>-->
+                    <!--</div>-->
+                    <!--<div class="bFourInformationSecond">-->
+                        <!--<div>昵称</div>-->
+                        <!--<div style="float: left;width: 25%"><input type="checkbox">男</div>-->
+                        <!--<div><input type="checkbox">女</div>-->
+                        <!--<div style="clear: both"></div>-->
+                    <!--</div>-->
+                    <!--<div class="bFourInformationFirst">-->
+                        <!--<div>出生日月</div>-->
+                        <!--<div><input type="text"></div>-->
+                    <!--</div>-->
+                    <!--<div class="bFourInformationFirst">-->
+                        <!--<div>手机号码</div>-->
+                        <!--<div><input type="text"></div>-->
+                    <!--</div>-->
+                    <!--<div class="bFourInformationFirst">-->
+                        <!--<div>常住地址</div>-->
+                        <!--<div><input type="text"></div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="bFourInformationRight">-->
+                    <!--<div class="bFourInformationFirst">-->
+                        <!--<div>真实姓名</div>-->
+                        <!--<div><input type="text"></div>-->
+                    <!--</div>-->
+                    <!--<div class="bFourInformationFirst">-->
+                        <!--<div>年龄</div>-->
+                        <!--<div><input type="text"></div>-->
+                    <!--</div>-->
+                    <!--<div class="bFourInformationFirst">-->
+                        <!--<div>证件号</div>-->
+                        <!--<div><input type="text"></div>-->
+                    <!--</div>-->
+                    <!--<div class="bFourInformationFirst">-->
+                        <!--<div>邮箱地址</div>-->
+                        <!--<div><input type="text"></div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div style="clear: both"></div>-->
+                <!--<div class="bFourSubmit">提交</div>-->
+            <!--</div>-->
+            <!--<div class="bFourOneInformation"></div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->

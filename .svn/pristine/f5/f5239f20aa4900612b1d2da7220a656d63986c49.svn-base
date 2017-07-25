@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>项目一</title>
+    <link rel="stylesheet" type="text/css" href="style/css.css" />
+    <link rel="stylesheet" type="text/css" href="style/reset.css" />
+    <link rel="stylesheet" type="text/css" href="style/index.css" />
+    <link rel="stylesheet" type="text/css" href="style/laypage.css"/>
+    <!-- <link rel="stylesheet" type="text/css" href="style/home.css" /> -->
+    <link rel="stylesheet" type="text/css" href="style/WdatePicker.css" />
+    <link rel="stylesheet" type="text/css" href="style/engineerManage.css">
+    <!-- <link rel="stylesheet" type="text/css" href="style/bootstrap.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="style/toastr.css">
+    <link rel="stylesheet" type="text/css" href="style/webuploader.css">
+    <link rel="stylesheet" type="text/css" href="style/zTree/zTreeStyle.css" />
+    <link rel="stylesheet" type="text/css" href="style/toastr.css">
+    <link rel="stylesheet" type="text/css" href="style/tooltipster.css" />
+</head>
+<body>
+<div class="indexHeader">
+    <div class="indexLogin fl">
+        <img src="images/LOGO.png">
+    </div>
+    <div class="fr">
+        <div class="indexWarning fl">
+            <div class="sty-image">
+            <img src="images/warning.png">
+            </div>
+        </div>
+        <div class="fl indexUserMessage">
+            <ul class="pr">
+                <li class="indexUserMessage-li">
+                    <div style="padding:0px 10px;align-items: center;display: -webkit-flex;cursor: pointer;">
+                        <div class="fl indexItemImg"><img src="images/pic1.jpg"></div>
+                        <div class="fl indexAccountName" id="indexAccountName"></div>
+                    </div>
+                </li>
+                <li class="cb indexUserMessage-li-setExit">
+                    <ul class="indexAccountSet-exit">
+                        <li class="indexAccountSetting" id="indexAccountSetting"><a>账户设置</a></li>
+                        <li class="indexAccountExit" id="indexAccountExit"><a>退出</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>      
+</div>
+<!--<div class="cb"></div>-->
+<div id="popLayer"></div>
+<!-- 中心内容 -->
+<div class="bThreeOne">
+    <!-- <div class="bThreeOneHeader" id="b_title">
+        <div class="bThreeOneBack cp"></div>
+        <div class="bThreeOneBacker">返回</div>
+        <div class="bThreeOneTitle getNewItemName">
+        </div>
+        <div style="clear: both"></div>
+    </div> -->
+    <!-- 7/11 pjn -->
+    <div style="clear: both"></div>
+    <!-- 左边菜单栏 -->
+    <div class="bThreeOneLeft">
+        <ul>
+            <li class="menuLeft">项目菜单</li>
+            <li><a href="#" class="inactive actives">进度管控</a>
+                <ul style="display: none">
+                    <!--<li class="bThreeOneClick"><a href="#">创建进度</a></li>-->
+                    <li class="bThreeOneShow"><a href="#" class="ina">进度显示</a></li>
+                </ul>
+            </li>
+            <li><a href="#" class="inactive">质量控制</a>
+                <ul style="display: none">
+                    <li class="bSixOneClick"><a href="#" class="ina">物料管理</a></li>
+                    <li class="bSixThreeClick"><a href="#" class="ina">检验批管理</a></li>
+                </ul>
+            </li>
+            <!-- <li><a href="#" class="inactive">成本管理</a>
+                <ul style="display: none">
+                </ul>
+            </li> -->
+            <li><a href="#" class="inactive cThreeShow">数据管理</a>
+                <!-- <ul style="display: none">
+                    <li class="cThreeShow"><a href="#">模型管理</a></li>
+                    <li class="cOneShow"><a href="#">图纸管理</a></li>
+                </ul> -->
+            </li>
+            <li><a href="#" class="inactive">安全管理</a>
+                <ul style="display: none">
+                    <li class="cFiveShow"><a href="#" class="ina">人员管理</a></li>
+                    <li class="cSixShow"><a href="#" class="ina">设备管理</a></li>
+                </ul>
+            </li>
+            <!-- <li><a href="#" class="inactive">问题反馈</a>
+                <ul style="display: none">
+                    <li class="cFourShow"><a href="#" class="ina">我要提问</a></li>
+                </ul>
+            </li> -->
+        </ul>
+    </div>
+    <!-- mainCenter开始 -->
+    <!-- <div class="mainCenter"> -->
+        <!-- 项目菜单 -->
+        <div class="proMenu">
+            <div class="menuCenter">
+                <span class="navImg"><img src="images/nav_menu.png"></span>
+                <span class="homePage">首页</span>
+                <span class="nav2">
+                    <span class="iconl"><img src="images/ioc_l.png"></span>
+                    <span>进度管控</span>
+                </span>
+            </div>
+            <div class="menuRight">
+            </div>
+        </div>
+        <div class="bThreeOneContent oneMainContent">
+            <!--<div class="bThreeOneContentTitle">-->
+            <!--三维模型-->
+            <!--</div>-->
+            <div class="bThreeOneContentPicture">
+                 <!--<div id="WebGL-output" style="width:100%;height:100%;">-->
+                    <!--<div id="loading" style="position: absolute;top: 0;left: 0;background-color: white;padding: 0 0.5em;">数据下载中</div>-->
+                    <!--<div id="showModelName" style="position: fixed;left: 0;top: 0;line-height: 1em;font-size: 12px;background-color: white;z-index: 999; "></div>-->
+                <!--</div>-->
+                <div class="shrinkDown"></div>
+                <div class="HrefClickH5"></div>
+                <!--ztree.html-->
+                <div class="zTreeDemoBackground left">
+                    <div class="ztreeHeader">
+                        <span>构建列表</span>
+                        <span class="ztreeDel"><img src="images/close.png"></span>
+                    </div>
+                    <ul id="treeDemo" class="ztree"></ul>
+                </div>
+                <div class="zTreeDemoBackgrounds right">
+                    <div class="ztreeHeader">
+                        <span>构建列表</span>
+                        <span class="ztreeDel"><img src="images/close.png"></span>
+                    </div>
+                    <ul id="treeDemo1" class="ztree"></ul>
+                </div>
+                <!--<div class="zTreeDemoBackgroundsR right">-->
+                    <!--<div class="ztreeHeader">-->
+                        <!--<span>构建列表</span>-->
+                        <!--<span class="ztreeDel"><img src="images/close.png"></span>-->
+                    <!--</div>-->
+                    <!--<ul id="treeDemoS" class="ztree"></ul>-->
+                <!--</div>-->
+                <!--ztree.html-->
+            </div>
+            <div class="bThreeOneContentList">
+                <div class="bSearchButton">
+                    <div class="bThreeOneContentTitle1">进度显示</div>
+                    <div class="bThreeOneSearchButton">
+                        添加任务
+                    </div>
+                    <div class="bThreeOneSearchGouJian">
+                        添加构建
+                    </div>
+                    <input class="bThreeOneContentSearch" placeholder="任务名称">
+                </div>
+                <div class="bThreeOneContentMess">
+                    <div class="bThreeOneContentMessTitle">
+                        <ul style="background-color: #F9F9F9">
+                            <li class="bThreeOneList1">编码</li>
+                            <li class="bThreeOneList2">顺序</li>
+                            <li class="bThreeOneList3">任务名称</li>
+                            <li class="bThreeOneList4">计划开始</li>
+                            <li class="bThreeOneList13">计划结束</li>
+                            <li class="bThreeOneList14">实际开始</li>
+                            <li class="bThreeOneList15">实际结束</li>
+                            <li class="bThreeOneList5">完成状态</li>
+                            <li class="bThreeOneList8">操作</li>
+                            <!--<li class="bThreeOneList9">编辑</li>-->
+                            <!--<li class="bThreeOneList10">删除</li>-->
+                            <!--<li class="bThreeOneList7">构建</li>-->
+                            <div style="clear: both"></div>
+                        </ul>
+                        <div class="bThreeOneContentMessTitle1">
+                        </div>
+                        <!--<ul class="bThreeOneFather">-->
+                        <!--<li class="bThreeOneList1">1</li>-->
+                        <!--<li class="bThreeOneList2">-->
+                        <!--<span><img modelJS="../img/upg.png"></span>-->
+                        <!--<span><img modelJS="../img/upr.png"></span>-->
+                        <!--</li>-->
+                        <!--<li class="bThreeOneList12">-->
+                        <!--<span class="bThreeOneImg"></a></span>-->
+                        <!--<span class="bThreeOneList11">景观设计</span>-->
+                        <!--</li>-->
+                        <!--<li class="bThreeOneList4">2017-1-1</li>-->
+                        <!--<li class="bThreeOneList13">2017-1-1</li>-->
+                        <!--<li class="bThreeOneList14">2017-1-1</li>-->
+                        <!--<li class="bThreeOneList15">2017-3-1</li>-->
+                        <!--<li class="bThreeOneList5">进度拖延</li>-->
+                        <!--<li class="bThreeOneList6">添加</li>-->
+                        <!--<li class="bThreeOneList9">编辑</li>-->
+                        <!--<li class="bThreeOneList10">删除</li>-->
+                        <!--<li class=""></li>-->
+                        <!--<div style="clear: both"></div>-->
+                        <!--</ul>-->
+                        <!--<ul class="bThreeOneChildren">-->
+                        <!--<li class="bThreeOneList1">1</li>-->
+                        <!--<li class="bThreeOneList2"> </li>-->
+                        <!--<li class="bThreeOneList3">-->
+                        <!--<span class="bThreeOneImgS"></span>-->
+                        <!--<span class="bThreeOneList11">景观设计</span>-->
+                        <!--</li>-->
+                        <!--<li class="bThreeOneList4">2017-1-1</li>-->
+                        <!--<li class="bThreeOneList13">2017-1-1</li>-->
+                        <!--<li class="bThreeOneList14">2017-1-1</li>-->
+                        <!--<li class="bThreeOneList15">2017-3-1</li>-->
+                        <!--<li class="bThreeOneList5">进度拖延</li>-->
+                        <!--<li class="bThreeOneList6">添加</li>-->
+                        <!--<li class="bThreeOneList9">编辑</li>-->
+                        <!--<li class="bThreeOneList10">删除</li>-->
+                        <!--<li class="bThreeOneList7">构建</li>-->
+                        <!--<div style="clear: both"></div>-->
+                        <!--</ul>-->
+                    </div>
+                </div>
+                <!--b33页面从这加载进来-->
+                <div class="bThreeThree">
+                    <!--<div class="bThreeThreeHeader">-->
+                        <!--构建管理-->
+                    <!--</div>-->
+                    <div class="bThreeThreeBack"><img src="images/close.png"></div>
+                    <div class="bThreeThreeMain">
+                        <div class="bThreeThreeSel">
+                            <!--<span><input type="checkbox" class="bThreeThreeCheckbox"></span>-->
+                            <!--<span class="bThreeThreeCheckCon">全选删除</span>-->
+                            <input class="bThreeThreeSearch" placeholder="构建名称" />
+                            <span class="bThreeThreeSearchImgClick"></span>
+                        </div>
+                        <span class="bThreeThreeEdit">编辑</span>
+                        <span class="bThreeThreeAdd">添加构建</span>
+
+                    </div>
+                    <div class="bThreeThreeContentMess">
+                        <div class="bThreeThreeContentMessTitle">
+                                <ul class="bThreeThreeContent">
+                                    <li style="padding-left: 0">编码</li>
+                                    <li>构建名称</li>
+                                    <li>计划开始</li>
+                                    <li>计划结束</li>
+                                    <li>实际开始</li>
+                                    <li>实际结束</li>
+                                    <li>完成状态</li>
+                                    <li style="color: #666666">操作</li>
+                                    <div style="clear: both"></div>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--33页面到这结束-->
+                <!--构建添加到任务-->
+                <div class="index-structure">
+                <div class="index-structureHeader">
+                    <span>添加构建到</span>
+                    <span><img src="images/del.png"></span>
+                </div>
+                <div class="index-structureContent">
+                </div>
+                <div class="index-structureFooter">
+                    <span class="index-structureCancel">取消</span>
+                    <span class="index-structureConform">确定</span>
+                </div>
+            </div>
+                <!--结束-->
+            <div class="shrinkRight"></div>
+            <!-- <div class="shrinkLeft"></div> -->
+            <!--构建编辑弹窗-->
+            <div class="cSevenFiveTwoG">
+                <div class="cSevenFiveTwoGHeader">编辑</div>
+                <div>
+                    <div class="cSevenFiveTwoGTContent">
+                        <div class="cSevenFiveTwoGTLeft">计划开始</div>
+                        <div class="cSevenFiveTwoGTLeft">计划结束</div>
+                        <div style="clear: both"></div>
+                    </div>
+                    <div style="clear: both"></div>
+                    <div class="cSevenFiveTwoGTSelect">
+                        <span>
+                            <input type="text" id="planGSTs" class="planStart Wdate" placeholder="" onfocus="WdatePicker({skin:'whyGreen',maxDate:'#F{$dp.$D(\'planGSTe\',{d:-1});}'})"/>
+                        </span>
+                        <span>
+                            <input type="text" id="planGSTe" class="planEnd Wdate" placeholder="" onfocus="WdatePicker({skin:'whyGreen',minDate:'#F{$dp.$D(\'planGSTs\',{d:1});}'})"/>
+                        </span>
+                    </div>
+                    <div class="cSevenFiveTwoGContent">
+                        <div class="cSevenFiveTwoGLeft">实际开始</div>
+                        <div class="cSevenFiveTwoGLeft">实际结束</div>
+                        <div style="clear: both"></div>
+                    </div>
+                    <div style="clear: both"></div>
+                    <div class="cSevenFiveTwoGSelect">
+                        <span>
+                            <input type="text" id="planGACs" class="planStart Wdate" placeholder="" onfocus="WdatePicker({skin:'whyGreen',maxDate:'#F{$dp.$D(\'planGACe\',{d:-1});}'})"/>
+                        </span>
+                        <span>
+                            <input type="text" id="planGACe" class="planEnd Wdate" placeholder="" onfocus="WdatePicker({skin:'whyGreen',minDate:'#F{$dp.$D(\'planGACs\',{d:1});}'})"/>
+                        </span>
+                    </div>
+                </div>
+                <div class="cSevenFiveTwoGFooter">
+                    <div class="cSevenFiveTwoGReset">取消</div>
+                    <div class="cSevenFiveTwoGKeep">保存</div>
+                    <div style="clear: both"></div>
+                </div>
+            </div>
+        </div>
+        <!--<div class="bThreeOneRight">-->
+            <!--<div class="taskNameDeta">属性</div>-->
+            <!--<div class="cSixTwoOneTaskSecond1">-->
+            <!--</div>-->
+            <!--<div class="cSixTwoOneTaskOne1">-->
+            <!--</div>-->
+            <!--<div style="clear: both"></div>-->
+        <!--</div>-->
+        <div style="clear: both"></div>
+        <!--32页面内容从这加进来的-->
+        <div class="bThreeTwo">
+            <div class="bThreeTwoHeader">
+                创建进度
+            </div>
+            <div class="bThreeTwoBack">X</div>
+            <div class="bThreeTwoTitle">
+                <div class="bThreeTwoTip">归属模块</div>
+                <div class="select">
+                    <label><input type="radio" value="rank" name="rank">同级</label>
+                    <label><input style="margin-left: 4.2%" type="radio" value="rank" name="rank">父级</label>
+                </div>
+                <div class="bThreeTwoTaskName">
+                    任务名称
+                </div>
+                <input  class="bThreeTwoTaskWrite" type="text">
+            </div>
+            <div class="bThreeTwoSubmit">
+                <div class="bThreeTwoSend">提交</div>
+            </div>
+        </div>
+        <!--32页面到这结束-->
+        <!--34-->
+        <div class="bThreeFour">
+            <div class="bThreeFourHeader">添加构建</div>
+            <div class="bThreeFourBack">X</div>
+            <div class="bThreeFourContent">
+                <form>
+                    <div>
+                        <div class="bThreeName">构建名称</div>
+                        <div class="bThreeName">（可多选批量）</div>
+                    </div>
+                    <div style="position: relative">
+                        <input  class="bThreeFourInput" type="text">
+                        <div class="bThreeFourPlus">+</div>
+                    </div>
+                    <div class="bThreeFourList">
+                        <ul>景观设计
+                            <li><input type="checkbox">名称二</li>
+                            <li><input type="checkbox">名称四</li>
+                        </ul>
+                        <ul>景观设计
+                            <li><input type="checkbox">名称二</li>
+                            <li><input type="checkbox">名称四</li>
+                        </ul>
+                    </div>
+                    <div class="bThreeFourHide"></div>
+                </form>
+                <form>
+                    <div class="bThreeName">构建类型</div>
+                    <select class="bThreeFourSel">
+                        <option value=""></option>
+                        <option value=""></option>
+                    </select>
+                </form>
+            </div>
+            <div class="bThreeFourFooter">
+                <div class="bThreeFourReset">取消</div>
+                <div class="bThreeFourReset bThreeFourBuild">创建</div>
+            </div>
+        </div>
+        <!--34结束-->
+        <!--c61页面加载-->
+        <div class="cSixOne oneMainContent">
+            <div class="cSixOneHeader">
+                <!--<div class="cSixOneHeaderOne">物料入库</div>-->
+                <!-- <div class="cSixOneHeaderTwo">物料使用</div> -->
+                <div style="clear: both"></div>
+            </div>
+            <div class="c61center">
+                <div class="select-delete" style="display:none;"><input type="button" id="allDel" value="删除" class="c6del">
+                    <!-- <span class="c6del">删除</span> -->
+                </div>
+                <div class="c61right">
+                    <span class="cSixOneNavFir" id="c61add"><span>+</span>&nbsp;&nbsp;&nbsp;物料入库</span>
+                    <select class="cSixOneNavSec">
+                    </select>
+                    <input type="text" name="" placeholder="搜索" id="c61Input" class="cSixOneNavThir c61search">
+                    <span class="c61Find"><img src="images/search.png" id="c61Find"></span>
+                    <span id="c61FindClose" class="findClose"><img src="images/close.png"></span>
+                </div>
+                <div style="clear:both;height: 80%">
+                    <div class="cSixOneBottom">
+                        <div class="cSixOneContent">
+                            <ul class="cSixOneList">
+                                <li class="cSixOneList1">编号</li>
+                                <li class="cSixOneList2">物料类别</li>
+                                <li class="cSixOneList3">规格</li>
+                                <li class="cSixOneList3">品牌</li>
+                                <li class="cSixOneList3">品牌型号</li>
+                                <li class="cSixOneList4">入库时间</li>
+                                <li class="cSixOneList5">余量</li>
+                                <li class="cSixOneList6">库存总量</li>
+                                <li class="cSixOneList6">提供方</li>
+                                <li class="cSixOneList7">附件</li>
+                                <li class="cSixOneList7">备注</li>
+                                <li class="cSixOneList8">操作</li>
+                            </ul>
+                            <div style="clear: both"></div>
+                        </div>
+                        <div class="cSixOneContent cSixOneContent1" id="SixOneContent">
+                            <div style="clear: both"></div>
+                        </div>
+                    </div>
+                    <div class="c6_footer">
+                        <div class="yeshu1 yeshu" id="c61page">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 图片预览 -->
+            <div class="c61photo">
+                <img>
+                <div class="boxClose" id="c61photoClose"></div>
+            </div>
+            <!-- c611 添加框-->
+            <div class="cSixOneOne c611addBox">
+                <div class="cSixOneOneHeader">
+                    <span>物料入库</span>
+                    <span class="bac close611">X</span>
+                </div>
+                <div class="cSixOneOneContent">
+                    <div class="cSixOneOneFirst">
+                        <div>物料类别</div>
+                        <select class="c61type">
+                        </select>
+                    </div>
+                    <div class="cSixOneOneFirst cSixOneOneFirst1">
+                        <div>物料规格</div>
+                        <input type="text" name="" class="c61model">
+                    </div>
+                    <div class="cSixOneOneSecond">
+                        <div>物料品牌</div>
+                        <input type="text" class="brand">
+                    </div>
+                    <div class="cSixOneOneSecond cSixOneOneSecond1">
+                        <div>品牌型号</div>
+                        <input type="text" class="size">
+                    </div>
+                    <div style="clear: both"></div>
+                    <div class="cSixOneOneThree">
+                        <div>物料量</div>
+                        <input type="text" class="c61number">
+                    </div>
+                    <div class="cSixOneOneThree cSixOneOneThree1">
+                        <div>单位</div>
+                        <select class="c61unit">
+                            <!-- <option>lala</option> -->
+                        </select>
+                    </div>
+                    <div class="cSixOneOneThree cSixOneOneThree2">
+                        <div>提供方</div>
+                        <input type="text" class="c61offer">
+                    </div>
+                    <div style="clear: both"></div>
+                    <!--文件上传-->
+                    <div class="file">
+                        <div id="c61uploadfile" class="wu-example">
+                            <div class="btns">
+                                <div id="c61picker">添加文件</div>
+                            </div>
+                            <!--用来存放文件信息-->
+                            <div id="c61thelist" class="uploader-list"></div>
+                        </div>                        
+                    </div>
+                    <div class="note">
+                        <input  class="cSixOneOneSixFile c61note" placeholder="备注" />
+                    </div>
+                    <div class="c611Submit">
+                        <button class="c611Save" id="c6AddSave">提交</button>
+                    </div>
+                </div>
+            </div>
+            <!-- 编辑框 -->
+            <div class="cSixOneOne c611exitBox">
+                <div class="cSixOneOneHeader">
+                    <span>物料入库</span>
+                    <span class="bac close611">X</span>
+                </div>
+                <div class="cSixOneOneContent">
+                    <div class="cSixOneOneFirst">
+                        <div>物料类别</div>
+                        <select class="mc61type">
+                        </select>
+                    </div>
+                    <div class="cSixOneOneFirst cSixOneOneFirst1">
+                        <div>物料规格</div>
+                        <input type="text" name="" class="mc61model">
+                    </div>
+                    <div class="cSixOneOneSecond">
+                        <div>物料品牌</div>
+                        <input type="text" class="mbrand">
+                    </div>
+                    <div class="cSixOneOneSecond cSixOneOneSecond1">
+                        <div>品牌型号</div>
+                        <input type="text" class="mbsize">
+                    </div>
+                    <div style="clear: both"></div>
+                    <div class="cSixOneOneThree">
+                        <div>物料量</div>
+                        <input type="text" class="mc61number">
+                    </div>
+                    <div class="cSixOneOneThree cSixOneOneThree1">
+                        <div>单位</div>
+                        <select class="mc61unit">
+                            <!-- <option>lala</option> -->
+                        </select>
+                    </div>
+                    <div class="cSixOneOneThree cSixOneOneThree2">
+                        <div>提供方</div>
+                        <input type="text" class="mc61offer">
+                    </div>
+                    <div style="clear: both"></div>
+                    <div class="file">
+                        <!-- <input  class="cSixOneOneSixFile mc61file" type="file" multiple/> -->
+                        <div id="c611uploadfile" class="wu-example">
+                            <div class="btns">
+                                <div id="c611picker">添加文件</div>
+                            </div>
+                            <div id="c611thelist" class="uploader-list fileBox mfileBox"></div>
+                        </div>
+                        <!-- <div class="fileBox mfileBox"></div> -->
+                    </div>
+                    <div class="note">
+                        <input  class="cSixOneOneSixFile mc61note" placeholder="备注" />
+                    </div>
+                    <div class="c611Submit">
+                        <button class="c611Save" id="c6exitSave">提交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--c61页面加载结束-->
+        <!--c611开始-->
+        <div class="cSixOneOne">
+            <div class="cSixOneOneHeader">
+                <span>物料入库</span>
+                <span class="bac">X</span>
+            </div>
+            <div class="cSixOneOneContent">
+                <div class="cSixOneOneFirst">
+                    <div>物料名称</div>
+                    <input type="text">
+                </div>
+                <div class="cSixOneOneSecond">
+                    <div>物料编号</div>
+                    <input type="text">
+                </div>
+                <div class="cSixOneOneSecond cSixOneOneThird">
+                    <div>物料规格</div>
+                    <input type="text">
+                </div>
+                <div style="clear: both"></div>
+                <div class="cSixOneOneSecond cSixOneOneFive">
+                    <div>物料量</div>
+                    <select>
+                        <option>0.00</option>
+                    </select>
+                </div>
+                <div class="cSixOneOneSecond cSixOneOneSix">
+                    <div>单位</div>
+                    <select>
+                        <option></option>
+                    </select>
+                </div>
+                <div style="clear: both"></div>
+                <input  class="cSixOneOneSixFile" type="file"/>
+                <div class="cSixOneOneSixSubmit">提交</div>
+            </div>
+        </div>
+        <!--c611结束-->
+        <!--c621开始-->
+        <div class="cSixTwoOne">
+            <div class="cSixOneHeader">
+                <div class="cSixOneHeaderOne">物料入库</div>
+                <!-- <div class="cSixOneHeaderTwo">物料使用</div> -->
+                <div style="clear: both"></div>
+            </div>
+            <div style="clear: both"></div>
+            <div class="bSixTwoOneContent">
+                <div class="bSixTwoOneTitle">
+                    三维模型
+                </div>
+                <div class="bSixTwoOnePicture">
+                    <!--<div id="WebGL-output2" style="width:100%;height:100%;">-->
+                    <!--&lt;!&ndash; 加载进度 &ndash;&gt;-->
+                    <!--<div id="loading2" style="position: absolute;top: 0;left: 0;background-color: white;padding: 0 0.5em;">数据下载中</div>-->
+                    <!--&lt;!&ndash; 鼠标移动显示构件名称 &ndash;&gt;-->
+                    <!--<div id="showModelName2" style="position: fixed;left: 0;top: 0;line-height: 1em;font-size: 12px;background-color: white;z-index: 999; "></div>-->
+                    <!--</div>-->
+                </div>
+                <div class="bSixTwoOneContentTitle1">
+                    构建使用列表
+                </div>
+                <div class="cSixTwoOneContentList">
+                    <div class="cSixTwoOneSearchButton">
+                        <input class="cSixTwoOneContentSearch" placeholder="任务名称">
+                    </div>
+                    <div class="cSixTwoOneContentColor">
+                        <ul>
+                            <li>物料种类</li>
+                            <li>物料规格</li>
+                            <li>物料品牌</li>
+                            <li>品牌系列</li>
+                            <li>使用量</li>
+                            <li>操作</li>
+                        </ul>
+                        <div style="clear: both"></div>
+                    </div>
+                    <div class="cSixTwoOneContentMess">
+                    </div>
+                    <!--<div class="cSixTwoOneContentMess">-->
+                    <!--<ul hidden="true">-->
+                    <!--<li>阳台</li>-->
+                    <!--<li>1KG</li>-->
+                    <!--<li>1KG</li>-->
+                    <!--<li>1KG</li>-->
+                    <!--<li>1KG</li>-->
+                    <!--<li>删除</li>-->
+                    <!--</ul>-->
+                    <!--<div style="clear: both"></div>-->
+                    <!--</div>-->
+                </div>
+            </div>
+            <div class="cSixTwoOneRight">
+                <div class="cSixTwoOneTaskName">属性</div>
+                <div class="cSixTwoOneTaskSecond">
+                    <!--<div class="cSixTwoOneTaskLeft" style="float: left">构建名称：</div>-->
+                    <!--<div class="cSixTwoOneTaskRight"><input type="number" placeholder="20KG"></div>-->
+                    <!--<div style="clear: both"></div>-->
+                </div>
+                <div class="cSixTwoOneTaskOne">
+                    <!--<div class="cSixTwoOneTaskLeft" style="float: left">水泥：</div>-->
+                    <!--<div class="cSixTwoOneTaskRight"><input type="number" placeholder="20KG"></div>-->
+                    <!--<div style="clear: both"></div>-->
+                </div>
+            </div>
+        </div>
+        <!--c621结束-->
+        <!--c63开始-->
+        <div class="cSixThree oneMainContent">
+            <div class="cSixThreeHeader">
+                <span class="cSixThreeHeaderFirst">检验批管理</span>
+                <span class="cSixThreeHeaderSecond">上传文件</span>
+                <span class="cSixThreeHeaderThird">
+                <select>
+                    <option>景观设计</option>
+                    <option>名称二</option>
+                    <option>名称四</option>
+                    <option>景观设计一</option>
+                </select>
+            </span>
+                <span class="cSixThreeHeaderFour"><input type="search" placeholder="搜索"/></span>
+            </div>
+            <div class="cSixThreeContentList">
+                <ul style="height: 100%;">
+                    <div class="cSixThreeContent cSixThreeContentColor">
+                        <span class="cSixThreeListFirst"><input type="checkbox"/></span>
+                        <span class="cSixThreeListSecond">已选中项</span>
+                        <span class="cSixThreeListThird"></span>
+                        <span class="cSixThreeListFourth"></span>
+                        <span class="cSixThreeListFive"></span>
+                        <span class="cSixThreeListSix">大小</span>
+                        <span class="cSixThreeListSeven">时间</span>
+                        <div style="clear: both"></div>
+                    </div>
+                    <div style="clear: both"></div>
+                    <div class="cSixThreeContentListTable">
+                    <li class="cSixThreeContent">
+                        <span class="cSixThreeListFirst"><input type="checkbox"/></span>
+                        <span class="cSixThreeListSecond">图片</span>
+                        <span class="cSixThreeListThird">项目工程策划文档.doc</span>
+                        <span class="cSixThreeListFourth">阳台门槛</span>
+                        <span class="cSixThreeListFive">进门台阶</span>
+                        <span class="cSixThreeListSix">大小</span>
+                        <span class="cSixThreeListSeven">2017-03-21 20:34</span>
+                        <div style="clear: both"></div>
+                    </li>
+                    <div style="clear: both"></div>
+                    <li class="cSixThreeContent">
+                        <span class="cSixThreeListFirst"><input type="checkbox"/></span>
+                        <span class="cSixThreeListSecond">图片</span>
+                        <span class="cSixThreeListThird">项目工程策划文档.doc</span>
+                        <span class="cSixThreeListFourth">阳台门槛</span>
+                        <span class="cSixThreeListFive">进门台阶</span>
+                        <span class="cSixThreeListSix">8.58M</span>
+                        <span class="cSixThreeListSeven">2017-03-21 20:34</span>
+                        <div style="clear: both"></div>
+                    </li>
+                    <div style="clear: both"></div>
+                    </div>
+                </ul>
+                <div style="clear: both"></div>
+            </div>
+        </div>
+        <!--c63结束-->
+        <!--c631开始-->
+        <div class="cSixThreeOne">
+            <div class="cSixThreeOneHeader">上传文件</div>
+            <div class="cSixThreeOneBack">X</div>
+            <div class="cSixThreeOneContent">
+                <form>
+                    <div>
+                        <div class="cSixThreeOneName">构建名称</div>
+                        <div class="cSixThreeOneName">（可多选批量）</div>
+                    </div>
+                    <div style="position: relative">
+                        <input  class="cSixThreeOneInput" type="text">
+                        <div class="cSixThreeOnePlus">+</div>
+                    </div>
+                    <div class="cSixThreeOneList">
+                        <ul>景观设计
+                            <li><input type="checkbox">名称二</li>
+                            <li><input type="checkbox">名称四</li>
+                        </ul>
+                        <ul>景观设计
+                            <li><input type="checkbox">名称二</li>
+                            <li><input type="checkbox">名称四</li>
+                        </ul>
+                    </div>
+                </form>
+                <div class="cSixThreeOneFile">
+                    <input type="file"/>
+                </div>
+                <div class="cSixThreeOneFooter">
+                    <div>
+                        <span>项目工程策划文档</span>
+                        <span>(234KB)</span>
+                        <span style="color: blue;cursor: pointer">删除</span>
+                    </div>
+                    <div>
+                        <span>项目工程策划文档</span>
+                        <span>(234KB)</span>
+                        <span style="color: blue;cursor: pointer">删除</span>
+                    </div>
+                </div>
+                <div class="cSixThreeOneSubmit">提交</div>
+            </div>
+        </div>
+        <!--c631结束-->
+        <!--c3开始-->
+        <div class="cThree oneMainContent">
+            <div class="cThreeHeader">
+                <span class="cThreeHeaderOne"><img src="images/新建文件夹-ICON.png">新建文件夹</span>
+                <span class="cThreeHeaderTwo"><span>+</span>&nbsp;&nbsp;&nbsp;上传模型/图纸</span>
+                <span class="cThreeHeaderThree"><input type="text" placeholder="搜索" class="c3search">
+                    <span><img src="images/search.png" id="c3Find"></span>
+                    <span id="c3FindClose" class="findClose"><img src="images/close.png"></span>
+                </span>
+            </div>
+            <div class="cThreeContent">
+                
+                <div style="clear: both"></div>
+            </div>
+            <div style="clear: both"></div>
+        </div>
+        <!--c3结束-->
+
+        <!--c2开始-->
+        <div class="cTwo">
+            <div class="cTwoHeader">上传模型/图纸</div>
+            <div class="cTwoBack">X</div>
+            <div class="cTwoContent">
+                <div id="c3uploadfile" class="wu-example">
+                    <div class="btns">
+                        <div id="c3picker">上传模型/图纸</div>
+                        <span class="c3mc">每次只能上传单张</span>
+                    </div>
+                    <!--用来存放文件信息-->
+                    <div id="c3thelist" class="uploader-list"></div>
+                </div> 
+            </div>
+            <div class="cTwoSrc">
+                <div class="c3ms">描述</div>
+                <!-- <div class="c3msBox">
+                </div> -->
+                <textarea  class="c3msBox" cols="10">
+                    
+                </textarea>
+            </div>
+            <div class="cTwoFooter">
+                <div class="cTwoSubmit">开始上传</div>
+            </div>
+        </div>
+        <!--c2结束-->
+        <!--编辑框开始-->
+        <div class="c2ExitBox">
+            <div class="cTwoHeader">编辑</div>
+            <div class="c2ExitBack">X</div>
+            <div class="cTwoContent">
+                <!-- <div id="uploader" class="wu-example">
+                    <div class="btns">
+                        <div id="c3picker">上传模型/图纸</div>
+                        <span class="c3mc">每次只能上传单张</span>
+                    </div>
+                    <div id="c3thelist" class="uploader-list"></div>
+                </div>  -->
+                <div class="c2Img"></div>
+                <div class="c2ImgName"></div>
+            </div>
+            <div class="cTwoSrc">
+                <div class="c3ms">描述</div>
+                <textarea  class="c2msBox" cols="10">
+                    
+                </textarea>
+            </div>
+            <div class="cTwoFooter">
+                <div class="c2ExitSubmit">开始上传</div>
+            </div>
+        </div>
+        <!--编辑框结束-->
+        <!--移动弹框开始-->
+        <div class="c3ExitBox">
+            <div class="cTwoHeader">移动到</div>
+            <div class="c3ExitBack">X</div>
+            <div class="c3ExitContent">
+            </div>
+            <div class="cTwoFooter">
+                <div class="c3ExitSubmit">移动</div>
+            </div>
+        </div>
+        <!--移动弹框结束-->
+        <!--c5开始-->
+        <div class="cFive oneMainContent">
+            <div class="cFiveContent">
+                <div class="cFiveContentHeader">
+                    <!-- <div class="cFiveMember" id="cFiveMember">人员管理</div> -->
+                    <div class="c5right">
+                        <button class="c5Add"><span>+</span>&nbsp;&nbsp;&nbsp;添加人员</button>
+                        <div class="cFiveHeaderInput"><input type="text" placeholder="搜索" class="c5search">
+                            <span id="c5Find"><img src="images/search.png"></span>
+                            <span id="c5FindClose" class="findClose"><img src="images/close.png"></span>
+                        </div>
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="cFiveContentMain">
+                    <div class="c5type">
+                        <span class="title1">类型：</span>
+                    </div>
+                    <!-- <div style="height:20px;background:rgb(249, 249, 249);"> -->
+                    <div class="c5center">
+                        <div class="cFiveList cFiveListFont">
+                            <ul class="c5header">
+                                <li class="c5id">序号</li>
+                                <li class="cFiveListOne">姓名</li>
+                                <li class="cFiveListTwo">联系方式</li>
+                                <li class="cFiveListThree">身份证</li>
+                                <li class="cFiveListThree">类型</li>
+                                <li class="cFiveListThree">工种</li>
+                                <li class="cFiveListFive">进场时间</li>
+                                <li class="cFiveListFive">离场时间</li>
+                                <li class="cFiveListFour">附件</li>
+                                <li class="cFiveListSix">操作</li>
+                                <div style="clear: both"></div>
+                            </ul>
+                        </div>
+                        <div class="cFiveList c5listContent" id="cFiveList">
+                            <div style="clear: both"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="c5_footer" id="c5page">
+                       
+                </div>
+            </div>
+            <!-- 图片预览 -->
+            <div class="c5photo">
+                <img>
+                <div class="boxClose" id="photoClose"></div>
+            </div>
+            <!-- 添加用户弹出框 -->
+            <div class="c5AddBox">
+                <div class="cSixOneOneHeader">
+                    <span>人员管理</span>
+                    <span class="bac closeC5">X</span>
+                </div>
+                <div class="cSixOneOneContent">
+                    <div class="cSixOneOneFirst">
+                        <div>姓名</div>
+                        <input class="c5name" type="text" name="name" placeholder="姓名">
+                    </div>
+                    <div class="cSixOneOneFirst cSixOneOneFirst1">
+                        <div>联系方式</div>
+                        <input type="text" name="phone" placeholder="联系方式" class="c5phone">
+                    </div>
+                    <div class="cSixOneOneThree cSixOneOneThree2">
+                        <div>身份证</div>
+                        <input type="text" placeholder="身份证" class="c5sfz">
+                    </div>
+                    <div class="cSixOneOneThree">
+                        <div>类型</div>
+                        <select class="c5type1">
+                        </select>
+                    </div>
+                    <div class="cSixOneOneThree cSixOneOneThree1">
+                        <div>工种</div>
+                        <select class="c5gz">
+                        </select>
+                    </div>
+                    <div style="clear: both"></div>
+                    <div class="cSixOneOneSecond">
+                        <div>进场时间</div>
+                        <input id="wdate1s" type="text" placeholder="进场时间" class="c5start Wdate" onfocus="WdatePicker({skin:'whyGreen',maxDate: '#F{$dp.$D(\'wdate1e\',{d:-1});}'})">
+                    </div>
+                    <div class="cSixOneOneSecond cSixOneOneSecond1">
+                        <div>离场时间</div>
+                        <input id="wdate1e" type="text" placeholder="离场时间" class="c5end Wdate" onfocus="WdatePicker({skin:'whyGreen',minDate: '#F{$dp.$D(\'wdate1s\',{d:1});}'})"})">
+                    </div>
+                    <div style="clear: both"></div>
+                    <div class="file">
+                        <div id="c5uploadfile" class="wu-example">
+                            <div class="btns">
+                                <div id="c5picker">添加文件</div>
+                            </div>
+                            <!--用来存放文件信息-->
+                            <div id="c5thelist" class="uploader-list"></div>
+                        </div> 
+                    </div>
+                    <div class="c5Submit">
+                        <button class="c5Save" id="c5AddSave">提交</button>
+                    </div>
+                </div>
+            </div>
+            <!-- 编辑用户弹出框 -->
+            <div class="c5Exit">
+                <div class="cSixOneOneHeader">
+                    <span>人员管理</span>
+                    <span class="bac closeC5">X</span>
+                </div>
+                <div class="cSixOneOneContent">
+                    <div class="cSixOneOneFirst">
+                        <div>姓名</div>
+                        <input class="mc5name" type="text" name="name" placeholder="姓名">
+                    </div>
+                    <div class="cSixOneOneFirst cSixOneOneFirst1">
+                        <div>联系方式</div>
+                        <input type="text" name="phone" placeholder="联系方式" class="mc5phone">
+                    </div>
+                    <div style="clear: both"></div>
+                    <div class="cSixOneOneThree cSixOneOneThree2">
+                        <div>身份证</div>
+                        <input type="text" placeholder="身份证" class="mc5sfz">
+                    </div>
+                    <div class="cSixOneOneThree">
+                        <div>类型</div>
+                        <select class="mc5type1">
+                        </select>
+                    </div>
+                    <div class="cSixOneOneThree cSixOneOneThree1">
+                        <div>工种</div>
+                        <select class="mc5gz">
+                        </select>
+                    </div>
+                    <div style="clear: both"></div>
+                    <div class="cSixOneOneSecond">
+                        <div>进场时间</div>
+                        <input id="wdate2s" type="text" placeholder="进场时间" class="mc5start Wdate" onfocus="WdatePicker({skin:'whyGreen',maxDate: '#F{$dp.$D(\'wdate2e\',{d:-1});}'})">
+                    </div>
+                    <div class="cSixOneOneSecond cSixOneOneSecond1">
+                        <div>离场时间</div>
+                        <input id="wdate2e" type="text" placeholder="离场时间" class="mc5end Wdate" onfocus="WdatePicker({skin:'whyGreen',minDate:'#F{$dp.$D(\'wdate2s\',{d:1});}'})">
+                    </div>
+                    <div style="clear: both"></div>
+                    <div class="file">
+                        <div id="c51uploadfile" class="wu-example">
+                            <div class="btns">
+                                <div id="c51picker">添加文件</div>
+                            </div>
+                            <div class="fileBox mc5fileBox uploader-list" id="c51thelist"></div>
+                        </div>
+                    </div>
+                    <div class="c5SubmitExit">
+                        <button class="c5Save" id="exitSave">提交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--c5结束-->
+        <!-- c622设备管理 -->
+        <div class="cSix oneMainContent">
+            <div class="cSixContent">
+                <div class="cSixContentHeader">
+                    <div class="c6right">
+                        <button class="c6Add"><span>+</span>&nbsp;&nbsp;&nbsp;添加设备</button>
+                        <div class="cSixHeaderInput"><input type="text" placeholder="搜索" class="c6search">
+                            <span id="c6Find"><img src="images/search.png"></span>
+                            <span id="c6FindClose" class="findClose"><img src="images/close.png"></span>
+                        </div>
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="cSixContentMain">
+                    <div class="c6center">
+                        <div class="cSixList cSixListFont">
+                            <ul class="c6header">
+                                <li class="c6id"><input type="checkbox">序号</li>
+                                <li class="cSixListOne">设备名称</li>
+                                <li class="cSixListTwo">数量</li>
+                                <li class="cSixListThree">负责人</li>
+                                <li class="cSixListSix">进场时间</li>
+                                <li class="cSixListSix">离场时间</li>
+                                <li class="cSixListFour">附件</li>
+                                <li class="cSixListSix">操作</li>
+                                <div style="clear: both"></div>
+                            </ul>
+                        </div>
+                        <div class="cSixList c6listContent" id="cSixList">
+                            <div style="clear: both"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="c6_footer">
+                <div class="yeshu1 yeshu" id="c6page"></div>
+            </div>
+            <!-- 图片预览 -->
+            <div class="c6photo">
+                <img>
+                <div class="boxClose" id="c6photoClose"></div>
+            </div>
+            <!-- 添加设备弹出框 -->
+            <div class="c6AddBox">
+                <div class="cSixOneOneHeader">
+                    <span>设备管理</span>
+                    <span class="bac closeC6">X</span>
+                </div>
+                <div class="cSixOneOneContent">
+                    <div class="cSixOneOneFirst cSixOneOne1">
+                        <div>设备名称</div>
+                        <input class="c6name" type="text" name="name" placeholder="设备名称">
+                    </div>
+                    <div class="cSixOneOneFirst">
+                        <div>数量</div>
+                        <input class="c6number" type="text" name="number" placeholder="数量">
+                    </div>
+                    <div class="cSixOneOneFirst cSixOneOneFirst1">
+                        <div>负责人</div>
+                        <input type="text" placeholder="负责人" class="c6person">
+                    </div>
+                    <div style="clear: both"></div>
+                    <div class="cSixOneOneSecond">
+                        <div>进场时间</div>
+                        <input id="wdate3s" type="text" placeholder="进场时间" class="c6start Wdate" onfocus="WdatePicker({skin:'whyGreen',maxDate: '#F{$dp.$D(\'wdate3e\',{d:-1});}'})">
+                    </div>
+                    <div class="cSixOneOneSecond cSixOneOneSecond1">
+                        <div>离场时间</div>
+                        <input id="wdate3e" type="text" placeholder="离场时间" class="c6end Wdate" onfocus="WdatePicker({skin:'whyGreen',minDate: '#F{$dp.$D(\'wdate3s\',{d:1});}'})">
+                    </div>
+                    <div style="clear: both"></div>
+                    <div class="file">
+                       <div id="c6uploadfile" class="wu-example">
+                            <div class="btns">
+                                <div id="c6picker">添加文件</div>
+                            </div>
+                            <!--用来存放文件信息-->
+                            <div id="c6thelist" class="uploader-list"></div>
+                        </div> 
+                     </div>
+                    <div class="c6Submit">
+                        <button class="c6Save" id="c622AddSave">提交</button>
+                    </div>
+                </div>
+            </div>
+            <!-- 编辑设备弹出框 -->
+            <div class="c6Exit">
+                <div class="cSixOneOneHeader">
+                    <span>设备管理</span>
+                    <span class="bac closeC6">X</span>
+                </div>
+                <div class="cSixOneOneContent">
+                    <div class="cSixOneOneFirst cSixOneOne1">
+                        <div>设备名称</div>
+                        <input class="bjc6name" type="text" name="name" placeholder="设备名称">
+                    </div>
+                    <div class="cSixOneOneFirst">
+                        <div>数量</div>
+                        <input class="bjc6number" type="text" name="number" placeholder="数量">
+                    </div>
+                    <div class="cSixOneOneFirst cSixOneOneFirst1">
+                        <div>负责人</div>
+                        <input type="text" placeholder="负责人" class="bjc6person">
+                    </div>
+                    <div style="clear: both"></div>
+                    <div class="cSixOneOneSecond">
+                        <div>进场时间</div>
+                        <input id="wdate4s" type="text" placeholder="进场时间" class="bjc6start Wdate" onfocus="WdatePicker({skin:'whyGreen',maxDate:'#F{$dp.$D(\'wdate4e\',{d:-1});}'})">
+                    </div>
+                    <div class="cSixOneOneSecond cSixOneOneSecond1">
+                        <div>离场时间</div>
+                        <input id="wdate4e" type="text" placeholder="离场时间" class="bjc6end Wdate"  onfocus="WdatePicker({skin:'whyGreen',minDate: '#F{$dp.$D(\'wdate4s\',{d:1});}'})">
+                    </div>
+                    <div style="clear: both"></div>
+                    <div class="file">
+                        <!-- <input class="cSixOneOneSixFile bjc6file" type="file" multiple value="添加文件" />
+                        <div class="bjc6fileBox"></div> -->
+                        <div id="uploader" class="wu-example">
+                            <div class="btns">
+                                <div id="c622picker">添加文件</div>
+                            </div>
+                            <!--用来存放文件信息-->
+                            <div id="c622thelist" class="uploader-list bjc6fileBox"></div>
+                        </div> 
+                    </div>
+                    <div class="c6SubmitExit">
+                        <button class="c6Save" id="c622exitSave">提交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- c6结束 -->
+        <!--c75开始-->
+        <div class="cSevenFive">
+            <div class="cSevenFiveHeader">
+                添加进度
+                <div class="cSevenFiveBack">X</div>
+            </div>
+            <div class="cSevenFiveContent">
+                <div class="">任务名称</div>
+                <div class=""><input type="text" id="paceName"></div>
+            </div>
+            <div class="cSevenFiveFooter">
+                <div class="cSevenFiveSubmit">提交</div>
+            </div>
+        </div>
+        <!--c75结束-->
+        <!--c751开始-->
+        <div class="cSevenFiveOne">
+            <div class="cSevenFiveHeader">
+                添加进度
+                <div class="cSevenFiveBack">X</div>
+            </div>
+            <div class="cSevenFiveContent">
+                <div class="">任务名称</div>
+                <div class=""><input type="text" id="paceNameOne"></div>
+            </div>
+            <div class="cSevenFiveFooter">
+                <div class="cSevenFiveSubmitOne">提交</div>
+            </div>
+        </div>
+        <!--c751结束-->
+        <!--c752开始-->
+        <div class="cSevenFiveTwo">
+            <div class="cSevenFiveTwoHeader">编辑</div>
+            <div class="cSevenFiveTwoTask">
+                <div>任务名称</div>
+                <input type="text" class="cSevenFiveTwoTaskName">
+            </div>
+            <div>
+                <div class="cSevenFiveTwoContent">
+                    <div class="cSevenFiveTwoLeft">计划开始</div>
+                    <div class="cSevenFiveTwoLeft">计划结束</div>
+                    <div style="clear: both"></div>
+                </div>
+                <div style="clear: both"></div>
+                <div class="cSevenFiveTwoSelect">
+                <span>
+                   <input type="text" id="GouJianPlans"  class="planStart Wdate" placeholder="" onfocus="WdatePicker({skin:'whyGreen',maxDate:'#F{$dp.$D(\'GouJianPlane\',{d:-1});}'})"/>
+                </span>
+                    <span>
+                    <input type="text" id="GouJianPlane"  class="planEnd Wdate" placeholder="" onfocus="WdatePicker({skin:'whyGreen',minDate:'#F{$dp.$D(\'GouJianPlans\',{d:1});}'})"/>
+                </span>
+                </div>
+            </div>
+            <div class="cSevenFiveTwoFooter">
+                <div class="cSevenFiveTwoReset">取消</div>
+                <div class="cSevenFiveTwoKeep">保存</div>
+                <div style="clear: both"></div>
+            </div>
+        </div>
+        <!--c752结束-->
+        <!--c4开始-->
+        <div class="cFour">
+            <div class="cFourHeader">问题反馈</div>
+            <div class="cFourContent">
+                <div class="cFourNav">
+                    <div class="cFourQuestion">*标题</div>
+                    <div class="cFourQuestionFirst">
+                        <input type="text"/>
+                    </div>
+                </div>
+                <div class="cFourBody">
+                    <div class="cFourQuestion cFourQuestions">*问题与建议描述</div>
+                    <div class="cFourQuestion">
+                        <input type="text" />
+                    </div>
+                    <div class="cFourSrc">
+                        <div class="cFourImg">图片</div>
+                        <div class="cFourPlus">+</div>
+                        <div class="cFourSty">PDF/JPG/PNG格式</div>
+                        <div style="clear: both"></div>
+                    </div>
+                    <div class="cFourQuestion">*处理人</div>
+                    <div class="cFourQuestion">
+                        <select>
+                            <option></option>
+                        </select>
+                    </div>
+                    <div class="cFourQuestionSubmit">
+                        <div class="cFourSubmit">提交</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--c4结束-->
+        <!--b4开始-->
+        <div class="bFour">
+            <div class="bFourTitle">
+                我的账户
+            </div>
+            <div class="bFourContent">
+                <ul>
+                    <li class="bFourOneContentFirst">个人资料</li>
+                    <li class="bFourOneContentSecond">账户绑定</li>
+                    <li class="bFourOneContentThird">修改密码</li>
+                </ul>
+                <div style="clear: both"></div>
+                <ul>
+                    <li class="bFourOneContentFirstF"></li>
+                    <li class="bFourOneContentSecondS"></li>
+                    <li class="bFourOneContentThirdT"></li>
+                </ul>
+                <div style="clear: both"></div>
+                <!-- <div class="bFourContentMain">
+                    <div class="bFourPicture">
+                        <div class="bFourPictureImg">上传头像</div>
+                        <div>账户ID：324245</div>
+                    </div>
+                    <div class="bFourInformation">
+                        <div class="bFourInformationLeft">
+                            <div class="bFourInformationFirst">
+                                <div>昵称</div>
+                                <div><input type="text"></div>
+                            </div>
+                            <div class="bFourInformationSecond">
+                                <div>昵称</div>
+                                <div style="float: left;width: 25%"><input type="checkbox">男</div>
+                                <div><input type="checkbox">女</div>
+                                <div style="clear: both"></div>
+                            </div>
+                            <div class="bFourInformationFirst">
+                                <div>出生日月</div>
+                                <div><input type="text"></div>
+                            </div>
+                            <div class="bFourInformationFirst">
+                                <div>手机号码</div>
+                                <div><input type="text"></div>
+                            </div>
+                            <div class="bFourInformationFirst">
+                                <div>常住地址</div>
+                                <div><input type="text"></div>
+                            </div>
+                        </div>
+                        <div class="bFourInformationRight">
+                            <div class="bFourInformationFirst">
+                                <div>真实姓名</div>
+                                <div><input type="text"></div>
+                            </div>
+                            <div class="bFourInformationFirst">
+                                <div>年龄</div>
+                                <div><input type="text"></div>
+                            </div>
+                            <div class="bFourInformationFirst">
+                                <div>证件号</div>
+                                <div><input type="text"></div>
+                            </div>
+                            <div class="bFourInformationFirst">
+                                <div>邮箱地址</div>
+                                <div><input type="text"></div>
+                            </div>
+                        </div>
+                        <div style="clear: both"></div>
+                        <div class="bFourSubmit">提交</div>
+                    </div>
+                    <div class="bFourOneInformation"></div>
+                </div> -->
+                <div class="bFourContentMain">
+                    <div class="bFourPicture">
+                        <div class="bFourPictureImg updateHeadImg">上传头像</div>
+                    </div>
+                    <div class="bFourInformation">
+                        <div class="bFourInformationLeft">
+                            <div class="bFourInformationFirst">
+                                <div>昵称</div>
+                                <div><input type="text" class="accountSet" id="nav-name"></div>
+                            </div>
+                            <div class="bFourInformationSecond">
+                                <div>性别</div>
+                                <div style="float: left;width: 25%"><input name="sex" type="radio" value="男" id="sexBoy"><span class="pl-5">男</span></div>
+                                <div><input type="radio" name="sex" value="女" id="sexGirl"><span class="pl-5">女</span></div>
+                                <div style="clear: both"></div>
+                            </div>
+                            <div class="bFourInformationFirst" id='time-picker-container'>
+                                <div>出生日月</div>
+                                <div><input type="text" class="accountSet Wdate" id="nav-birth" onfocus="WdatePicker({skin:'whyGreen',maxDate:'%y-%M-%d'})"></div>
+                            </div>
+                            <div class="bFourInformationFirst">
+                                <div>手机号码</div>
+                                <div><input type="text" class="accountSet clor-999" id="nav-tellphone" readonly></div>
+                            </div>
+                            <div class="bFourInformationFirst">
+                                <div>常住地址</div>
+                                <div><input type="text" class="accountSet" id="nav-address"></div>
+                            </div>
+                        </div>
+                        <div class="bFourInformationRight">
+                            <div class="bFourInformationFirst">
+                                <div>真实姓名</div>
+                                <div><input type="text" class="accountSet" id="nav-truename"></div>
+                            </div>
+                            <div class="bFourInformationFirst">
+                                <div>年龄</div>
+                                <div><input type="text" class="accountSet" id="nav-age"></div>
+                            </div>
+                            <div class="bFourInformationFirst">
+                                <div>证件号</div>
+                                <div><input type="text" class="accountSet" id="certificate"></div>
+                            </div>
+                            <div class="bFourInformationFirst">
+                                <div>邮箱地址</div>
+                                <div><input type="text" class="accountSet clor-999" id="nav-email" readonly></div>
+                            </div>
+                        </div>
+                        <div style="clear: both"></div>
+                        <div class="bFourSubmit cp" id="index-nav-submit">提交</div>
+                    </div>
+                    <div class="bFourOneInformation"></div>
+                </div>
+                <!--b41开始-->
+                <!-- <div class="bFourOneInformation">
+                    <div class="bFourOneList">
+                        <div class="bFourOneListFirst">手机号码</div>
+                        <div class="bFourOneListSecond">
+                            <input type="number" class="bFourOneListNumber">
+                            <div class="bFourOneListBlind">立即绑定</div>
+                            <div style="clear: both"></div>
+                        </div>
+                    </div>
+                    <div class="bFourOneList">
+                        <div class="bFourOneListFirst">邮箱</div>
+                        <div class="bFourOneListSecond">
+                            <input type="number" class="bFourOneListNumber">
+                            <div class="bFourOneListBlind">去解绑</div>
+                            <div style="clear: both"></div>
+                        </div>
+                    </div>
+
+                </div> -->
+                 <div class="bFourOneInformation">
+                    <div class="bFourOneList">
+                        <div class="bFourOneListFirst mt-20">手机号码</div>
+                        <div class="bFourOneListSecond">
+                            <input type="text" class="bFourOneListNumber accountSets" id="bindphone">
+                            <span class="bFourOneListBlind immediateBind cp" id="immediateBind">立即绑定</span>
+                        </div>
+                    </div>
+                    <div style="clear: both"></div>
+                    <div class="bFourOneList">
+                        <div class="bFourOneListFirst">邮箱</div>
+                        <div class="bFourOneListSecond">
+                            <input type="text" class="bFourOneListNumber accountSets" id="bindEmail">
+                            <span class="bFourOneListBlind removeBind cp" id="removeBind">解绑</span>
+                            <div style="clear: both"></div>
+                        </div>
+                    </div>
+                </div>
+                <!--b41结束-->
+                <!--b42-->
+                <!-- <div class="bFourTwo">
+                    <div class="bFourTwoBack">X</div>
+                    <div class="bFourTwoContent">&nbsp;&nbsp;您的号码为134.....442的手机，会收到一条含有6位数字验证码的短信</div>
+                    <div class="bFourTwoInput"><input type="text" placeholder="验证码"/></div>
+                    <div class="bFourTwoSubmit">49S秒后再次获取</div>
+                </div> -->
+                <div class="bFourTwo">
+                    <div class="bFourTwoBack">X</div>
+                    <div class="bFourTwoContent">&nbsp;&nbsp;您的号码为134.....442的手机，会收到一条含有6位数字验证码的短信</div>
+                    <div class="bFourTwoInput"><input type="text" placeholder="验证码"/></div>
+                    <div class="bFourTwoSubmit">49S秒后再次获取</div>
+                </div>
+                <!--b42-->
+                <!--b43开始-->
+                <!-- <div class="bFourThreeList">
+                    <div class="bFourThreeListName">
+                        <div class="bFourThreeSecret">原密码</div>
+                        <div class="bFourThreeInput"><input type="text" placeholder="请输入原密码"/></div>
+                    </div>
+                    <div class="bFourThreeListName">
+                        <div class="bFourThreeSecret">新密码</div>
+                        <div class="bFourThreeInput">
+                            <span><input type="text" placeholder="请输入原密码"/></span>
+                            <span>密码由6-20个字符串</span>
+                        </div>
+                        <div class="bFourThreeNote">
+                            <span>密码强度</span>
+                            <span class="bFourThreeStrong">弱</span>
+                            <span class="bFourThreeStrong">中</span>
+                            <span class="bFourThreeStrong">强</span>
+                        </div>
+                    </div>
+                    <div class="bFourThreeListName">
+                        <div class="bFourThreeSecret">新密码</div>
+                        <div class="bFourThreeInput"><input type="text" placeholder="请输入原密码"/></div>
+                    </div>
+                    <div style="clear: both"></div>
+                    <div class="bFourThreeSubmit">
+                        <div class="bFourThreeSubmitButton">保存</div>
+                    </div>
+                </div> -->
+                <div class="bFourThreeList">
+                    <div class="bFourThreeListName">
+                        <div class="bFourThreeSecret">原密码</div>
+                        <div class="bFourThreeInput"><input id="oldPwd" type="password" placeholder="请输入原密码"/></div>
+                    </div>
+                    <div class="bFourThreeListName">
+                        <div class="bFourThreeSecret">新密码</div>
+                        <div class="bFourThreeInput">
+                            <span><input id="newId" type="password" placeholder="请输入新密码"/></span>
+                            <span>密码由6-20个字符串</span>
+                        </div>
+                        <!-- <div class="bFourThreeNote">
+                            <span>密码强度</span>
+                            <span class="bFourThreeStrong">弱</span>
+                            <span class="bFourThreeStrong">中</span>
+                            <span class="bFourThreeStrong">强</span>
+                        </div> -->
+                    </div>
+                    <div class="bFourThreeListName">
+                        <div class="bFourThreeSecret">新密码</div>
+                        <div class="bFourThreeInput"><input id="reNewPwd" type="password" placeholder="请再次输入新密码"/></div>
+                    </div>
+                    <div style="clear: both"></div>
+                    <div class="bFourThreeSubmit">
+                        <div class="bFourThreeSubmitButton" id="ModifyPwdSave">保存</div>
+                    </div>
+                </div>
+                <!--b43结束-->
+            </div>
+        </div>
+        <!--b4结束-->
+    <!-- </div> -->
+    <!-- mainCenter结束 -->
+</div>
+<script src="js/jquery-1.7.2.js"></script>
+<script src="js/globleAjax.js"></script>
+<script type="text/javascript" src="js/WdatePicker.js"></script>
+<script src="js/toastr.min.js"></script>
+<script src="layer/layer.js"></script>
+<script src="js/enter.js"></script>
+<script type="text/javascript" src="js/webuploader.min.js"></script>
+<!-- <script type="text/javascript" src="js/upload.js"></script> -->
+<script src="js/laypage.js"></script>
+<script src="js/index.js"></script>
+<script src="js/controller.js"></script>
+<script src="js/modelJS/jquery-1.12.2.min.js"></script>
+<script src="js/modelJS/three.min.js"></script>
+<script src="js/modelJS/axis.js"></script>
+<script src="js/modelJS/dlight.js"></script>
+<script src="js/modelJS/hashmap.js"></script>
+<script src="js/modelJS/jszip.min.js"></script>
+<script src="js/modelJS/JSZipUtils.js"></script>
+<script src="js/modelJS/sceneloader.js"></script>
+<script src="js/modelJS/OrbitControls.js"></script>
+<script src="js/modelJS/index.js"></script>
+<script src="js/zTree/jquery.ztree.core.js"></script>
+<script src="js/zTree/jquery.ztree.excheck.js"></script>
+<script src="js/jquery.tooltipster.js"></script>
+</body>
+</html>

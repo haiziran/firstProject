@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>创建单位</title>
+	<link rel="stylesheet" type="text/css" href="../style/css.css">
+	<link rel="stylesheet" type="text/css" href="../style/reset.css">
+	<link rel="stylesheet" type="text/css" href="../style/index.css">
+</head>
+<body>
+	<div class="header">
+	    <div style="float: left">BIM装修工程协同管理系统</div>
+	    <div class="Engineer">工程管理</div>
+	    <div class="Unit">单位管理</div>
+	    <div class="System">系统管理</div>
+	    <div class="Manger">用户管理</div>
+	    <div class="User">
+	        <span class="Photo">头像</span>
+	        <span>Type something@163.com</span>
+	        <span class="Function"></span>
+	    </div>
+	</div>
+	<div class="b8">
+		<div class="b8-header">
+			创建单位
+		</div>
+		<div class="b8-center b8-center">
+			<div class="b8-left title">
+				<span class="active">后台创建</span>
+			</div>
+			<div class="b8-right title">
+				<span>邀请注册</span>
+			</div>
+			<div style="clear:both"></div>
+			<div class="b8-content">
+				<div class="describe">
+				下面提供的信息将用于单位登录账户。
+				<br>请输入以下信息
+				</div>
+				<div class="b8-left text">
+					<span>单位信息</span>
+				</div>
+				<div class="b8-right sign">
+					<span>*必填项</span>
+				</div>
+				<div style="clear:both"></div>
+				<div class="b8-left infor">
+					<span>*</span>单位名称
+					<br>
+					<input type="text" name="name" placeholder="单位名称">
+				</div>
+				<div class="b8-right infor">
+					<span>*</span>单位地址
+					<br>
+					<input type="text" name="name" placeholder="单位地址">
+				</div>
+				<div style="clear:both"></div>
+				<div class="b8-left infor">
+					<span>*</span>单位类型
+					<br>
+					<!-- <input type="text" name="name" placeholder="单位类型"> -->
+					<select class="b8-select">
+						<option value="option1">
+							单位类型
+						</option>
+						<option value="option2">
+							单位类型
+						</option>
+					</select>
+				</div>
+				<div class="b8-right infor">
+					<span>*</span>联系方式
+					<br>
+					<input type="text" name="name" placeholder="联系方式">
+				</div>
+			</div>
+			<div style="clear:both"></div>
+			<div class="please-btn">
+				<button>提交</button>
+			</div>
+		</div>
+	</div>
+	<script src="../js/jquery-1.7.2.js"></script>
+    <script src="../js/index.js"></script>
+    <script src="../js/enter.js"></script>
+</body>
+</html>

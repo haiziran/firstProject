@@ -1,0 +1,128 @@
+<!-- 封装在index
+ -->
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>单位管理</title>
+	<link rel="stylesheet" type="text/css" href="../style/css.css">
+	<link rel="stylesheet" type="text/css" href="../style/reset.css">
+	<link rel="stylesheet" type="text/css" href="../style/index.css">
+</head>
+<body>
+	<div class="header">
+	    <div style="float: left">BIM装修工程协同管理系统</div>
+	    <div class="Engineer">工程管理</div>
+	    <div class="Unit">单位管理</div>
+	    <div class="System">系统管理</div>
+	    <div class="Manger">用户管理</div>
+	    <div class="User">
+	        <span class="Photo">头像</span>
+	        <span>Type something@163.com</span>
+	        <span class="Function"></span>
+	    </div>
+	</div>
+	<div id="popLayer"></div>
+	<div class="b7">
+		<div class="b7-header">
+			<span class="b7-left">单位信息列表</span>
+			<div class="b7-right">
+				<div class="b7-btn">创建单位</div>
+				<input type="search" name="" placeholder="搜索">
+				<span><img src="../images/search.png"></span>
+			</div>
+		</div>
+		<div class="b7-center">
+			<ul class="table-header">
+				<li>
+					<span><input type="checkbox" name="userName"></span>
+					<span>单位名称</span>
+					<span>联系方式</span>
+					<span>单位地址</span>
+					<span>创建时间</span>
+					<span>操作</span>
+				</li>
+			</ul>
+			<ul class="b7-tbody">
+				<li hidden="true">
+					<span><input type="checkbox" name="userName"></span>
+					<span></span>
+					<span>0512-3948850493</span>
+					<span>浙江省杭州市西湖区余杭塘路866号</span>
+					<span>2017-08-12 15：30</span>
+					<span>
+						<button class="exitb7">编辑</button>
+						<button class="deleteb7">删除</button>
+					</span>
+				</li>
+			</ul>	
+			<div class="b5-footer">
+				<span class="select-delete">删除</span>
+				<div class="yeshu">
+					<ul class="unlist-style">
+						<li class="active number">1</li>
+						<li class="number">2</li>
+						<li class="number">3</li>
+						<li class="number">4</li>
+						<li class="number">5</li>
+						<li>......</li>
+						<li class="number">10</li>
+						<li class="word">跳转到</li>
+						<li class="numberBox"><input type="text" name=""></li>
+						<li class="word">共10页</li>
+					</ul>
+				</div>
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<!-- 编辑用户弹出框 -->
+		<div class="b7Exit">
+			<div class="b71-title text">
+				<span>单位信息</span>
+			</div>
+			<div class="b71-right sign b71Close">
+				<span>x</span>
+			</div>
+			<div style="clear:both"></div>
+			<div class="b71-left infor">
+				单位名称
+				<br>
+				<input type="text" name="name" placeholder="单位名称" id="cmpName">
+			</div>
+			<div class="b71-right infor">
+				联系方式
+				<br>
+				<input type="text" name="name" placeholder="联系方式" id="cmpPhone">
+			</div>
+			<div style="clear:both"></div>
+			<br>
+			<div class="b71-left infor">
+				单位地址
+				<br>
+				<input type="text" name="name" placeholder="单位地址" id="cmpAddress">
+			</div>
+			<div class="b71-right infor">
+				创建时间
+				<br>
+				<input type="text" name="name" placeholder="创建时间" id="cmpTime">
+				<!-- <select class="b51-select">
+					<option value="option1">
+						关联单位
+					</option>
+					<option value="option2">
+						关联单位
+					</option>
+				</select> -->
+			</div>
+			<div style="clear:both"></div>
+			<div class="please-btn">
+				<button id="b71Save" class="b71Save">保存</button>
+			</div>
+		</div>
+	</div>
+	<script src="../js/jquery-1.7.2.js"></script>
+    <script src="../js/index.js"></script>
+    <script src="../js/enter.js"></script>
+    <script src="../js/enter1.js"></script>
+</body>
+</html>

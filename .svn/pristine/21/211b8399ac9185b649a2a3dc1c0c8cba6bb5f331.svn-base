@@ -1,0 +1,72 @@
+<!--封装在index.html-->
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+    <!--<meta charset="UTF-8">-->
+    <!--<title>构建进度</title>-->
+<!--<link rel="stylesheet" type="text/css" href="../style/css.css">-->
+<!--<link rel="stylesheet" type="text/css" href="../style/reset.css">-->
+<!--<link rel="stylesheet" type="text/css" href="../style/index.css">-->
+<!--<script src="../js/jquery-1.7.2.js"></script>-->
+<!--<script src="../js/index.js"></script>-->
+<!--<script src="../js/enter1.js"></script>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="bThreeThree">-->
+    <!--<div class="bThreeThreeHeader">-->
+        <!--构建管理-->
+    <!--</div>-->
+    <!--<div class="bThreeThreeBack">X</div>-->
+    <!--<div class="bThreeThreeMain">-->
+        <!--<input type="checkbox" class="bThreeThreeCheckbox">-->
+        <!--<label class="bThreeThreeCheckCon">全选删除</label>-->
+        <!--<label class="bThreeThreeAdd">添加构建</label>-->
+    <!--</div>-->
+    <!--<div class="bThreeThreeContentMess">-->
+        <!--<div class="bThreeThreeContentMessTitle">-->
+            <!--<div>-->
+                <!--<ul class="bThreeThreeContent">-->
+                    <!--<li style="padding-left: 0"></li>-->
+                    <!--<li>构建名称</li>-->
+                    <!--<li>构建类型</li>-->
+                    <!--<li>计划开始</li>-->
+                    <!--<li>计划结束</li>-->
+                    <!--<li>实际开始</li>-->
+                    <!--<li>实际结束</li>-->
+                    <!--<li>完成状态</li>-->
+                    <!--<li>操作</li>-->
+                <!--</ul>-->
+            <!--</div>-->
+            <!--<div style="clear: both"></div>-->
+            <!--<div>-->
+                <!--<ul>-->
+                    <!--<li><input  class="bThreeThreeSelect" type="checkbox"></li>-->
+                    <!--<li>天井</li>-->
+                    <!--<li>类型一</li>-->
+                    <!--<li>2017-1-1</li>-->
+                    <!--<li>2017-2-1</li>-->
+                    <!--<li>2017-1-1</li>-->
+                    <!--<li>2017-3-1</li>-->
+                    <!--<li>进度拖延</li>-->
+                    <!--<li>删除</li>-->
+                <!--</ul>-->
+            <!--</div>-->
+            <!--<div style="clear: both"></div>-->
+            <!--<div>-->
+                <!--<ul>-->
+                    <!--<li><input  class="bThreeThreeSelect" type="checkbox"></li>-->
+                    <!--<li>天井一</li>-->
+                    <!--<li>类型一</li>-->
+                    <!--<li>2017-1-1</li>-->
+                    <!--<li>2017-1-1</li>-->
+                    <!--<li>2017-1-1</li>-->
+                    <!--<li>2017-3-1</li>-->
+                    <!--<li>进度拖延</li>-->
+                    <!--<li>删除</li>-->
+                <!--</ul>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
